@@ -1,1 +1,54 @@
 @import "tailwindcss";
+
+/* Custom styles for account page */
+@layer components {
+  .account-card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-100 p-4 flex items-center transition-all duration-200 cursor-pointer;
+  }
+  
+  .account-card:hover {
+    @apply shadow-md border-gray-200 transform scale-[1.01];
+  }
+  
+  .account-card:active {
+    @apply transform scale-[0.99];
+  }
+  
+  .account-icon {
+    @apply w-12 h-12 flex items-center justify-center;
+  }
+  
+  .notification-badge {
+    @apply bg-red-500 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .account-card {
+    @apply p-3;
+  }
+  
+  .account-icon {
+    @apply w-10 h-10;
+  }
+  
+  .notification-badge {
+    @apply h-5 w-5 text-[10px];
+  }
+}
+
+/* Extra small screen adjustments */
+@media (max-width: 360px) {
+  .account-card {
+    @apply p-2;
+  }
+  
+  .account-icon {
+    @apply w-8 h-8;
+  }
+  
+  .account-card h2 {
+    @apply text-sm;
+  }
+}
