@@ -4,7 +4,7 @@ const Dashboard = () => {
   return (
     <div className="p-4 bg-white rounded-lg shadow-md">
       <h1 className="text-2xl font-semibold text-gray-800 mb-6">Dashboard</h1>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <div className="bg-blue-500 text-white p-4 rounded-lg shadow-md flex items-center justify-between">
           <div>
@@ -17,7 +17,7 @@ const Dashboard = () => {
             </svg>
           </div>
         </div>
-        
+
         <div className="bg-green-500 text-white p-4 rounded-lg shadow-md flex items-center justify-between">
           <div>
             <h2 className="text-lg font-semibold">New Order</h2>
@@ -30,7 +30,7 @@ const Dashboard = () => {
             </svg>
           </div>
         </div>
-        
+
         <div className="bg-purple-500 text-white p-4 rounded-lg shadow-md flex items-center justify-between">
           <div>
             <h2 className="text-lg font-semibold">Processing</h2>
@@ -42,7 +42,7 @@ const Dashboard = () => {
             </svg>
           </div>
         </div>
-        
+
         <div className="bg-teal-500 text-white p-4 rounded-lg shadow-md flex items-center justify-between">
           <div>
             <h2 className="text-lg font-semibold">Shipped</h2>
@@ -56,7 +56,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <div className="bg-red-500 text-white p-4 rounded-lg shadow-md flex items-center justify-between">
           <div>
@@ -69,7 +69,7 @@ const Dashboard = () => {
             </svg>
           </div>
         </div>
-        
+
         <div className="bg-indigo-500 text-white p-4 rounded-lg shadow-md flex items-center justify-between">
           <div>
             <h2 className="text-lg font-semibold">Completed Orders</h2>
@@ -81,7 +81,7 @@ const Dashboard = () => {
             </svg>
           </div>
         </div>
-        
+
         <div className="bg-gray-500 text-white p-4 rounded-lg shadow-md flex items-center justify-between">
           <div>
             <h2 className="text-lg font-semibold">Cancelled Order</h2>
@@ -93,7 +93,7 @@ const Dashboard = () => {
             </svg>
           </div>
         </div>
-        
+
         <div className="bg-blue-400 text-white p-4 rounded-lg shadow-md flex items-center justify-between">
           <div>
             <h2 className="text-lg font-semibold">Message Center</h2>
@@ -107,7 +107,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="bg-white p-4 rounded-lg shadow-md border border-gray-200">
           <div className="flex items-center justify-between mb-4">
@@ -124,7 +124,7 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="bg-white p-4 rounded-lg shadow-md border border-gray-200">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-gray-800">Silver</h3>
@@ -140,7 +140,7 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="bg-white p-4 rounded-lg shadow-md border border-gray-200">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-gray-800">Gold</h3>
@@ -156,7 +156,7 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="bg-white p-4 rounded-lg shadow-md border border-gray-200">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-gray-800">Platinum</h3>
