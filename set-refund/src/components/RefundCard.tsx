@@ -22,6 +22,13 @@ const RefundCard: React.FC<RefundCardProps> = ({ refundDetail, onEdit, onDelete 
   
   const maskAccountNumber = (accNumber: string) => {
     if (!accNumber) return '';
+    
+    // If account number is 4 or fewer digits, just return it as is
+    if (accNumber.length <= 4) {
+      return accNumber;
+    }
+    
+    // Otherwise mask all but the last 4 digits
     const visiblePart = accNumber.slice(-4);
     const maskedPart = '•'.repeat(accNumber.length - 4);
     return maskedPart + visiblePart;
