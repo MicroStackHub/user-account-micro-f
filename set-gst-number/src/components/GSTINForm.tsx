@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, FormEvent } from 'react';
+import { useState, ChangeEvent, FormEvent, useRef, useEffect } from 'react';
 
 interface GSTINFormData {
   companyName: string;
@@ -17,6 +17,11 @@ const GSTINForm = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [success, setSuccess] = useState<boolean>(false);
+  const [isEditable, setIsEditable] = useState<boolean>(true);
+  const [isFormSaved, setIsFormSaved] = useState<boolean>(false);
+  const [fileUrl, setFileUrl] = useState<string>('');
+  
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -43,6 +48,13 @@ const GSTINForm = () => {
         return;
       }
       
+      // Create a URL for the file for download functionality
+      if (fileUrl) {
+        URL.revokeObjectURL(fileUrl); // Clean up previous URL
+      }
+      const newFileUrl = URL.createObjectURL(file);
+      setFileUrl(newFileUrl);
+      
       setFormData(prev => ({
         ...prev,
         gstinFile: file
@@ -51,12 +63,25 @@ const GSTINForm = () => {
       setError('');
     } else {
       setFileName('No file chosen');
+      if (fileUrl) {
+        URL.revokeObjectURL(fileUrl);
+        setFileUrl('');
+      }
       setFormData(prev => ({
         ...prev,
         gstinFile: null
       }));
     }
   };
+  
+  // Clean up object URL when component unmounts
+  useEffect(() => {
+    return () => {
+      if (fileUrl) {
+        URL.revokeObjectURL(fileUrl);
+      }
+    };
+  }, [fileUrl]);
 
   const validateGSTIN = (gstin: string): boolean => {
     // Basic GSTIN validation - 15 characters with proper format
@@ -64,8 +89,12 @@ const GSTINForm = () => {
     return gstinRegex.test(gstin);
   };
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement> | FormEvent) => {
+    // Prevent default for both MouseEvent and FormEvent
+    if (e) {
+      e.preventDefault();
+    }
+    
     setError('');
     
     // Validate form
@@ -96,17 +125,38 @@ const GSTINForm = () => {
     setTimeout(() => {
       setIsSubmitting(false);
       setSuccess(true);
-      // Reset form after successful submission
+      setIsEditable(false); // Make form uneditable after saving
+      setIsFormSaved(true); // Mark form as saved
+      
+      // Show success message for 3 seconds
       setTimeout(() => {
         setSuccess(false);
-        setFormData({
-          companyName: '',
-          gstNumber: '',
-          gstinFile: null
-        });
-        setFileName('No file chosen');
       }, 3000);
     }, 1500);
+  };
+  
+  // Function to handle edit button click
+  const handleEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    // Prevent any default behavior
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Only change the editable state
+    setIsEditable(true);
+    // Don't change isFormSaved status when editing
+    // This ensures we don't lose the saved state while editing
+  };
+  
+  // Function to handle download of GSTIN copy
+  const handleDownload = () => {
+    if (fileUrl && formData.gstinFile) {
+      const a = document.createElement('a');
+      a.href = fileUrl;
+      a.download = formData.gstinFile.name;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
   };
 
   return (
@@ -134,7 +184,7 @@ const GSTINForm = () => {
             </div>
           )}
           
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form className="space-y-5">
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-2 items-center">
               <label htmlFor="companyName" className="text-sm font-medium text-gray-700 sm:text-right">
                 Company Name :
@@ -146,7 +196,8 @@ const GSTINForm = () => {
                   name="companyName"
                   value={formData.companyName}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  disabled={!isEditable}
+                  className={`w-full px-3 py-2 border ${!isEditable ? 'bg-gray-50 text-gray-700' : 'bg-white'} border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                   placeholder="Enter company name"
                 />
               </div>
@@ -163,7 +214,8 @@ const GSTINForm = () => {
                   name="gstNumber"
                   value={formData.gstNumber}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent uppercase"
+                  disabled={!isEditable}
+                  className={`w-full px-3 py-2 border ${!isEditable ? 'bg-gray-50 text-gray-700' : 'bg-white'} border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent uppercase`}
                   placeholder="Enter GST number"
                   maxLength={15}
                 />
@@ -176,20 +228,36 @@ const GSTINForm = () => {
               </label>
               <div className="sm:col-span-3">
                 <div className="flex flex-col sm:flex-row gap-2">
-                  <label 
-                    htmlFor="gstinFile" 
-                    className="inline-flex items-center px-4 py-2 bg-gray-100 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-200 transition-colors"
-                  >
-                    <span className="text-sm font-medium text-gray-700">Choose File</span>
-                    <input 
-                      type="file" 
-                      id="gstinFile" 
-                      className="hidden" 
-                      onChange={handleFileChange}
-                      accept=".jpg,.jpeg,.png,.pdf"
-                    />
-                  </label>
+                  {isEditable ? (
+                    <label 
+                      htmlFor="gstinFile" 
+                      className="inline-flex items-center px-4 py-2 bg-gray-100 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-200 transition-colors"
+                    >
+                      <span className="text-sm font-medium text-gray-700">Choose File</span>
+                      <input 
+                        type="file" 
+                        id="gstinFile" 
+                        ref={fileInputRef}
+                        className="hidden" 
+                        onChange={handleFileChange}
+                        accept=".jpg,.jpeg,.png,.pdf"
+                        disabled={!isEditable}
+                      />
+                    </label>
+                  ) : null}
                   <div className="text-sm text-gray-500 py-2">{fileName}</div>
+                  {isFormSaved && formData.gstinFile && (
+                    <button
+                      type="button"
+                      onClick={handleDownload}
+                      className="inline-flex items-center px-4 py-2 bg-blue-50 border border-blue-300 text-blue-700 rounded-md hover:bg-blue-100 transition-colors"
+                    >
+                      <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      <span className="text-sm font-medium">Download</span>
+                    </button>
+                  )}
                 </div>
                 <p className="mt-1 text-xs text-blue-600">
                   Upload JPG, PNG or PDF format are accepted. File size limited upto 5MB.
@@ -197,14 +265,30 @@ const GSTINForm = () => {
               </div>
             </div>
             
-            <div className="pt-4 flex justify-center sm:justify-end">
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className={`px-6 py-2.5 rounded-md text-white font-medium ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-red-500 hover:bg-red-600'} transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2`}
-              >
-                {isSubmitting ? 'Saving...' : 'Save'}
-              </button>
+            <div className="pt-4 flex justify-center sm:justify-end space-x-3">
+              {isFormSaved && !isEditable ? (
+                <button
+                  type="button" /* Important: type="button" prevents form submission */
+                  onClick={(e) => handleEdit(e)}
+                  className="px-6 py-2.5 rounded-md text-indigo-600 bg-indigo-50 border border-indigo-200 font-medium hover:bg-indigo-100 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                >
+                  <div className="flex items-center">
+                    <svg className="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                    </svg>
+                    Edit
+                  </div>
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleSubmit}
+                  disabled={isSubmitting || !isEditable}
+                  className={`px-6 py-2.5 rounded-md text-white font-medium ${isSubmitting || !isEditable ? 'bg-gray-400 cursor-not-allowed' : 'bg-red-500 hover:bg-red-600'} transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2`}
+                >
+                  {isSubmitting ? 'Saving...' : 'Save'}
+                </button>
+              )}
             </div>
           </form>
         </div>
