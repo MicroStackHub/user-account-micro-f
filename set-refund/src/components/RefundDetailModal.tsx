@@ -82,7 +82,7 @@ const RefundDetailModal: React.FC<RefundDetailModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 backdrop-blur-sm transition-all duration-300 p-4"
+      className="fixed inset-0 bg-white/30 backdrop-blur-sm flex items-center justify-center z-50 transition-all duration-300 p-4"
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <div

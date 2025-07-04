@@ -121,9 +121,9 @@ const AddressFormModal: React.FC<AddressFormModalProps> = ({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal header */}
-        <div className="bg-gradient-to-r from-primary-600 to-primary-500 p-4 text-white relative">
+        <div className="bg-gradient-to-r from-indigo-600 to-blue-500 p-4 text-white relative">
           <div className="flex items-center justify-between">
-            <h1 className="text-xl font-bold text-gray-900">{editingAddress ? 'Edit Address' : 'Add New Address'}</h1>
+            <h1 className="text-xl font-bold text-white-900">{editingAddress ? 'Edit Address' : 'Add New Address'}</h1>
             <button
               onClick={onClose}
               className="text-white hover:text-primary-100 transition-colors"
@@ -152,7 +152,7 @@ const AddressFormModal: React.FC<AddressFormModalProps> = ({
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                     required
                     placeholder="John Doe"
                   />
@@ -167,7 +167,7 @@ const AddressFormModal: React.FC<AddressFormModalProps> = ({
                     name="mobile"
                     value={formData.mobile}
                     onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                     required
                     placeholder="10-digit mobile number"
                     maxLength={10}
@@ -192,7 +192,7 @@ const AddressFormModal: React.FC<AddressFormModalProps> = ({
                     name="addressLine1"
                     value={formData.addressLine1}
                     onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                     required
                     placeholder="House No., Building Name"
                   />
@@ -208,7 +208,7 @@ const AddressFormModal: React.FC<AddressFormModalProps> = ({
                     name="addressLine2"
                     value={formData.addressLine2}
                     onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                     placeholder="Street, Area, Colony"
                   />
                 </div>
@@ -224,7 +224,7 @@ const AddressFormModal: React.FC<AddressFormModalProps> = ({
                       name="city"
                       value={formData.city}
                       onChange={handleChange}
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                       required
                       placeholder="City"
                     />
@@ -239,22 +239,29 @@ const AddressFormModal: React.FC<AddressFormModalProps> = ({
                       name="state"
                       value={formData.state}
                       onChange={handleChange}
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white"
                       required
                     >
                       <option value="">Select State</option>
+                      <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
                       <option value="Andhra Pradesh">Andhra Pradesh</option>
                       <option value="Arunachal Pradesh">Arunachal Pradesh</option>
                       <option value="Assam">Assam</option>
                       <option value="Bihar">Bihar</option>
+                      <option value="Chandigarh">Chandigarh</option>
                       <option value="Chhattisgarh">Chhattisgarh</option>
+                      <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
+                      <option value="Delhi">Delhi</option>
                       <option value="Goa">Goa</option>
                       <option value="Gujarat">Gujarat</option>
                       <option value="Haryana">Haryana</option>
                       <option value="Himachal Pradesh">Himachal Pradesh</option>
+                      <option value="Jammu and Kashmir">Jammu and Kashmir</option>
                       <option value="Jharkhand">Jharkhand</option>
                       <option value="Karnataka">Karnataka</option>
                       <option value="Kerala">Kerala</option>
+                      <option value="Ladakh">Ladakh</option>
+                      <option value="Lakshadweep">Lakshadweep</option>
                       <option value="Madhya Pradesh">Madhya Pradesh</option>
                       <option value="Maharashtra">Maharashtra</option>
                       <option value="Manipur">Manipur</option>
@@ -262,6 +269,7 @@ const AddressFormModal: React.FC<AddressFormModalProps> = ({
                       <option value="Mizoram">Mizoram</option>
                       <option value="Nagaland">Nagaland</option>
                       <option value="Odisha">Odisha</option>
+                      <option value="Puducherry">Puducherry</option>
                       <option value="Punjab">Punjab</option>
                       <option value="Rajasthan">Rajasthan</option>
                       <option value="Sikkim">Sikkim</option>
@@ -271,7 +279,6 @@ const AddressFormModal: React.FC<AddressFormModalProps> = ({
                       <option value="Uttar Pradesh">Uttar Pradesh</option>
                       <option value="Uttarakhand">Uttarakhand</option>
                       <option value="West Bengal">West Bengal</option>
-                      <option value="Delhi">Delhi</option>
                     </select>
                   </div>
                   
@@ -285,7 +292,7 @@ const AddressFormModal: React.FC<AddressFormModalProps> = ({
                       name="pincode"
                       value={formData.pincode}
                       onChange={handleChange}
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                       required
                       placeholder="6-digit pincode"
                       maxLength={6}
@@ -347,13 +354,13 @@ const AddressFormModal: React.FC<AddressFormModalProps> = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="btn-secondary"
+                className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium transition-colors"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="btn-primary"
+                className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-lg hover:from-indigo-700 hover:to-blue-600 font-medium transition-all"
               >
                 {editingAddress ? 'Update Address' : 'Save Address'}
               </button>

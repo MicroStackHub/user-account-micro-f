@@ -114,7 +114,7 @@ const AddressPage: React.FC = () => {
       <div className="max-w-6xl mx-auto">
         {/* Header with gradient accent */}
         <div className="mb-8 relative">
-          <div className="h-1.5 w-32 bg-gradient-to-r from-primary-500 to-primary-600 rounded-full mb-4"></div>
+          <div className="h-1.5 w-32 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full mb-4"></div>
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Manage Addresses</h1>
           <p className="mt-2 text-gray-600 max-w-3xl">Add and manage your delivery addresses for faster checkout</p>
         </div>
@@ -126,10 +126,10 @@ const AddressPage: React.FC = () => {
               {/* Add new address card */}
               <button 
                 onClick={openModal}
-                className="h-full min-h-[280px] group relative bg-gradient-to-br from-white to-gray-50 rounded-xl flex flex-col items-center justify-center p-6 transition-all border-2 border-dashed border-primary-200 hover:border-primary-400 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+                className="h-full min-h-[280px] group relative bg-gradient-to-br from-white to-gray-50 rounded-xl flex flex-col items-center justify-center p-6 transition-all border-2 border-dashed border-indigo-200 hover:border-indigo-400 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               >
-                <div className="w-16 h-16 rounded-full bg-primary-50 flex items-center justify-center mb-4 group-hover:bg-primary-100 transition-colors">
-                  <svg className="w-8 h-8 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-16 h-16 rounded-full bg-indigo-50 flex items-center justify-center mb-4 group-hover:bg-indigo-100 transition-colors">
+                  <svg className="w-8 h-8 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                   </svg>
                 </div>
@@ -139,9 +139,23 @@ const AddressPage: React.FC = () => {
                 </div>
                 
                 {/* Decorative elements */}
-                <div className="absolute top-4 right-4 w-12 h-12 rounded-full bg-primary-50 opacity-30"></div>
-                <div className="absolute bottom-4 left-4 w-8 h-8 rounded-full bg-primary-50 opacity-30"></div>
+                <div className="absolute top-4 right-4 w-12 h-12 rounded-full bg-indigo-50 opacity-30"></div>
+                <div className="absolute bottom-4 left-4 w-8 h-8 rounded-full bg-indigo-50 opacity-30"></div>
               </button>
+              
+              {/* Empty state message when no addresses exist */}
+              {addresses.length === 0 && (
+                <div className="sm:col-span-2 lg:col-span-2 flex-1 min-w-[300px] flex items-center justify-center p-8 bg-gray-50 rounded-xl border border-gray-100">
+                  <div className="text-center">
+                    <svg className="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <p className="text-gray-500">No addresses added yet</p>
+                    <p className="text-gray-400 text-sm mt-1">Click the + button to add your first address</p>
+                  </div>
+                </div>
+              )}
               
               {/* Existing address cards */}
               {addresses.map(address => (
@@ -155,30 +169,16 @@ const AddressPage: React.FC = () => {
               ))}
             </div>
             
-            {/* Empty state message when no addresses exist */}
-            {addresses.length === 0 && (
-              <div className="mt-6 flex items-center justify-center p-8 bg-gray-50 rounded-xl border border-gray-100">
-                <div className="text-center">
-                  <svg className="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  <p className="text-gray-500">No addresses added yet</p>
-                  <p className="text-gray-400 text-sm mt-1">Click the + button to add your first address</p>
-                </div>
-              </div>
-            )}
-            
             {/* Important notice */}
-            <div className="mt-8 bg-primary-50 border-l-4 border-primary-400 p-4 rounded-r-md">
+            <div className="mt-8 bg-red-50 border-l-4 border-red-400 p-4 rounded-r-md">
               <div className="flex">
                 <div className="flex-shrink-0">
-                  <svg className="h-5 w-5 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="h-5 w-5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
                 <div className="ml-3">
-                  <p className="text-sm text-primary-700">
+                  <p className="text-sm text-red-700">
                     <span className="font-medium">Note:</span> Your default address will be automatically selected during checkout. You can change your default address at any time.
                   </p>
                 </div>
