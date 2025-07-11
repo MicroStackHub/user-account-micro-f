@@ -1,9 +1,0 @@
-{
-  "scripts": {
-    "dev": "concurrently \"npm run dev --prefix address\" \"npm run dev --prefix account\" \"npm run dev --prefix set-gst-number\" \"npm run dev --prefix set-refund\" \"npm run dev --prefix wishlist\" \"npm run dev --prefix container\""
-  },
-  "devDependencies": {
-    "concurrently": "^8.2.2",
-    "vite-plugin-federation": "^0.0.1"
-  }
-}
