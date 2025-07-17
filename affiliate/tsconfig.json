@@ -21,9 +21,7 @@
     "compilerOptions": {
       "module": "CommonJS"
     }
-  }
-}
-{
+  },
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
