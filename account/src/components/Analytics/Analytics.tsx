@@ -32,7 +32,7 @@ interface AnalyticsProps {
 }
 
 const Analytics: React.FC<AnalyticsProps> = ({ userRole }) => {
-  const { theme } = useTheme();
+  const { isDarkMode, colorScheme } = useTheme();
   const [activeTab, setActiveTab] = useState<'overview' | 'transactions' | 'users' | 'reports'>('overview');
 
   // Sample data for different user roles
@@ -274,48 +274,63 @@ const Analytics: React.FC<AnalyticsProps> = ({ userRole }) => {
           <div className="space-y-6">
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg p-6`}>
+              <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-lg shadow-lg p-6 border`}>
                 <div className="flex items-center">
-                  <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
+                  <div className={`p-2 rounded-lg ${
+                    colorScheme === 'blue' ? 'bg-blue-100 dark:bg-blue-900' :
+                    colorScheme === 'green' ? 'bg-green-100 dark:bg-green-900' :
+                    colorScheme === 'purple' ? 'bg-purple-100 dark:bg-purple-900' :
+                    'bg-red-100 dark:bg-red-900'
+                  }`}>
                     <span className="text-2xl">💰</span>
                   </div>
                   <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                    <p className={`text-sm font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                       {userRole === 'customer' ? 'Total Spent' : 'Total Earnings'}
                     </p>
-                    <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                    <p className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                       ${userRole === 'customer' ? '849.97' : '4,567.89'}
                     </p>
                   </div>
                 </div>
               </div>
               
-              <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg p-6`}>
+              <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-lg shadow-lg p-6 border`}>
                 <div className="flex items-center">
-                  <div className="p-2 bg-green-100 dark:bg-green-900 rounded-lg">
+                  <div className={`p-2 rounded-lg ${
+                    colorScheme === 'blue' ? 'bg-green-100 dark:bg-green-900' :
+                    colorScheme === 'green' ? 'bg-blue-100 dark:bg-blue-900' :
+                    colorScheme === 'purple' ? 'bg-green-100 dark:bg-green-900' :
+                    'bg-green-100 dark:bg-green-900'
+                  }`}>
                     <span className="text-2xl">📈</span>
                   </div>
                   <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                    <p className={`text-sm font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                       {userRole === 'customer' ? 'Orders' : 'This Month'}
                     </p>
-                    <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                    <p className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                       {userRole === 'customer' ? '12' : '$890.50'}
                     </p>
                   </div>
                 </div>
               </div>
               
-              <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg p-6`}>
+              <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-lg shadow-lg p-6 border`}>
                 <div className="flex items-center">
-                  <div className="p-2 bg-purple-100 dark:bg-purple-900 rounded-lg">
+                  <div className={`p-2 rounded-lg ${
+                    colorScheme === 'blue' ? 'bg-purple-100 dark:bg-purple-900' :
+                    colorScheme === 'green' ? 'bg-purple-100 dark:bg-purple-900' :
+                    colorScheme === 'purple' ? 'bg-blue-100 dark:bg-blue-900' :
+                    'bg-purple-100 dark:bg-purple-900'
+                  }`}>
                     <span className="text-2xl">⭐</span>
                   </div>
                   <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                    <p className={`text-sm font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                       {userRole === 'customer' ? 'Loyalty Points' : userRole === 'affiliate' ? 'Referrals' : 'Active Users'}
                     </p>
-                    <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                    <p className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                       {userRole === 'customer' ? '2,340' : userRole === 'affiliate' ? '47' : '1,250'}
                     </p>
                   </div>
@@ -368,31 +383,57 @@ const Analytics: React.FC<AnalyticsProps> = ({ userRole }) => {
       case 'reports':
         return (
           <div className="space-y-6">
-            <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg p-6`}>
-              <h3 className="text-lg font-semibold mb-4">Generate Reports</h3>
+            <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-lg shadow-lg p-6 border`}>
+              <h3 className={`text-lg font-semibold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                Generate Reports
+              </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <button className="p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-blue-500 transition-colors">
+                <button className={`p-4 border-2 border-dashed rounded-lg transition-colors ${
+                  isDarkMode 
+                    ? 'border-gray-600 hover:border-blue-400 text-gray-300 hover:text-white' 
+                    : 'border-gray-300 hover:border-blue-500 text-gray-700 hover:text-gray-900'
+                }`}>
                   <div className="text-center">
                     <span className="text-2xl">📊</span>
-                    <p className="mt-2 font-medium">Sales Report</p>
-                    <p className="text-sm text-gray-500">Monthly sales summary</p>
+                    <p className={`mt-2 font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                      Sales Report
+                    </p>
+                    <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                      Monthly sales summary
+                    </p>
                   </div>
                 </button>
                 
-                <button className="p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-blue-500 transition-colors">
+                <button className={`p-4 border-2 border-dashed rounded-lg transition-colors ${
+                  isDarkMode 
+                    ? 'border-gray-600 hover:border-blue-400 text-gray-300 hover:text-white' 
+                    : 'border-gray-300 hover:border-blue-500 text-gray-700 hover:text-gray-900'
+                }`}>
                   <div className="text-center">
                     <span className="text-2xl">💳</span>
-                    <p className="mt-2 font-medium">Transaction Report</p>
-                    <p className="text-sm text-gray-500">Detailed transaction history</p>
+                    <p className={`mt-2 font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                      Transaction Report
+                    </p>
+                    <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                      Detailed transaction history
+                    </p>
                   </div>
                 </button>
                 
                 {userRole === 'admin' && (
-                  <button className="p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-blue-500 transition-colors">
+                  <button className={`p-4 border-2 border-dashed rounded-lg transition-colors ${
+                    isDarkMode 
+                      ? 'border-gray-600 hover:border-blue-400 text-gray-300 hover:text-white' 
+                      : 'border-gray-300 hover:border-blue-500 text-gray-700 hover:text-gray-900'
+                  }`}>
                     <div className="text-center">
                       <span className="text-2xl">👥</span>
-                      <p className="mt-2 font-medium">User Report</p>
-                      <p className="text-sm text-gray-500">User analytics and insights</p>
+                      <p className={`mt-2 font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                        User Report
+                      </p>
+                      <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                        User analytics and insights
+                      </p>
                     </div>
                   </button>
                 )}
@@ -409,7 +450,7 @@ const Analytics: React.FC<AnalyticsProps> = ({ userRole }) => {
   return (
     <div className="space-y-6">
       {/* Tab Navigation */}
-      <div className={`${theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-lg shadow-sm border`}>
+      <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-lg shadow-sm border`}>
         <div className="flex overflow-x-auto">
           {tabs.map((tab) => (
             <button
@@ -417,8 +458,8 @@ const Analytics: React.FC<AnalyticsProps> = ({ userRole }) => {
               onClick={() => setActiveTab(tab.id as any)}
               className={`flex-1 min-w-0 px-6 py-4 text-sm font-medium border-b-2 transition-colors ${
                 activeTab === tab.id
-                  ? 'border-blue-500 text-blue-600 dark:text-blue-400'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
+                  ? `border-${colorScheme}-500 text-${colorScheme}-600 ${isDarkMode ? `dark:text-${colorScheme}-400` : ''}`
+                  : `border-transparent ${isDarkMode ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'}`
               }`}
             >
               <div className="flex items-center justify-center space-x-2">

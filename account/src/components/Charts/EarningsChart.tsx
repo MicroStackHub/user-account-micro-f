@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import ChartContainer from './ChartContainer';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -16,7 +15,7 @@ interface EarningsChartProps {
 }
 
 const EarningsChart: React.FC<EarningsChartProps> = ({ data, userRole }) => {
-  const { theme } = useTheme();
+  const { theme, isDarkMode } = useTheme();
   const [chartType, setChartType] = useState<'line' | 'bar'>('line');
   const [timeRange, setTimeRange] = useState<'6m' | '1y' | 'all'>('6m');
 
@@ -51,7 +50,7 @@ const EarningsChart: React.FC<EarningsChartProps> = ({ data, userRole }) => {
               y1={padding + (height - 2 * padding) * ratio}
               x2={width - padding}
               y2={padding + (height - 2 * padding) * ratio}
-              stroke={theme === 'dark' ? '#374151' : '#e5e7eb'}
+              stroke={isDarkMode ? '#374151' : '#e5e7eb'}
               strokeWidth="1"
             />
           ))}
@@ -109,7 +108,7 @@ const EarningsChart: React.FC<EarningsChartProps> = ({ data, userRole }) => {
                 y={height - 20}
                 textAnchor="middle"
                 fontSize="12"
-                fill={theme === 'dark' ? '#9ca3af' : '#6b7280'}
+                fill={isDarkMode ? '#9ca3af' : '#6b7280'}
               >
                 {d.month}
               </text>
@@ -124,7 +123,7 @@ const EarningsChart: React.FC<EarningsChartProps> = ({ data, userRole }) => {
               y={padding + (height - 2 * padding) * ratio + 5}
               textAnchor="end"
               fontSize="12"
-              fill={theme === 'dark' ? '#9ca3af' : '#6b7280'}
+              fill={isDarkMode ? '#9ca3af' : '#6b7280'}
             >
               ${Math.round(maxValue * (1 - ratio))}
             </text>
@@ -144,7 +143,7 @@ const EarningsChart: React.FC<EarningsChartProps> = ({ data, userRole }) => {
               y1={padding + (height - 2 * padding) * ratio}
               x2={width - padding}
               y2={padding + (height - 2 * padding) * ratio}
-              stroke={theme === 'dark' ? '#374151' : '#e5e7eb'}
+              stroke={isDarkMode ? '#374151' : '#e5e7eb'}
               strokeWidth="1"
             />
           ))}
@@ -154,7 +153,7 @@ const EarningsChart: React.FC<EarningsChartProps> = ({ data, userRole }) => {
             const x = padding + (i / filteredData.length) * (width - 2 * padding) + barWidth * 0.1;
             const barHeight = (d.earnings / maxValue) * (height - 2 * padding);
             const y = height - padding - barHeight;
-            
+
             return (
               <rect
                 key={i}
@@ -178,7 +177,7 @@ const EarningsChart: React.FC<EarningsChartProps> = ({ data, userRole }) => {
                 y={height - 20}
                 textAnchor="middle"
                 fontSize="12"
-                fill={theme === 'dark' ? '#9ca3af' : '#6b7280'}
+                fill={isDarkMode ? '#9ca3af' : '#6b7280'}
               >
                 {d.month}
               </text>
@@ -193,7 +192,7 @@ const EarningsChart: React.FC<EarningsChartProps> = ({ data, userRole }) => {
               y={padding + (height - 2 * padding) * ratio + 5}
               textAnchor="end"
               fontSize="12"
-              fill={theme === 'dark' ? '#9ca3af' : '#6b7280'}
+              fill={isDarkMode ? '#9ca3af' : '#6b7280'}
             >
               ${Math.round(maxValue * (1 - ratio))}
             </text>
@@ -209,7 +208,7 @@ const EarningsChart: React.FC<EarningsChartProps> = ({ data, userRole }) => {
         value={timeRange}
         onChange={(e) => setTimeRange(e.target.value as any)}
         className={`px-3 py-1 rounded text-sm ${
-          theme === 'dark'
+          isDarkMode
             ? 'bg-gray-700 text-white border-gray-600'
             : 'bg-white text-gray-900 border-gray-300'
         } border`}
@@ -222,7 +221,7 @@ const EarningsChart: React.FC<EarningsChartProps> = ({ data, userRole }) => {
         value={chartType}
         onChange={(e) => setChartType(e.target.value as any)}
         className={`px-3 py-1 rounded text-sm ${
-          theme === 'dark'
+          isDarkMode
             ? 'bg-gray-700 text-white border-gray-600'
             : 'bg-white text-gray-900 border-gray-300'
         } border`}
@@ -239,7 +238,7 @@ const EarningsChart: React.FC<EarningsChartProps> = ({ data, userRole }) => {
       actions={actions}
     >
       {renderChart()}
-      
+
       {/* Legend */}
       <div className="flex items-center justify-center mt-4 space-x-6">
         <div className="flex items-center">

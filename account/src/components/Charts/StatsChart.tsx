@@ -17,7 +17,7 @@ interface StatsChartProps {
 }
 
 const StatsChart: React.FC<StatsChartProps> = ({ data, type, title }) => {
-  const { theme } = useTheme();
+  const { isDarkMode, colorScheme } = useTheme();
   
   const total = data.reduce((sum, item) => sum + item.value, 0);
   
@@ -114,7 +114,7 @@ const StatsChart: React.FC<StatsChartProps> = ({ data, type, title }) => {
           dy="0.35em"
           fontSize="24"
           fontWeight="bold"
-          fill={theme === 'dark' ? '#ffffff' : '#1f2937'}
+          fill={isDarkMode ? '#ffffff' : '#1f2937'}
         >
           {total}
         </text>
@@ -148,7 +148,7 @@ const StatsChart: React.FC<StatsChartProps> = ({ data, type, title }) => {
                 textAnchor="end"
                 dy="0.35em"
                 fontSize="12"
-                fill={theme === 'dark' ? '#9ca3af' : '#6b7280'}
+                fill={isDarkMode ? '#9ca3af' : '#6b7280'}
               >
                 {item.label}
               </text>
@@ -157,7 +157,7 @@ const StatsChart: React.FC<StatsChartProps> = ({ data, type, title }) => {
                 y={y + barHeight / 2}
                 dy="0.35em"
                 fontSize="12"
-                fill={theme === 'dark' ? '#ffffff' : '#1f2937'}
+                fill={isDarkMode ? '#ffffff' : '#1f2937'}
               >
                 {item.value}
               </text>
