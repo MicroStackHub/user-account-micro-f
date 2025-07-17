@@ -33,7 +33,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <Sidebar isCollapsed={isSidebarCollapsed} toggleSidebar={toggleSidebar} />
       
       {/* Main Content */}
-      <div className={`transition-all duration-300 ${isSidebarCollapsed ? 'ml-16 sm:ml-20' : 'ml-16 sm:ml-64'}`}>
+      <div className={`transition-all duration-300 ${isSidebarCollapsed ? 'ml-16' : 'ml-64'}`}>
         {/* Navbar */}
         <Navbar isCollapsed={isSidebarCollapsed} toggleSidebar={toggleSidebar} />
         
@@ -48,7 +48,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       {/* Mobile Sidebar Overlay */}
       <div 
         onClick={toggleSidebar}
-        className={`fixed inset-0 bg-black bg-opacity-60 z-20 transition-opacity lg:hidden ${isSidebarCollapsed ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+        className={`fixed inset-0 bg-black bg-opacity-50 z-20 transition-opacity lg:hidden ${!isSidebarCollapsed ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
       />
     </div>
   );

@@ -160,22 +160,24 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
             </span>
           )}
         </div>
-        {!isCollapsed && (
-          <button
-            onClick={toggleSidebar}
-            className={`p-1 rounded-md ${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'} focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-700 transition-all`}
-            aria-label="Toggle sidebar"
+        <button
+          onClick={toggleSidebar}
+          className={`p-1.5 rounded-md ${isDarkMode ? 'hover:bg-gray-800 text-gray-400 hover:text-white' : 'hover:bg-gray-100 text-gray-500 hover:text-gray-700'} focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-700 transition-all ${isCollapsed ? 'hidden lg:block' : ''}`}
+          aria-label="Toggle sidebar"
+        >
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
           >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
+            {isCollapsed ? (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+            ) : (
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
-            </svg>
-          </button>
-        )}
+            )}
+          </svg>
+        </button>
       </div>
 
       {/* Sidebar Content */}

@@ -39,7 +39,7 @@ const Navbar: React.FC<NavbarProps> = ({ isCollapsed, toggleSidebar }) => {
         <div className="flex items-center lg:hidden">
           <button 
             onClick={toggleSidebar}
-            className={`p-2 rounded-md ${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'} transition-colors`}
+            className={`p-2 rounded-md ${isDarkMode ? 'hover:bg-gray-800 text-gray-300' : 'hover:bg-gray-100 text-gray-600'} transition-colors`}
             aria-label="Toggle sidebar"
           >
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -49,7 +49,7 @@ const Navbar: React.FC<NavbarProps> = ({ isCollapsed, toggleSidebar }) => {
         </div>
 
         {/* Center - Navigation */}
-        <div className="hidden md:flex items-center space-x-4">
+        <div className="hidden md:flex items-center space-x-2">
           <NavItem text="Home" isActive />
           <NavItem text="Profiles" hasDropdown />
           <NavItem text="My Account" hasDropdown />
@@ -242,17 +242,17 @@ const NavItem: React.FC<NavItemProps> = ({ text, isActive = false, hasDropdown =
   return (
     <div className="relative group">
       <button 
-        className={`px-3 py-2 rounded-md text-sm font-medium flex items-center ${isActive 
+        className={`px-3 py-2 rounded-md text-sm font-medium flex items-center transition-all duration-200 ${isActive 
           ? isDarkMode 
-            ? 'bg-gray-900 text-white' 
-            : 'bg-blue-50 text-blue-700'
+            ? 'bg-blue-600 text-white shadow-sm' 
+            : 'bg-blue-100 text-blue-700 shadow-sm'
           : isDarkMode 
             ? 'text-gray-300 hover:bg-gray-700 hover:text-white' 
-            : 'text-gray-700 hover:bg-gray-100'}`}
+            : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}`}
       >
         {text}
         {hasDropdown && (
-          <svg className="ml-1 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="ml-1 w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
         )}
