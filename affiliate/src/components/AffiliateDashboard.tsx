@@ -1,7 +1,7 @@
 import React from 'react';
 import Layout from './Layout/Layout';
 import Analytics from './Analytics/Analytics';
-import DataTable from './DataTable';
+import DataTable from './DataTable/DataTable';
 
 const AffiliateDashboard: React.FC = () => {
   return (
