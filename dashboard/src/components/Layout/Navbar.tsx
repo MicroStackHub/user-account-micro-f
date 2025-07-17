@@ -89,7 +89,7 @@ const Navbar: React.FC<NavbarProps> = ({ isCollapsed, toggleSidebar }) => {
           <div className="relative">
             <button 
               onClick={toggleNotifications}
-              className={`p-2 rounded-full ${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'} relative transition-colors`}
+              className={`p-2 rounded-full ${isDarkMode ? 'hover:bg-gray-800 text-gray-300' : 'hover:bg-gray-100 text-gray-600'} relative transition-colors`}
               aria-label="Notifications"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -131,7 +131,7 @@ const Navbar: React.FC<NavbarProps> = ({ isCollapsed, toggleSidebar }) => {
           <div className="relative">
             <button 
               onClick={toggleMessages}
-              className={`p-2 rounded-full ${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'} relative transition-colors`}
+              className={`p-2 rounded-full ${isDarkMode ? 'hover:bg-gray-800 text-gray-300' : 'hover:bg-gray-100 text-gray-600'} relative transition-colors`}
               aria-label="Messages"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -167,7 +167,7 @@ const Navbar: React.FC<NavbarProps> = ({ isCollapsed, toggleSidebar }) => {
           {/* Theme Toggle */}
           <button 
             onClick={toggleTheme} 
-            className={`p-2 rounded-full ${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'} transition-colors`}
+            className={`p-2 rounded-full ${isDarkMode ? 'hover:bg-gray-800 text-gray-300' : 'hover:bg-gray-100 text-gray-600'} transition-colors`}
             aria-label="Toggle dark mode"
           >
             {isDarkMode ? (
