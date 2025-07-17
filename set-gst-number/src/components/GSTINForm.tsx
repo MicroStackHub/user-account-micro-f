@@ -1,4 +1,5 @@
 import { useState, ChangeEvent, FormEvent, useRef, useEffect } from 'react';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface GSTINFormData {
   companyName: string;
@@ -7,12 +8,13 @@ interface GSTINFormData {
 }
 
 const GSTINForm = () => {
+  const { isDarkMode } = useTheme();
   const [formData, setFormData] = useState<GSTINFormData>({
     companyName: '',
     gstNumber: '',
     gstinFile: null
   });
-  
+
   const [fileName, setFileName] = useState<string>('No file chosen');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
@@ -20,7 +22,7 @@ const GSTINForm = () => {
   const [isEditable, setIsEditable] = useState<boolean>(true);
   const [isFormSaved, setIsFormSaved] = useState<boolean>(false);
   const [fileUrl, setFileUrl] = useState<string>('');
-  
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +35,7 @@ const GSTINForm = () => {
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
-    
+
     if (file) {
       // Check file type
       const validTypes = ['image/jpeg', 'image/png', 'application/pdf'];
@@ -41,20 +43,20 @@ const GSTINForm = () => {
         setError('Please upload JPG, PNG or PDF format only');
         return;
       }
-      
+
       // Check file size (5MB limit)
       if (file.size > 5 * 1024 * 1024) {
         setError('File size exceeds 5MB limit');
         return;
       }
-      
+
       // Create a URL for the file for download functionality
       if (fileUrl) {
         URL.revokeObjectURL(fileUrl); // Clean up previous URL
       }
       const newFileUrl = URL.createObjectURL(file);
       setFileUrl(newFileUrl);
-      
+
       setFormData(prev => ({
         ...prev,
         gstinFile: file
@@ -73,7 +75,7 @@ const GSTINForm = () => {
       }));
     }
   };
-  
+
   // Clean up object URL when component unmounts
   useEffect(() => {
     return () => {
@@ -94,59 +96,59 @@ const GSTINForm = () => {
     if (e) {
       e.preventDefault();
     }
-    
+
     setError('');
-    
+
     // Validate form
     if (!formData.companyName.trim()) {
       setError('Company name is required');
       return;
     }
-    
+
     if (!formData.gstNumber.trim()) {
       setError('GST number is required');
       return;
     }
-    
+
     if (!validateGSTIN(formData.gstNumber)) {
       setError('Please enter a valid 15-digit GSTIN');
       return;
     }
-    
+
     if (!formData.gstinFile) {
       setError('Please upload GSTIN copy');
       return;
     }
-    
+
     // Submit form
     setIsSubmitting(true);
-    
+
     // Simulate API call
     setTimeout(() => {
       setIsSubmitting(false);
       setSuccess(true);
       setIsEditable(false); // Make form uneditable after saving
       setIsFormSaved(true); // Mark form as saved
-      
+
       // Show success message for 3 seconds
       setTimeout(() => {
         setSuccess(false);
       }, 3000);
     }, 1500);
   };
-  
+
   // Function to handle edit button click
   const handleEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
     // Prevent any default behavior
     e.preventDefault();
     e.stopPropagation();
-    
+
     // Only change the editable state
     setIsEditable(true);
     // Don't change isFormSaved status when editing
     // This ensures we don't lose the saved state while editing
   };
-  
+
   // Function to handle download of GSTIN copy
   const handleDownload = () => {
     if (fileUrl && formData.gstinFile) {
@@ -160,33 +162,33 @@ const GSTINForm = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-4 sm:p-6 md:p-8">
-      <div className="bg-white rounded-xl border border-gray-100 shadow-md overflow-hidden">
+    <div className={`max-w-6xl mx-auto p-4 sm:p-6 md:p-8 ${isDarkMode ? 'dark' : ''}`}>
+      <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700 shadow-md' : 'bg-white border-gray-100 shadow-md'} rounded-xl border overflow-hidden`}>
         <div className="p-4 sm:p-6 border-b border-gray-200">
-          <h1 className="text-xl sm:text-2xl font-semibold text-gray-800">Set GSTIN</h1>
+          <h1 className={`${isDarkMode ? 'text-white' : 'text-gray-800'} text-xl sm:text-2xl font-semibold`}>Set GSTIN</h1>
         </div>
-        
+
         <div className="p-4 sm:p-6">
-          <p className="text-sm sm:text-base text-gray-600 mb-6">
+          <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mb-6 text-sm sm:text-base`}>
             Each taxpayer is assigned a state-wise PAN based 15-digit Goods and Service Taxpayer Identification Number (GSTIN). 
             If buyer has Goods and Services Tax Identification Number(GSTIN) then for every purchase company can avail tax benifites while entering GSTIN details below.
           </p>
-          
+
           {error && (
             <div className="mb-4 p-3 bg-red-50 border-l-4 border-red-500 text-red-700 text-sm">
               {error}
             </div>
           )}
-          
+
           {success && (
             <div className="mb-4 p-3 bg-green-50 border-l-4 border-green-500 text-green-700 text-sm">
               GSTIN details saved successfully!
             </div>
           )}
-          
+
           <form className="space-y-5">
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-2 items-center">
-              <label htmlFor="companyName" className="text-sm font-medium text-gray-700 sm:text-right">
+              <label htmlFor="companyName" className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'} text-sm font-medium sm:text-right`}>
                 Company Name :
               </label>
               <div className="sm:col-span-3">
@@ -197,14 +199,14 @@ const GSTINForm = () => {
                   value={formData.companyName}
                   onChange={handleInputChange}
                   disabled={!isEditable}
-                  className={`w-full px-3 py-2 border ${!isEditable ? 'bg-gray-50 text-gray-700' : 'bg-white'} border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                  className={`w-full px-3 py-2 border ${!isEditable ? (isDarkMode ? 'bg-gray-700 text-gray-400' : 'bg-gray-50 text-gray-700') : (isDarkMode ? 'bg-gray-700 text-white' : 'bg-white')} border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                   placeholder="Enter company name"
                 />
               </div>
             </div>
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-2 items-center">
-              <label htmlFor="gstNumber" className="text-sm font-medium text-gray-700 sm:text-right">
+              <label htmlFor="gstNumber" className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'} text-sm font-medium sm:text-right`}>
                 GST No :
               </label>
               <div className="sm:col-span-3">
@@ -215,15 +217,15 @@ const GSTINForm = () => {
                   value={formData.gstNumber}
                   onChange={handleInputChange}
                   disabled={!isEditable}
-                  className={`w-full px-3 py-2 border ${!isEditable ? 'bg-gray-50 text-gray-700' : 'bg-white'} border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent uppercase`}
+                  className={`w-full px-3 py-2 border ${!isEditable ? (isDarkMode ? 'bg-gray-700 text-gray-400' : 'bg-gray-50 text-gray-700') : (isDarkMode ? 'bg-gray-700 text-white' : 'bg-white')} border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent uppercase`}
                   placeholder="Enter GST number"
                   maxLength={15}
                 />
               </div>
             </div>
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-2 items-center">
-              <label htmlFor="gstinFile" className="text-sm font-medium text-gray-700 sm:text-right">
+              <label htmlFor="gstinFile" className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'} text-sm font-medium sm:text-right`}>
                 Upload GSTIN Copy :
               </label>
               <div className="sm:col-span-3">
@@ -231,9 +233,9 @@ const GSTINForm = () => {
                   {isEditable ? (
                     <label 
                       htmlFor="gstinFile" 
-                      className="inline-flex items-center px-4 py-2 bg-gray-100 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-200 transition-colors"
+                      className={`${isDarkMode ? 'bg-gray-700 hover:bg-gray-600 border-gray-600 text-gray-300' : 'bg-gray-100 hover:bg-gray-200 border-gray-300 text-gray-700'} inline-flex items-center px-4 py-2 border rounded-md cursor-pointer transition-colors`}
                     >
-                      <span className="text-sm font-medium text-gray-700">Choose File</span>
+                      <span className="text-sm font-medium">{isDarkMode ? 'Choose File' : 'Choose File'}</span>
                       <input 
                         type="file" 
                         id="gstinFile" 
@@ -245,7 +247,7 @@ const GSTINForm = () => {
                       />
                     </label>
                   ) : null}
-                  <div className="text-sm text-gray-500 py-2">{fileName}</div>
+                  <div className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} text-sm py-2`}>{fileName}</div>
                   {isFormSaved && formData.gstinFile && (
                     <button
                       type="button"
@@ -264,7 +266,7 @@ const GSTINForm = () => {
                 </p>
               </div>
             </div>
-            
+
             <div className="pt-4 flex justify-center sm:justify-end space-x-3">
               {isFormSaved && !isEditable ? (
                 <button
@@ -292,8 +294,8 @@ const GSTINForm = () => {
             </div>
           </form>
         </div>
-        
-        <div className="p-4 sm:p-6 bg-gray-50 border-t border-gray-200 text-xs sm:text-sm text-gray-500">
+
+        <div className={`${isDarkMode ? 'bg-gray-700 border-gray-700 text-gray-400' : 'bg-gray-50 border-t border-gray-200 text-gray-500'} p-4 sm:p-6 text-xs sm:text-sm`}>
           <p>
             You can generally opt-out of recieving personalised ads from third party advertisers and ad networks who are members of the{' '}
             <a href="https://nai.org/" className="text-red-500 hover:underline" target="_blank" rel="noopener noreferrer">
