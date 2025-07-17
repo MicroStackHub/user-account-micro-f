@@ -1,14 +1,19 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
 import BasicInformation from './BasicInformation';
 import ContactDetails from './ContactDetails';
 import ProfilePicture from './ProfilePicture';
 import BioPreferences from './BioPreferences';
 
-const ProfilePage: React.FC = () => {
+interface ProfilePageProps {
+  initialSection?: string;
+  onBack?: () => void;
+}
+
+const ProfilePage: React.FC<ProfilePageProps> = ({ initialSection = 'basic', onBack }) => {
   const { isDarkMode, colorScheme } = useTheme();
-  const [activeSection, setActiveSection] = useState('basic');
+  const [activeSection, setActiveSection] = useState(initialSection);
 
   const sections = [
     { id: 'basic', name: 'Basic Information', icon: '👤', description: 'Personal details and basic info' },
@@ -26,6 +31,10 @@ const ProfilePage: React.FC = () => {
       default: return 'text-blue-600 dark:text-blue-400 border-blue-500';
     }
   };
+
+  useEffect(() => {
+    setActiveSection(initialSection);
+  }, [initialSection]);
 
   const renderActiveSection = () => {
     switch (activeSection) {
@@ -47,12 +56,26 @@ const ProfilePage: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 py-6">
         {/* Header */}
         <div className="mb-8">
-          <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-            Profile Management
-          </h1>
-          <p className={`text-lg ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mt-1`}>
-            Manage your personal information, preferences, and account settings
-          </p>
+          <div className="flex items-center space-x-4 mb-4">
+            {onBack && (
+              <button
+                onClick={onBack}
+                className={`p-2 rounded-lg ${isDarkMode ? 'bg-gray-800 text-gray-300 hover:bg-gray-700' : 'bg-white text-gray-600 hover:bg-gray-100'} border ${isDarkMode ? 'border-gray-700' : 'border-gray-200'} transition-colors`}
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+              </button>
+            )}
+            <div>
+              <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                Profile Management
+              </h1>
+              <p className={`text-lg ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mt-1`}>
+                Manage your personal information, preferences, and account settings
+              </p>
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">

@@ -107,10 +107,10 @@ export const sidebarConfig: MenuItem[] = [
     text: 'Personal Profile',
     hasSubMenu: true,
     subMenuItems: [
-      { text: 'Basic Information', path: '/profile/basic' },
-      { text: 'Contact Details', path: '/profile/contact' },
-      { text: 'Profile Picture', path: '/profile/picture' },
-      { text: 'Bio & Preferences', path: '/profile/bio' }
+      { text: 'Basic Information', path: '/profile/basic', onClick: () => window.dispatchEvent(new CustomEvent('navigateToProfile', { detail: 'basic' })) },
+      { text: 'Contact Details', path: '/profile/contact', onClick: () => window.dispatchEvent(new CustomEvent('navigateToProfile', { detail: 'contact' })) },
+      { text: 'Profile Picture', path: '/profile/picture', onClick: () => window.dispatchEvent(new CustomEvent('navigateToProfile', { detail: 'picture' })) },
+      { text: 'Bio & Preferences', path: '/profile/bio', onClick: () => window.dispatchEvent(new CustomEvent('navigateToProfile', { detail: 'bio' })) }
     ]
   },
   {

@@ -171,6 +171,7 @@ const AccountPage: React.FC = () => {
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState('');
   const [showProfilePage, setShowProfilePage] = useState(false);
+  const [profileSection, setProfileSection] = useState('basic');
 
   const handleCardClick = (section: string) => {
     if (section === 'profile') {
@@ -190,6 +191,17 @@ const AccountPage: React.FC = () => {
     setTimeout(() => setShowNotification(false), 3000);
     console.log(`Quick action: ${action}`);
   };
+
+  useEffect(() => {
+    const handleProfileNavigation = (event: any) => {
+      const section = event.detail;
+      setProfileSection(section);
+      setShowProfilePage(true);
+    };
+
+    window.addEventListener('navigateToProfile', handleProfileNavigation);
+    return () => window.removeEventListener('navigateToProfile', handleProfileNavigation);
+  }, []);
 
   const statsData = [
     {
@@ -270,7 +282,7 @@ const AccountPage: React.FC = () => {
   ];
 
   if (showProfilePage) {
-    return <ProfilePage />;
+    return <ProfilePage initialSection={profileSection} onBack={() => setShowProfilePage(false)} />;
   }
 
   return (
