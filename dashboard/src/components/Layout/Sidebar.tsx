@@ -162,14 +162,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
     return sidebarConfig.map((item) => {
       if (item.type === 'heading') {
         return (
-          <SidebarHeading 
-            key={item.id} 
-            text={item.text} 
-            isCollapsed={isCollapsed} 
+          <SidebarHeading
+            key={item.id}
+            text={item.text}
+            isCollapsed={isCollapsed}
           />
         );
       }
-      
+
       return (
         <SidebarItem
           key={item.id}
@@ -188,15 +188,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
       {/* Logo */}
       <div className={`flex items-center ${isCollapsed ? 'justify-center px-2' : 'justify-between px-4'} h-16 ${isDarkMode ? 'border-gray-800' : 'border-gray-200'} border-b`}>
         <div className="flex items-center">
-          <div className="flex-shrink-0">
-            <svg className={`w-8 h-8 ${getAccentColor()}`} fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
-              <path d="M8 12l4 4 4-4z" />
-            </svg>
-          </div>
+
           {!isCollapsed && (
             <span className="ml-2 text-xl font-bold tracking-wide transition-opacity duration-200 ease-in-out">
-              METRONIC
+              Bonzicart
             </span>
           )}
         </div>
