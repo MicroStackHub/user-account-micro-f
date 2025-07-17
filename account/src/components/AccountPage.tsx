@@ -1,12 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
-import ProfileSummary from './ProfileSummary';
-import RecentActivity from './RecentActivity';
-import QuickActions from './QuickActions';
-import AccountSettings from './AccountSettings';
-import PersonalizedRecommendations from './PersonalizedRecommendations';
-import LoyaltyProgram from './LoyaltyProgram';
 import ProfilePage from './Profile/ProfilePage';
 
 interface StatsCardProps {
@@ -165,38 +159,40 @@ const QuickActionButton: React.FC<QuickActionButtonProps> = ({ title, descriptio
   );
 };
 
+// Main component with routing state
 const AccountPage: React.FC = () => {
   const { isDarkMode, toggleTheme, colorScheme, setColorScheme } = useTheme();
-  const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [currentView, setCurrentView] = useState<'overview' | 'profile'>('overview');
+  const [profileSection, setProfileSection] = useState('basic');
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState('');
-  const [showProfilePage, setShowProfilePage] = useState(false);
-  const [profileSection, setProfileSection] = useState('basic');
 
-  const handleCardClick = (section: string) => {
-    if (section === 'profile') {
-      setShowProfilePage(true);
-      return;
-    }
-    setActiveSection(section);
-    setNotificationMessage(`Navigating to ${section} section`);
+  const showNotificationMessage = (message: string) => {
+    setNotificationMessage(message);
     setShowNotification(true);
     setTimeout(() => setShowNotification(false), 3000);
-    console.log(`Navigating to ${section}`);
+  };
+
+  const handleNavigateToProfile = (section: string = 'basic') => {
+    setProfileSection(section);
+    setCurrentView('profile');
+    showNotificationMessage(`Navigating to profile ${section} section`);
   };
 
   const handleQuickAction = (action: string) => {
-    setNotificationMessage(`${action} initiated successfully`);
-    setShowNotification(true);
-    setTimeout(() => setShowNotification(false), 3000);
+    if (action === 'Update Profile') {
+      handleNavigateToProfile();
+      return;
+    }
+    showNotificationMessage(`${action} initiated successfully`);
     console.log(`Quick action: ${action}`);
   };
 
+  // Listen for custom events from sidebar
   useEffect(() => {
     const handleProfileNavigation = (event: any) => {
       const section = event.detail;
-      setProfileSection(section);
-      setShowProfilePage(true);
+      handleNavigateToProfile(section);
     };
 
     window.addEventListener('navigateToProfile', handleProfileNavigation);
@@ -281,10 +277,17 @@ const AccountPage: React.FC = () => {
     }
   ];
 
-  if (showProfilePage) {
-    return <ProfilePage initialSection={profileSection} onBack={() => setShowProfilePage(false)} />;
+  // Render Profile Page
+  if (currentView === 'profile') {
+    return (
+      <ProfilePage 
+        initialSection={profileSection} 
+        onBack={() => setCurrentView('overview')} 
+      />
+    );
   }
 
+  // Render Account Overview
   return (
     <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
       {/* Notification Toast */}
@@ -304,9 +307,9 @@ const AccountPage: React.FC = () => {
         <div className="mb-8">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Account Dashboard</h1>
+              <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>My Account</h1>
               <p className={`text-lg ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mt-1`}>
-                Welcome back, John! Here's what's happening with your account.
+                Welcome back, John! Manage your account and preferences.
               </p>
             </div>
             <div className="flex items-center space-x-4 mt-4 lg:mt-0">
@@ -356,52 +359,51 @@ const AccountPage: React.FC = () => {
 
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column - Main Content */}
+          {/* Left Column - Quick Actions */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Quick Actions */}
             <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-xl border shadow-sm p-6`}>
               <h2 className={`text-xl font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-6`}>Quick Actions</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <QuickActionButton
-                  title="Track Orders"
-                  description="View and track your recent orders"
-                  variant="primary"
-                  icon={
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                    </svg>
-                  }
-                  onClick={() => handleQuickAction('Track Orders')}
-                />
-                <QuickActionButton
                   title="Update Profile"
-                  description="Edit your personal information"
+                  description="Edit your personal information and preferences"
+                  variant="primary"
                   icon={
                     <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                     </svg>
                   }
-                  onClick={() => handleCardClick('profile')}
+                  onClick={() => handleQuickAction('Update Profile')}
+                />
+                <QuickActionButton
+                  title="View Orders"
+                  description="Track your recent orders and purchases"
+                  icon={
+                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M7 4V2C7 1.45 7.45 1 8 1h8c.55 0 1 .45 1 1v2h5c.55 0 1 .45 1 1s-.45 1-1 1h-1v14c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V6H2c-.55 0-1-.45-1-1s.45-1 1-1h5z"/>
+                    </svg>
+                  }
+                  onClick={() => handleQuickAction('View Orders')}
                 />
                 <QuickActionButton
                   title="Manage Addresses"
-                  description="Add or edit shipping addresses"
+                  description="Add or edit your shipping addresses"
                   icon={
                     <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                     </svg>
                   }
-                  onClick={() => handleCardClick('address')}
+                  onClick={() => handleQuickAction('Manage Addresses')}
                 />
                 <QuickActionButton
-                  title="View Rewards"
-                  description="Check your points and rewards"
+                  title="Payment Methods"
+                  description="Manage your saved payment methods"
                   icon={
                     <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                      <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
                     </svg>
                   }
-                  onClick={() => handleQuickAction('View Rewards')}
+                  onClick={() => handleQuickAction('Payment Methods')}
                 />
               </div>
             </div>
@@ -422,7 +424,7 @@ const AccountPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column - Sidebar Content */}
+          {/* Right Column - Account Info */}
           <div className="space-y-6">
             {/* Profile Summary */}
             <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-xl border shadow-sm p-6`}>
@@ -462,9 +464,9 @@ const AccountPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Account Health */}
+            {/* Account Security */}
             <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-xl border shadow-sm p-6`}>
-              <h3 className={`font-semibold text-lg ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-4`}>Account Health</h3>
+              <h3 className={`font-semibold text-lg ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-4`}>Account Security</h3>
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
@@ -495,7 +497,7 @@ const AccountPage: React.FC = () => {
                     </div>
                     <span className={`text-sm ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Enable 2FA</span>
                   </div>
-                  <button className="text-blue-600 dark:text-blue-400 text-sm font-medium">Setup</button>
+                  <button className="text-blue-600 dark:text-blue-400 text-sm font-medium hover:underline">Setup</button>
                 </div>
               </div>
             </div>
@@ -505,14 +507,14 @@ const AccountPage: React.FC = () => {
               <h3 className={`font-semibold text-lg ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-4`}>Quick Links</h3>
               <div className="space-y-2">
                 {[
-                  { name: 'Download Invoice', icon: '📄' },
-                  { name: 'Contact Support', icon: '💬' },
-                  { name: 'Privacy Settings', icon: '🔒' },
-                  { name: 'Export Data', icon: '📊' }
+                  { name: 'Download Invoice', icon: '📄', action: 'Download Invoice' },
+                  { name: 'Contact Support', icon: '💬', action: 'Contact Support' },
+                  { name: 'Privacy Settings', icon: '🔒', action: 'Privacy Settings' },
+                  { name: 'Export Data', icon: '📊', action: 'Export Data' }
                 ].map((link, index) => (
                   <button
                     key={index}
-                    onClick={() => handleQuickAction(link.name)}
+                    onClick={() => handleQuickAction(link.action)}
                     className={`w-full text-left px-3 py-2 rounded-lg ${isDarkMode ? 'hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100 text-gray-700'} transition-colors flex items-center space-x-3`}
                   >
                     <span>{link.icon}</span>

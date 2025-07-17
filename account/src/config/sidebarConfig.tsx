@@ -1,24 +1,8 @@
+
 import React from 'react';
 
-export interface SubMenuItem {
-  text: string;
-  path: string;
-  onClick?: () => void;
-}
-
-export interface MenuItem {
-  id: string;
-  type: 'item' | 'heading';
-  icon?: React.ReactNode;
-  text: string;
-  isActive?: boolean;
-  hasSubMenu?: boolean;
-  subMenuItems?: SubMenuItem[];
-  badge?: string;
-  onClick?: () => void;
-}
-
-export const Icons = {
+// Icon components
+const Icons = {
   Dashboard: (
     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
       <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
@@ -31,7 +15,7 @@ export const Icons = {
   ),
   Orders: (
     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M7 4V2C7 1.45 7.45 1 8 1h8c.55 0 1 .45 1 1v2h5c.55 0 1 .45 1 1s-.45 1-1 1h-1v14c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V6H2c-.55 0-1-.45-1-1s.45-1 1-1h5zM9 3v1h6V3H9zm8 3H7v13h10V6z"/>
+      <path d="M7 4V2C7 1.45 7.45 1 8 1h8c.55 0 1 .45 1 1v2h5c.55 0 1 .45 1 1s-.45 1-1 1h-1v14c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V6H2c-.55 0-1-.45-1-1s.45-1 1-1h5z"/>
     </svg>
   ),
   Wishlist: (
@@ -44,29 +28,14 @@ export const Icons = {
       <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
     </svg>
   ),
+  Payment: (
+    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+    </svg>
+  ),
   Messages: (
     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
       <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h4l4 4 4-4h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
-    </svg>
-  ),
-  Coupons: (
-    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z"/>
-    </svg>
-  ),
-  Settings: (
-    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
-    </svg>
-  ),
-  Security: (
-    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
-    </svg>
-  ),
-  Payments: (
-    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
     </svg>
   ),
   Notifications: (
@@ -74,9 +43,24 @@ export const Icons = {
       <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
     </svg>
   ),
+  Coupons: (
+    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M20 12c0-.8.4-1.5 1-1.9V7c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v3.1c.6.4 1 1.1 1 1.9s-.4 1.5-1 1.9V17c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-3.1c-.6-.4-1-1.1-1-1.9z"/>
+    </svg>
+  ),
   Analytics: (
     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
       <path d="M5 9.2h3V19H5zM10.6 5h2.8v14h-2.8zm5.6 8H19v6h-2.8z"/>
+    </svg>
+  ),
+  Security: (
+    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2z"/>
+    </svg>
+  ),
+  Settings: (
+    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.82,11.69,4.82,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
     </svg>
   ),
   Support: (
@@ -86,6 +70,26 @@ export const Icons = {
   )
 };
 
+// Types
+export interface SubMenuItem {
+  text: string;
+  path: string;
+  onClick?: () => void;
+}
+
+export interface MenuItem {
+  id: string;
+  type: 'item' | 'heading';
+  icon?: React.ReactNode;
+  text: string;
+  isActive?: boolean;
+  onClick?: () => void;
+  hasSubMenu?: boolean;
+  subMenuItems?: SubMenuItem[];
+  badge?: string;
+}
+
+// Sidebar configuration
 export const sidebarConfig: MenuItem[] = [
   {
     id: 'overview',
@@ -129,46 +133,51 @@ export const sidebarConfig: MenuItem[] = [
       { text: 'Active Orders', path: '/orders/active' },
       { text: 'Order History', path: '/orders/history' },
       { text: 'Returns & Refunds', path: '/orders/returns' },
-      { text: 'Track Orders', path: '/orders/track' }
+      { text: 'Track Package', path: '/orders/tracking' }
     ]
   },
   {
     id: 'wishlist',
     type: 'item',
     icon: Icons.Wishlist,
-    text: 'My Wishlist',
-    badge: '12',
-    onClick: () => console.log('Navigate to Wishlist')
+    text: 'Wishlist',
+    badge: '24',
+    hasSubMenu: true,
+    subMenuItems: [
+      { text: 'All Items', path: '/wishlist/all' },
+      { text: 'Available', path: '/wishlist/available' },
+      { text: 'Out of Stock', path: '/wishlist/out-of-stock' },
+      { text: 'On Sale', path: '/wishlist/on-sale' }
+    ]
   },
   {
-    id: 'addresses-payment',
+    id: 'payment-address',
     type: 'heading',
-    text: 'Addresses & Payment'
+    text: 'Payment & Address'
   },
   {
     id: 'addresses',
     type: 'item',
     icon: Icons.Address,
-    text: 'Manage Addresses',
+    text: 'Addresses',
     hasSubMenu: true,
     subMenuItems: [
-      { text: 'Home Address', path: '/address/home' },
-      { text: 'Work Address', path: '/address/work' },
-      { text: 'Other Addresses', path: '/address/other' },
-      { text: 'Default Settings', path: '/address/default' }
+      { text: 'Shipping Addresses', path: '/addresses/shipping' },
+      { text: 'Billing Addresses', path: '/addresses/billing' },
+      { text: 'Add New Address', path: '/addresses/add' }
     ]
   },
   {
-    id: 'payments',
+    id: 'payment-methods',
     type: 'item',
-    icon: Icons.Payments,
+    icon: Icons.Payment,
     text: 'Payment Methods',
     hasSubMenu: true,
     subMenuItems: [
       { text: 'Credit Cards', path: '/payment/cards' },
       { text: 'Bank Accounts', path: '/payment/bank' },
       { text: 'Digital Wallets', path: '/payment/wallets' },
-      { text: 'Payment History', path: '/payment/history' }
+      { text: 'Add Payment Method', path: '/payment/add' }
     ]
   },
   {
@@ -180,12 +189,12 @@ export const sidebarConfig: MenuItem[] = [
     id: 'messages',
     type: 'item',
     icon: Icons.Messages,
-    text: 'Message Center',
-    badge: '5',
+    text: 'Messages',
     hasSubMenu: true,
+    badge: '5',
     subMenuItems: [
       { text: 'Inbox', path: '/messages/inbox' },
-      { text: 'Sent Messages', path: '/messages/sent' },
+      { text: 'Sent', path: '/messages/sent' },
       { text: 'Order Updates', path: '/messages/orders' },
       { text: 'Promotions', path: '/messages/promotions' }
     ]
