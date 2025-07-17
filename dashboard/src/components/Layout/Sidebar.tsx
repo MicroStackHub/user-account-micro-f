@@ -1,7 +1,8 @@
 
 import React, { useState } from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
-import { sidebarConfig, MenuItem, SubMenuItem } from '../../config/sidebarConfig';
+import { sidebarConfig } from '../../config/sidebarConfig';
+import type { MenuItem, SubMenuItem } from '../../config/sidebarConfig';
 
 interface SidebarProps {
   isCollapsed: boolean;
