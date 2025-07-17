@@ -1,7 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 import ProfilePage from './Profile/ProfilePage';
+import Analytics from './Analytics/Analytics';
 
 interface StatsCardProps {
   title: string;
@@ -162,10 +162,13 @@ const QuickActionButton: React.FC<QuickActionButtonProps> = ({ title, descriptio
 // Main component with routing state
 const AccountPage: React.FC = () => {
   const { isDarkMode, toggleTheme, colorScheme, setColorScheme } = useTheme();
-  const [currentView, setCurrentView] = useState<'overview' | 'profile'>('overview');
+  const [currentView, setCurrentView] = useState<'overview' | 'profile' | 'analytics'>('overview');
   const [profileSection, setProfileSection] = useState('basic');
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState('');
+
+  // This would typically come from your auth context or user state
+  const userRole: 'customer' | 'affiliate' | 'admin' = 'affiliate'; // Sample role
 
   const showNotificationMessage = (message: string) => {
     setNotificationMessage(message);
@@ -178,6 +181,12 @@ const AccountPage: React.FC = () => {
     setCurrentView('profile');
     showNotificationMessage(`Navigating to profile ${section} section`);
   };
+
+    const handleNavigateToAnalytics = () => {
+        setCurrentView('analytics');
+        showNotificationMessage('Navigating to analytics dashboard');
+    };
+
 
   const handleQuickAction = (action: string) => {
     if (action === 'Update Profile') {
@@ -281,11 +290,22 @@ const AccountPage: React.FC = () => {
   if (currentView === 'profile') {
     return (
       <ProfilePage 
-        initialSection={profileSection} 
-        onBack={() => setCurrentView('overview')} 
+        initialSection={profileSection}
+        onBack={() => setCurrentView('overview')}
+        userRole={userRole}
       />
     );
   }
+
+    // Render Analytics Page
+    if (currentView === 'analytics') {
+        return (
+            <Analytics
+                userRole={userRole}
+                onBack={() => setCurrentView('overview')}
+            />
+        );
+    }
 
   // Render Account Overview
   return (
@@ -328,7 +348,7 @@ const AccountPage: React.FC = () => {
                   </svg>
                 )}
               </button>
-              
+
               {/* Color Scheme Selector */}
               <div className="flex space-x-1">
                 {(['blue', 'green', 'purple', 'red'] as const).map((color) => (
@@ -375,6 +395,16 @@ const AccountPage: React.FC = () => {
                   }
                   onClick={() => handleQuickAction('Update Profile')}
                 />
+                 <QuickActionButton
+                                    title="View Analytics"
+                                    description="Explore your account analytics and insights"
+                                    icon={
+                                        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M3 3h18v2H3V3zm3 4h12v2H6V7zm5 4h2v6h-2v-6zM17 11h2v6h-2v-6zM6 11h2v6H6v-6z" />
+                                        </svg>
+                                    }
+                                    onClick={handleNavigateToAnalytics}
+                                />
                 <QuickActionButton
                   title="View Orders"
                   description="Track your recent orders and purchases"
@@ -452,7 +482,7 @@ const AccountPage: React.FC = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Profile Completion</span>

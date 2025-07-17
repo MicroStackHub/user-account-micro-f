@@ -1,17 +1,18 @@
-
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
 import BasicInformation from './BasicInformation';
 import ContactDetails from './ContactDetails';
 import ProfilePicture from './ProfilePicture';
 import BioPreferences from './BioPreferences';
+import ProfileAnalytics from './Analytics';
 
 interface ProfilePageProps {
+  userRole: 'customer' | 'affiliate' | 'admin';
   initialSection?: string;
   onBack?: () => void;
 }
 
-const ProfilePage: React.FC<ProfilePageProps> = ({ initialSection = 'basic', onBack }) => {
+const ProfilePage: React.FC<ProfilePageProps> = ({ userRole, initialSection = 'basic', onBack }) => {
   const { isDarkMode, colorScheme } = useTheme();
   const [activeSection, setActiveSection] = useState(initialSection);
 
@@ -19,7 +20,8 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ initialSection = 'basic', onB
     { id: 'basic', name: 'Basic Information', icon: '👤', description: 'Personal details and basic info' },
     { id: 'contact', name: 'Contact Details', icon: '📞', description: 'Contact information and addresses' },
     { id: 'picture', name: 'Profile Picture', icon: '📷', description: 'Manage your profile photo' },
-    { id: 'bio', name: 'Bio & Preferences', icon: '⚙️', description: 'Bio, interests, and account preferences' }
+    { id: 'bio', name: 'Bio & Preferences', icon: '⚙️', description: 'Bio, interests, and account preferences' },
+    { id: 'analytics', name: 'Analytics', icon: '📊', description: 'View your account analytics and performance' }
   ];
 
   const getAccentColor = () => {
@@ -46,6 +48,8 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ initialSection = 'basic', onB
         return <ProfilePicture />;
       case 'bio':
         return <BioPreferences />;
+        case 'analytics':
+            return <ProfileAnalytics userRole={userRole} />;
       default:
         return <BasicInformation />;
     }
