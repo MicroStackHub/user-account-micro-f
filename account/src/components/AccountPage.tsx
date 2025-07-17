@@ -7,6 +7,7 @@ import QuickActions from './QuickActions';
 import AccountSettings from './AccountSettings';
 import PersonalizedRecommendations from './PersonalizedRecommendations';
 import LoyaltyProgram from './LoyaltyProgram';
+import ProfilePage from './Profile/ProfilePage';
 
 interface StatsCardProps {
   title: string;
@@ -169,8 +170,13 @@ const AccountPage: React.FC = () => {
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState('');
+  const [showProfilePage, setShowProfilePage] = useState(false);
 
   const handleCardClick = (section: string) => {
+    if (section === 'profile') {
+      setShowProfilePage(true);
+      return;
+    }
     setActiveSection(section);
     setNotificationMessage(`Navigating to ${section} section`);
     setShowNotification(true);
@@ -262,6 +268,10 @@ const AccountPage: React.FC = () => {
       status: 'Verified'
     }
   ];
+
+  if (showProfilePage) {
+    return <ProfilePage />;
+  }
 
   return (
     <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
@@ -359,7 +369,7 @@ const AccountPage: React.FC = () => {
                       <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                     </svg>
                   }
-                  onClick={() => handleQuickAction('Update Profile')}
+                  onClick={() => handleCardClick('profile')}
                 />
                 <QuickActionButton
                   title="Manage Addresses"

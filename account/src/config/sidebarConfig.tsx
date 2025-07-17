@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 export interface SubMenuItem {
@@ -111,7 +110,7 @@ export const sidebarConfig: MenuItem[] = [
       { text: 'Basic Information', path: '/profile/basic' },
       { text: 'Contact Details', path: '/profile/contact' },
       { text: 'Profile Picture', path: '/profile/picture' },
-      { text: 'Bio & Preferences', path: '/profile/preferences' }
+      { text: 'Bio & Preferences', path: '/profile/bio' }
     ]
   },
   {
