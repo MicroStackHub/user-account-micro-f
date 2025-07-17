@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
 
@@ -6,12 +7,12 @@ interface StatCardProps {
   value: string;
   label: string;
   iconBgColor: string;
+  trend?: { value: string; isPositive: boolean };
 }
 
-const StatCard: React.FC<StatCardProps> = ({ icon, value, label, iconBgColor }) => {
+const StatCard: React.FC<StatCardProps> = ({ icon, value, label, iconBgColor, trend }) => {
   const { isDarkMode, colorScheme } = useTheme();
   
-  // Get card border color based on color scheme
   const getBorderColor = () => {
     if (isDarkMode) {
       switch(colorScheme) {
@@ -34,15 +35,25 @@ const StatCard: React.FC<StatCardProps> = ({ icon, value, label, iconBgColor }) 
   
   return (
     <div className={`rounded-xl overflow-hidden shadow-md transition-all duration-300 hover:shadow-lg ${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-100'} border-l-4 ${getBorderColor()} stat-card`}>
-      <div className="p-5">
-        <div className="flex items-center">
-          <div className={`flex-shrink-0 rounded-full p-3 ${iconBgColor} transform transition-transform duration-300 group-hover:scale-110`}>
-            {icon}
+      <div className="p-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <div className={`flex-shrink-0 rounded-full p-3 ${iconBgColor} transform transition-transform duration-300 group-hover:scale-110`}>
+              {icon}
+            </div>
+            <div className="ml-4">
+              <p className="text-2xl font-bold">{value}</p>
+              <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{label}</p>
+            </div>
           </div>
-          <div className="ml-5">
-            <p className="text-2xl font-bold">{value}</p>
-            <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{label}</p>
-          </div>
+          {trend && (
+            <div className={`flex items-center text-sm font-medium ${trend.isPositive ? 'text-green-600' : 'text-red-600'}`}>
+              <svg className={`w-4 h-4 mr-1 ${trend.isPositive ? '' : 'rotate-180'}`} fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
+              </svg>
+              {trend.value}
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -60,25 +71,16 @@ interface TeamMemberProps {
 const TeamCard: React.FC<{ team: TeamMemberProps }> = ({ team }) => {
   const { isDarkMode, colorScheme } = useTheme();
   
-  // Get avatar background color based on name
   const getAvatarColor = (name: string) => {
     const colors = [
       'bg-blue-600', 'bg-green-600', 'bg-purple-600', 'bg-red-600', 'bg-yellow-600', 'bg-pink-600', 'bg-indigo-600'
     ];
-    // Simple hash function to get consistent color for a name
     const hash = name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
     return colors[hash % colors.length];
   };
   
-  // Get rating star color based on color scheme
   const getStarColor = () => {
-    switch(colorScheme) {
-      case 'blue': return 'text-blue-500';
-      case 'green': return 'text-green-500';
-      case 'purple': return 'text-purple-500';
-      case 'red': return 'text-red-500';
-      default: return 'text-yellow-400';
-    }
+    return 'text-yellow-400';
   };
   
   return (
@@ -127,7 +129,6 @@ const TeamCard: React.FC<{ team: TeamMemberProps }> = ({ team }) => {
 const Dashboard: React.FC = () => {
   const { isDarkMode, colorScheme } = useTheme();
   
-  // Get accent color based on color scheme
   const getAccentColor = () => {
     switch(colorScheme) {
       case 'blue': return 'text-blue-600';
@@ -138,7 +139,6 @@ const Dashboard: React.FC = () => {
     }
   };
   
-  // Get button color based on color scheme
   const getButtonColor = () => {
     switch(colorScheme) {
       case 'blue': return 'bg-blue-600 hover:bg-blue-700';
@@ -149,15 +149,15 @@ const Dashboard: React.FC = () => {
     }
   };
   
-  // Mock data for stats
   const stats = [
     {
       icon: <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+        <path d="M16 4h4v4h-4V4zM4 4h4v4H4V4zm0 6h4v4H4v-4zm0 6h4v4H4v-4zm6-12h4v4h-4V4zm0 6h4v4h-4v-4zm0 6h4v4h-4v-4zm6 0h4v4h-4v-4zm0-6h4v4h-4v-4z"/>
       </svg>,
       value: '9.3k',
       label: 'Amazing mates',
-      iconBgColor: 'bg-blue-600'
+      iconBgColor: 'bg-blue-600',
+      trend: { value: '+2.7%', isPositive: true }
     },
     {
       icon: <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -165,7 +165,8 @@ const Dashboard: React.FC = () => {
       </svg>,
       value: '24k',
       label: 'Lessons Views',
-      iconBgColor: 'bg-red-600'
+      iconBgColor: 'bg-red-600',
+      trend: { value: '+3.9%', isPositive: true }
     },
     {
       icon: <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -173,7 +174,8 @@ const Dashboard: React.FC = () => {
       </svg>,
       value: '608',
       label: 'New subscribers',
-      iconBgColor: 'bg-pink-600'
+      iconBgColor: 'bg-pink-600',
+      trend: { value: '+8.2%', isPositive: true }
     },
     {
       icon: <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -181,11 +183,11 @@ const Dashboard: React.FC = () => {
       </svg>,
       value: '2.5k',
       label: 'Stream audience',
-      iconBgColor: 'bg-gray-600'
+      iconBgColor: 'bg-gray-600',
+      trend: { value: '+0.7%', isPositive: true }
     },
   ];
 
-  // Mock data for teams
   const teams = [
     {
       name: 'Quality Assurance',
@@ -219,6 +221,12 @@ const Dashboard: React.FC = () => {
     },
   ];
 
+  const highlights = [
+    { label: 'Online Store', value: '$172k', trend: '+3.9%', isPositive: true },
+    { label: 'Facebook', value: '$65k', trend: '+0.7%', isPositive: true },
+    { label: 'Instagram', value: '$36k', trend: '+8.2%', isPositive: true },
+  ];
+
   return (
     <div className="dashboard-container">
       <div className="mb-8">
@@ -245,12 +253,13 @@ const Dashboard: React.FC = () => {
             value={stat.value}
             label={stat.label}
             iconBgColor={stat.iconBgColor}
+            trend={stat.trend}
           />
         ))}
       </div>
       
-      {/* Network Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
+      {/* Connect & Join Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
         <div className={`lg:col-span-1 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 ${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-100'} border p-6`}>
           <div className="flex items-center mb-6">
             <div className="flex-1">
@@ -274,102 +283,206 @@ const Dashboard: React.FC = () => {
           </button>
         </div>
         
+        {/* Highlights Section */}
         <div className={`lg:col-span-2 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 ${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-100'} border p-6`}>
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-semibold">Teams</h2>
-            <div className={`relative rounded-lg ${isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-gray-50 border border-gray-200'} px-3 py-2 shadow-sm focus-within:ring-2 focus-within:ring-blue-500 dark:focus-within:ring-blue-600`}>
-              <input 
-                type="text" 
-                placeholder="Search teams..." 
-                className={`bg-transparent border-none focus:outline-none ${isDarkMode ? 'placeholder-gray-500 text-gray-300' : 'placeholder-gray-400 text-gray-700'} w-48`} 
-              />
-              <svg className={`absolute right-3 top-2.5 w-4 h-4 ${getAccentColor()}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
+          <h2 className="text-xl font-semibold mb-6">Highlights</h2>
+          
+          <div className="mb-6">
+            <h3 className="text-lg font-medium mb-2">All time sales</h3>
+            <div className="flex items-center">
+              <span className="text-3xl font-bold">$295.7k</span>
+              <span className={`ml-3 px-2.5 py-1 text-xs font-medium ${isDarkMode ? 'bg-green-900 text-green-300' : 'bg-green-100 text-green-800'} rounded-full`}>+2.7%</span>
             </div>
           </div>
           
-          <div className="overflow-x-auto rounded-lg">
-            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
-              <thead className={`${isDarkMode ? 'bg-gray-800' : 'bg-gray-50'}`}>
-                <tr className={`border-b ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
-                  <th className="text-left py-3 px-4 text-xs font-medium uppercase tracking-wider">Team</th>
-                  <th className="text-left py-3 px-4 text-xs font-medium uppercase tracking-wider">Rating</th>
-                  <th className="text-left py-3 px-4 text-xs font-medium uppercase tracking-wider">Last Modified</th>
-                  <th className="text-left py-3 px-4 text-xs font-medium uppercase tracking-wider">Members</th>
-                </tr>
-              </thead>
-              <tbody className={`${isDarkMode ? 'divide-y divide-gray-800' : 'divide-y divide-gray-200'}`}>
-                {teams.map((team, index) => (
-                  <TeamCard key={index} team={team} />
-                ))}
-              </tbody>
-            </table>
-          </div>
-          
-          <div className="flex flex-col sm:flex-row justify-between items-center mt-6 gap-4">
-            <div className="text-sm flex items-center">
-              <span className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mr-2`}>Rows per page:</span>
-              <select className={`ml-1 ${isDarkMode ? 'bg-gray-800 border-gray-700 text-gray-300' : 'bg-white border-gray-200 text-gray-700'} border rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600`}>
-                <option>5</option>
-                <option>10</option>
-                <option>20</option>
-              </select>
-            </div>
-            
-            <div className="flex items-center space-x-2">
-              <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>1 - 5 of 15</span>
-              <div className="flex items-center space-x-1 ml-2">
-                <button className={`p-1.5 rounded-md ${isDarkMode ? 'hover:bg-gray-800 text-gray-400' : 'hover:bg-gray-100 text-gray-500'} focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600`}>
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                  </svg>
-                </button>
-                <button className={`p-1.5 rounded-md min-w-[32px] text-center ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-blue-50 text-blue-600'} font-medium`}>1</button>
-                <button className={`p-1.5 rounded-md min-w-[32px] text-center ${isDarkMode ? 'hover:bg-gray-800 text-gray-400' : 'hover:bg-gray-100 text-gray-700'} font-medium`}>2</button>
-                <button className={`p-1.5 rounded-md min-w-[32px] text-center ${isDarkMode ? 'hover:bg-gray-800 text-gray-400' : 'hover:bg-gray-100 text-gray-700'} font-medium`}>3</button>
-                <button className={`p-1.5 rounded-md ${isDarkMode ? 'hover:bg-gray-800 text-gray-400' : 'hover:bg-gray-100 text-gray-500'} focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600`}>
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
+          <div className="space-y-4">
+            {highlights.map((item, index) => (
+              <div key={index} className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <div className={`w-3 h-3 rounded-full mr-3 ${index === 0 ? 'bg-blue-500' : index === 1 ? 'bg-green-500' : 'bg-pink-500'}`}></div>
+                  <span className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>{item.label}</span>
+                </div>
+                <div className="flex items-center">
+                  <span className="font-semibold mr-2">{item.value}</span>
+                  <span className={`text-sm ${item.isPositive ? 'text-green-600' : 'text-red-600'}`}>
+                    {item.trend}
+                  </span>
+                </div>
               </div>
+            ))}
+          </div>
+          
+          {/* Simple chart visualization */}
+          <div className={`mt-6 h-32 w-full rounded-lg overflow-hidden ${isDarkMode ? 'bg-gray-800' : 'bg-gray-50'} p-4`}>
+            <div className="h-full w-full flex items-end space-x-2">
+              <div className="flex-1 bg-blue-500 h-3/4 rounded-t"></div>
+              <div className="flex-1 bg-green-500 h-2/3 rounded-t"></div>
+              <div className="flex-1 bg-pink-500 h-1/2 rounded-t"></div>
+              <div className="flex-1 bg-purple-500 h-4/5 rounded-t"></div>
+              <div className="flex-1 bg-yellow-500 h-1/3 rounded-t"></div>
+              <div className="flex-1 bg-indigo-500 h-3/5 rounded-t"></div>
             </div>
           </div>
         </div>
       </div>
       
-      {/* Earnings Section */}
-      <div className={`rounded-xl shadow-md hover:shadow-lg transition-all duration-300 ${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-100'} border p-6 mb-10`}>
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-          <h2 className="text-xl font-semibold">Earnings</h2>
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="flex items-center">
-              <span className={`mr-2 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Referrals only</span>
-              <div className="relative inline-block w-10 mr-2 align-middle select-none">
-                <input type="checkbox" name="toggle" id="toggle" className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" />
-                <label htmlFor="toggle" className={`toggle-label block overflow-hidden h-6 rounded-full ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} cursor-pointer`}></label>
-              </div>
+      {/* Team Meeting & Earnings Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        {/* Team Meeting */}
+        <div className={`rounded-xl shadow-md hover:shadow-lg transition-all duration-300 ${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-100'} border p-6`}>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl font-semibold">Team Meeting</h2>
+            <div className="flex items-center text-blue-600">
+              <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+              </svg>
+              <span className="font-medium">09:00 - 09:30</span>
             </div>
-            <select className={`${isDarkMode ? 'bg-gray-800 border-gray-700 text-gray-300' : 'bg-white border-gray-200 text-gray-700'} border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600`}>
-              <option>1 month</option>
-              <option>3 months</option>
-              <option>6 months</option>
+          </div>
+          
+          <p className={`mb-6 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
+            Team meeting to discuss strategies, outline project milestones, define key goals, and establish clear timelines.
+          </p>
+          
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <svg className="w-5 h-5 mr-2 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+              </svg>
+              <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Amsterdam</span>
+            </div>
+            <div className="flex -space-x-2">
+              <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold shadow-md ring-2 ring-white dark:ring-gray-900">A</div>
+              <div className="h-8 w-8 rounded-full bg-green-600 flex items-center justify-center text-white font-semibold shadow-md ring-2 ring-white dark:ring-gray-900">B</div>
+              <div className="h-8 w-8 rounded-full bg-yellow-600 flex items-center justify-center text-white font-semibold shadow-md ring-2 ring-white dark:ring-gray-900">C</div>
+              <div className="h-8 w-8 rounded-full bg-purple-600 flex items-center justify-center text-white font-semibold shadow-md ring-2 ring-white dark:ring-gray-900">+3</div>
+            </div>
+          </div>
+          
+          <button className={`w-full mt-6 py-3 px-4 ${getButtonColor()} text-white font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-900`}>
+            Join Meeting
+          </button>
+        </div>
+        
+        {/* Earnings Chart */}
+        <div className={`rounded-xl shadow-md hover:shadow-lg transition-all duration-300 ${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-100'} border p-6`}>
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+            <h2 className="text-xl font-semibold">Earnings</h2>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center">
+                <span className={`mr-2 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Referrals only</span>
+                <div className="relative inline-block w-10 mr-2 align-middle select-none">
+                  <input type="checkbox" name="toggle" id="toggle" className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" />
+                  <label htmlFor="toggle" className={`toggle-label block overflow-hidden h-6 rounded-full ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} cursor-pointer`}></label>
+                </div>
+              </div>
+              <select className={`${isDarkMode ? 'bg-gray-800 border-gray-700 text-gray-300' : 'bg-white border-gray-200 text-gray-700'} border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600`}>
+                <option>1 month</option>
+                <option>3 months</option>
+                <option>6 months</option>
+              </select>
+            </div>
+          </div>
+          
+          <div className="mb-6">
+            <div className="flex items-center justify-between mb-4">
+              <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>$100K</span>
+              <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Jun</span>
+            </div>
+            <div className="flex items-center justify-between mb-4">
+              <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>$80K</span>
+            </div>
+            <div className="flex items-center justify-between mb-4">
+              <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>$60K</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>$40K</span>
+              <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Jan</span>
+            </div>
+          </div>
+          
+          {/* Chart area */}
+          <div className={`h-48 w-full rounded-lg overflow-hidden ${isDarkMode ? 'bg-gray-800' : 'bg-gray-50'} p-4 relative`}>
+            <svg className="w-full h-full" viewBox="0 0 400 160">
+              <polyline
+                fill="none"
+                stroke="#3B82F6"
+                strokeWidth="3"
+                points="20,120 80,80 140,100 200,60 260,70 320,90 380,110"
+              />
+              <circle cx="20" cy="120" r="4" fill="#3B82F6" />
+              <circle cx="80" cy="80" r="4" fill="#3B82F6" />
+              <circle cx="140" cy="100" r="4" fill="#3B82F6" />
+              <circle cx="200" cy="60" r="4" fill="#3B82F6" />
+              <circle cx="260" cy="70" r="4" fill="#3B82F6" />
+              <circle cx="320" cy="90" r="4" fill="#3B82F6" />
+              <circle cx="380" cy="110" r="4" fill="#3B82F6" />
+            </svg>
+          </div>
+        </div>
+      </div>
+      
+      {/* Teams Section */}
+      <div className={`rounded-xl shadow-md hover:shadow-lg transition-all duration-300 ${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-100'} border p-6 mb-10`}>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-xl font-semibold">Teams</h2>
+          <div className={`relative rounded-lg ${isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-gray-50 border border-gray-200'} px-3 py-2 shadow-sm focus-within:ring-2 focus-within:ring-blue-500 dark:focus-within:ring-blue-600`}>
+            <input 
+              type="text" 
+              placeholder="Search teams..." 
+              className={`bg-transparent border-none focus:outline-none ${isDarkMode ? 'placeholder-gray-500 text-gray-300' : 'placeholder-gray-400 text-gray-700'} w-48`} 
+            />
+            <svg className={`absolute right-3 top-2.5 w-4 h-4 ${getAccentColor()}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+        </div>
+        
+        <div className="overflow-x-auto rounded-lg">
+          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
+            <thead className={`${isDarkMode ? 'bg-gray-800' : 'bg-gray-50'}`}>
+              <tr className={`border-b ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
+                <th className="text-left py-3 px-4 text-xs font-medium uppercase tracking-wider">Team</th>
+                <th className="text-left py-3 px-4 text-xs font-medium uppercase tracking-wider">Rating</th>
+                <th className="text-left py-3 px-4 text-xs font-medium uppercase tracking-wider">Last Modified</th>
+                <th className="text-left py-3 px-4 text-xs font-medium uppercase tracking-wider">Members</th>
+              </tr>
+            </thead>
+            <tbody className={`${isDarkMode ? 'divide-y divide-gray-800' : 'divide-y divide-gray-200'}`}>
+              {teams.map((team, index) => (
+                <TeamCard key={index} team={team} />
+              ))}
+            </tbody>
+          </table>
+        </div>
+        
+        <div className="flex flex-col sm:flex-row justify-between items-center mt-6 gap-4">
+          <div className="text-sm flex items-center">
+            <span className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mr-2`}>Rows per page:</span>
+            <select className={`ml-1 ${isDarkMode ? 'bg-gray-800 border-gray-700 text-gray-300' : 'bg-white border-gray-200 text-gray-700'} border rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600`}>
+              <option>5</option>
+              <option>10</option>
+              <option>20</option>
             </select>
           </div>
-        </div>
-        
-        <div className="mb-6">
-          <h3 className="text-lg font-medium mb-2">All time sales</h3>
-          <div className="flex items-center">
-            <span className="text-3xl font-bold">${isDarkMode ? '295.7k' : '295.7k'}</span>
-            <span className={`ml-3 px-2.5 py-1 text-xs font-medium ${isDarkMode ? 'bg-green-900 text-green-300' : 'bg-green-100 text-green-800'} rounded-full`}>+2.7%</span>
-          </div>
-        </div>
-        
-        <div className={`h-64 w-full rounded-xl overflow-hidden ${isDarkMode ? 'bg-gray-800' : 'bg-gray-50'} p-4`}>
-          <div className="h-full w-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-lg opacity-20 dark:opacity-30">
-            {/* This would be a chart in a real implementation */}
+          
+          <div className="flex items-center space-x-2">
+            <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>1 - 5 of 15</span>
+            <div className="flex items-center space-x-1 ml-2">
+              <button className={`p-1.5 rounded-md ${isDarkMode ? 'hover:bg-gray-800 text-gray-400' : 'hover:bg-gray-100 text-gray-500'} focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600`}>
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <button className={`p-1.5 rounded-md min-w-[32px] text-center ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-blue-50 text-blue-600'} font-medium`}>1</button>
+              <button className={`p-1.5 rounded-md min-w-[32px] text-center ${isDarkMode ? 'hover:bg-gray-800 text-gray-400' : 'hover:bg-gray-100 text-gray-700'} font-medium`}>2</button>
+              <button className={`p-1.5 rounded-md min-w-[32px] text-center ${isDarkMode ? 'hover:bg-gray-800 text-gray-400' : 'hover:bg-gray-100 text-gray-700'} font-medium`}>3</button>
+              <button className={`p-1.5 rounded-md ${isDarkMode ? 'hover:bg-gray-800 text-gray-400' : 'hover:bg-gray-100 text-gray-500'} focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600`}>
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
