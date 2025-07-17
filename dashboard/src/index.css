@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply antialiased;
+  }
+}
+
+@layer components {
+  /* Custom styles for theme toggle */
+  .toggle-checkbox {
+    @apply absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer;
+  }
+  
+  .toggle-checkbox:checked {
+    @apply right-0 border-green-400;
+  }
+  
+  .toggle-checkbox:checked + .toggle-label {
+    @apply bg-green-400;
+  }
+  
+  .toggle-label {
+    @apply block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer;
+  }
+  
+  /* Custom scrollbar for sidebar */
+  .sidebar::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  .sidebar::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  
+  .sidebar::-webkit-scrollbar-thumb {
+    @apply bg-opacity-50 bg-gray-400 rounded-full;
+  }
+  
+  /* Card styles */
+  .dashboard-card {
+    @apply rounded-lg shadow-md transition-all duration-300 hover:shadow-lg;
+  }
+  
+  /* Button styles */
+  .btn-primary {
+    @apply py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition duration-200;
+  }
+  
+  .btn-secondary {
+    @apply py-2 px-4 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white font-medium rounded-lg transition duration-200;
+  }
+  
+  /* Avatar styles */
+  .avatar {
+    @apply h-10 w-10 rounded-full flex items-center justify-center text-white font-semibold;
+  }
+  
+  /* Dropdown menu */
+  .dropdown-menu {
+    @apply absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none z-50;
+  }
+}
+
+/* Dark mode styles */
+.dark .toggle-checkbox:checked {
+  @apply border-green-400;
+}
+
+.dark .toggle-checkbox:checked + .toggle-label {
+  @apply bg-green-400;
+}
+
+/* Transition effects */
+* {
+  @apply transition-colors duration-200 ease-in-out;
+}
+
+/* Fix for white backgrounds in dark mode */
+.dark .bg-white {
+  @apply bg-gray-800;
+}
+
+.dark .text-gray-800 {
+  @apply text-gray-100;
+}
+
+.dark .border-gray-200 {
+  @apply border-gray-700;
+}
+
+/* Improved focus states for accessibility */
+*:focus-visible {
+  @apply outline-2 outline-blue-500 outline-offset-2;
+}
