@@ -1,12 +1,18 @@
-import './App.css'
-import AccountPage from './components/AccountPage'
+
+import React from 'react';
+import { ThemeProvider } from './contexts/ThemeContext';
+import Layout from './components/Layout/Layout';
+import AccountPage from './components/AccountPage';
+import './App.css';
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <AccountPage />
-    </div>
-  )
+    <ThemeProvider>
+      <Layout>
+        <AccountPage />
+      </Layout>
+    </ThemeProvider>
+  );
 }
 
-export default App
+export default App;
