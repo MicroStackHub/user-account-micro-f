@@ -7,3 +7,15 @@ channel = "stable-24_05"
 localPort = 5173
 externalPort = 80
 exposeLocalhost = true
+
+[workflows]
+runButton = "Run Account App"
+
+[[workflows.workflow]]
+name = "Run Account App"
+author = 45179841
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd account && npm run dev"
