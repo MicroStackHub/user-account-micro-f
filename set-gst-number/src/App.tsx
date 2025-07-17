@@ -1,12 +1,18 @@
-import GSTINForm from './components/GSTINForm'
-import './App.css'
+
+import React from 'react';
+import { ThemeProvider } from './contexts/ThemeContext';
+import Layout from './components/Layout/Layout';
+import GSTINForm from './components/GSTINForm';
+import './App.css';
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <GSTINForm />
-    </div>
-  )
+    <ThemeProvider>
+      <Layout>
+        <GSTINForm />
+      </Layout>
+    </ThemeProvider>
+  );
 }
 
-export default App
+export default App;
