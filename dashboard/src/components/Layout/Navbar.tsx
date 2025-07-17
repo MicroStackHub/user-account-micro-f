@@ -31,18 +31,18 @@ const Navbar: React.FC<NavbarProps> = ({ isCollapsed, toggleSidebar }) => {
   };
 
   return (
-    <nav 
+    <nav
       className={`fixed top-0 right-0 z-20 transition-all duration-300 ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-800'} ${isCollapsed ? 'left-16' : 'left-64'} h-16 border-b ${isDarkMode ? 'border-gray-700' : 'border-gray-200'} shadow-sm`}
     >
       <div className="h-full px-4 flex items-center justify-between">
         {/* Left side - Mobile menu toggle */}
         <div className="flex items-center lg:hidden">
-          <button 
+          <button
             onClick={toggleSidebar}
-            className={`p-2 rounded-md ${isDarkMode ? 'hover:bg-gray-800 text-gray-300' : 'hover:bg-gray-100 text-gray-600'} transition-colors`}
+            className={`p-2 rounded-md ${isDarkMode ? 'hover:bg-gray-200 text-gray-300' : 'hover:bg-gray-100 text-gray-600'} transition-colors`}
             aria-label="Toggle sidebar"
           >
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className={`w-6 h-6 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
@@ -65,12 +65,12 @@ const Navbar: React.FC<NavbarProps> = ({ isCollapsed, toggleSidebar }) => {
             <input
               type="text"
               placeholder="Search..."
-              className={`py-2 pl-9 pr-3 text-sm rounded-lg focus:outline-none focus:ring-2 transition-all w-40 lg:w-64 ${isDarkMode 
-                ? 'bg-gray-800 focus:bg-gray-700 focus:ring-blue-500 border-gray-700' 
+              className={`py-2 pl-9 pr-3 text-sm rounded-lg focus:outline-none focus:ring-2 transition-all w-40 lg:w-64 ${isDarkMode
+                ? 'bg-gray-800 focus:bg-gray-700 focus:ring-blue-500 border-gray-700'
                 : 'bg-gray-100 focus:bg-white focus:ring-blue-400 border border-gray-200'}`}
             />
             <svg
-              className="absolute w-4 h-4 top-2.5 left-3 text-gray-500 dark:text-gray-400"
+              className={`absolute w-4 h-4 top-2.5 left-3 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -84,22 +84,22 @@ const Navbar: React.FC<NavbarProps> = ({ isCollapsed, toggleSidebar }) => {
               />
             </svg>
           </div>
-          
+
           {/* Notifications */}
           <div className="relative">
-            <button 
+            <button
               onClick={toggleNotifications}
               className={`p-2 rounded-full ${isDarkMode ? 'hover:bg-gray-800 text-gray-300' : 'hover:bg-gray-100 text-gray-600'} relative transition-colors`}
               aria-label="Notifications"
             >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className={`w-5 h-5 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
               </svg>
               <span className="absolute top-0 right-0 flex items-center justify-center w-4 h-4 text-xs text-white bg-red-500 rounded-full">
                 3
               </span>
             </button>
-            
+
             {showNotifications && (
               <div className={`absolute right-0 mt-2 w-80 rounded-md shadow-lg py-1 z-20 ${isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'}`}>
                 <div className="px-4 py-2 text-sm font-medium border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
@@ -126,22 +126,22 @@ const Navbar: React.FC<NavbarProps> = ({ isCollapsed, toggleSidebar }) => {
               </div>
             )}
           </div>
-          
+
           {/* Messages */}
           <div className="relative">
-            <button 
+            <button
               onClick={toggleMessages}
               className={`p-2 rounded-full ${isDarkMode ? 'hover:bg-gray-800 text-gray-300' : 'hover:bg-gray-100 text-gray-600'} relative transition-colors`}
               aria-label="Messages"
             >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className={`w-5 h-5 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
               </svg>
               <span className="absolute top-0 right-0 flex items-center justify-center w-4 h-4 text-xs text-white bg-blue-500 rounded-full">
                 5
               </span>
             </button>
-            
+
             {showMessages && (
               <div className={`absolute right-0 mt-2 w-80 rounded-md shadow-lg py-1 z-20 ${isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'}`}>
                 <div className="px-4 py-2 text-sm font-medium border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
@@ -163,10 +163,10 @@ const Navbar: React.FC<NavbarProps> = ({ isCollapsed, toggleSidebar }) => {
               </div>
             )}
           </div>
-          
+
           {/* Theme Toggle */}
-          <button 
-            onClick={toggleTheme} 
+          <button
+            onClick={toggleTheme}
             className={`p-2 rounded-full ${isDarkMode ? 'hover:bg-gray-800 text-gray-300' : 'hover:bg-gray-100 text-gray-600'} transition-colors`}
             aria-label="Toggle dark mode"
           >
@@ -180,10 +180,10 @@ const Navbar: React.FC<NavbarProps> = ({ isCollapsed, toggleSidebar }) => {
               </svg>
             )}
           </button>
-          
+
           {/* User Profile */}
           <div className="relative">
-            <button 
+            <button
               onClick={toggleUserMenu}
               className="flex items-center focus:outline-none"
               aria-label="User menu"
@@ -197,7 +197,7 @@ const Navbar: React.FC<NavbarProps> = ({ isCollapsed, toggleSidebar }) => {
                 <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border border-white dark:border-gray-900"></div>
               </div>
             </button>
-            
+
             {showUserMenu && (
               <div className={`absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 z-20 ${isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'}`}>
                 <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
@@ -206,7 +206,7 @@ const Navbar: React.FC<NavbarProps> = ({ isCollapsed, toggleSidebar }) => {
                 </div>
                 <a href="#" className={`block px-4 py-2 text-sm ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}>
                   <div className="flex items-center">
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <svg className={`w-4 h-4 mr-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                     </svg>
                     Profile
@@ -214,7 +214,7 @@ const Navbar: React.FC<NavbarProps> = ({ isCollapsed, toggleSidebar }) => {
                 </a>
                 <a href="#" className={`block px-4 py-2 text-sm ${isDarkMode ? 'hover:bg-gray-700 text-red-400' : 'hover:bg-gray-100 text-red-600'}`}>
                   <div className="flex items-center">
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <svg className={`w-4 h-4 mr-2 ${isDarkMode ? 'text-red-400' : 'text-red-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
                     </svg>
                     Sign out
@@ -238,16 +238,16 @@ interface NavItemProps {
 
 const NavItem: React.FC<NavItemProps> = ({ text, isActive = false, hasDropdown = false }) => {
   const { isDarkMode } = useTheme();
-  
+
   return (
     <div className="relative group">
-      <button 
-        className={`px-3 py-2 rounded-md text-sm font-medium flex items-center transition-all duration-200 ${isActive 
-          ? isDarkMode 
-            ? 'bg-blue-600 text-white shadow-sm' 
+      <button
+        className={`px-3 py-2 rounded-md text-sm font-medium flex items-center transition-all duration-200 ${isActive
+          ? isDarkMode
+            ? 'bg-blue-600 text-white shadow-sm'
             : 'bg-blue-100 text-blue-700 shadow-sm'
-          : isDarkMode 
-            ? 'text-gray-300 hover:bg-gray-700 hover:text-white' 
+          : isDarkMode
+            ? 'text-gray-300 hover:bg-gray-700 hover:text-white bg-black'
             : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}`}
       >
         {text}
