@@ -1,35 +1,22 @@
-
-import React, { useState } from 'react';
-import { useTheme } from '../../contexts/ThemeContext';
+import React from 'react';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
+import { useTheme } from '../../contexts/ThemeContext';
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const { isDarkMode } = useTheme();
 
-  const toggleSidebar = () => {
-    setIsSidebarCollapsed(!isSidebarCollapsed);
-  };
-
   return (
-    <div className={`min-h-screen ${isDarkMode ? 'dark' : ''}`}>
-      <div className={`min-h-screen transition-colors duration-200 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
-        <Sidebar isCollapsed={isSidebarCollapsed} toggleSidebar={toggleSidebar} />
-        <Navbar isCollapsed={isSidebarCollapsed} toggleSidebar={toggleSidebar} />
-        
-        <main 
-          className={`transition-all duration-300 ${
-            isSidebarCollapsed ? 'ml-16' : 'ml-64'
-          } mt-16 p-6`}
-        >
-          <div className="max-w-7xl mx-auto">
-            {children}
-          </div>
+    <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
+      <Sidebar />
+      <div className="lg:pl-64">
+        <Navbar />
+        <main className="p-6">
+          {children}
         </main>
       </div>
     </div>
