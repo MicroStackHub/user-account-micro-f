@@ -1,147 +1,48 @@
-
-import React, { useState } from 'react';
+import React from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
 
-interface NavbarProps {
-  isCollapsed: boolean;
-  toggleSidebar: () => void;
-}
-
-const Navbar: React.FC<NavbarProps> = ({ isCollapsed, toggleSidebar }) => {
-  const { isDarkMode, toggleTheme } = useTheme();
-  const [showNotifications, setShowNotifications] = useState(false);
-  const [showUserMenu, setShowUserMenu] = useState(false);
-
-  const toggleNotifications = () => {
-    setShowNotifications(!showNotifications);
-    if (showUserMenu) setShowUserMenu(false);
-  };
-
-  const toggleUserMenu = () => {
-    setShowUserMenu(!showUserMenu);
-    if (showNotifications) setShowNotifications(false);
-  };
+const Navbar: React.FC = () => {
+  const { theme, toggleTheme } = useTheme();
 
   return (
-    <nav
-      className={`fixed top-0 right-0 z-20 transition-all duration-300 ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-800'} ${isCollapsed ? 'left-16' : 'left-64'} h-16 border-b ${isDarkMode ? 'border-gray-700' : 'border-gray-200'} shadow-sm`}
-    >
-      <div className="h-full px-4 flex items-center justify-between">
-        {/* Left side - Mobile menu toggle */}
-        <div className="flex items-center lg:hidden">
-          <button
-            onClick={toggleSidebar}
-            className={`p-2 rounded-md ${isDarkMode ? 'hover:bg-gray-200 text-gray-300' : 'hover:bg-gray-100 text-gray-600'} transition-colors`}
-            aria-label="Toggle sidebar"
-          >
-            <svg className={`w-6 h-6 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
+    <nav className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2">
+            <button className="px-3 py-1 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">
+              Dashboard
+            </button>
+            <button className="px-3 py-1 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+              Earnings
+            </button>
+            <button className="px-3 py-1 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+              Analytics
+            </button>
+            <button className="px-3 py-1 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+              Marketing
+            </button>
+          </div>
         </div>
 
-        {/* Center - Navigation */}
-        <div className="hidden md:flex items-center space-x-2">
-          <NavItem text="Dashboard" isActive />
-          <NavItem text="Earnings" hasDropdown />
-          <NavItem text="Analytics" hasDropdown />
-          <NavItem text="Marketing" hasDropdown />
-        </div>
-
-        {/* Right side - Actions */}
-        <div className="flex items-center space-x-3">
-          {/* Search */}
-          <div className={`relative hidden md:block ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+        <div className="flex items-center space-x-4">
+          <div className="relative">
             <input
               type="text"
               placeholder="Search affiliate tools..."
-              className={`py-2 pl-9 pr-3 text-sm rounded-lg focus:outline-none focus:ring-2 transition-all w-40 lg:w-64 ${isDarkMode
-                ? 'bg-gray-800 focus:bg-gray-700 focus:ring-blue-500 border-gray-700'
-                : 'bg-gray-100 focus:bg-white focus:ring-blue-400 border border-gray-200'}`}
+              className="w-64 px-4 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            <svg
-              className={`absolute w-4 h-4 top-2.5 left-3 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
-          </div>
-
-          {/* Notifications */}
-          <div className="relative">
-            <button
-              onClick={toggleNotifications}
-              className={`p-2 rounded-full ${isDarkMode ? 'hover:bg-gray-800 text-gray-300' : 'hover:bg-gray-100 text-gray-600'} relative transition-colors`}
-              aria-label="Notifications"
-            >
-              <svg className={`w-5 h-5 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+              <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
               </svg>
-              <span className="absolute top-0 right-0 flex items-center justify-center w-4 h-4 text-xs text-white bg-red-500 rounded-full">
-                3
-              </span>
-            </button>
-
-            {showNotifications && (
-              <div className={`absolute right-0 mt-2 w-80 rounded-md shadow-lg py-1 z-20 ${isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'}`}>
-                <div className="px-4 py-2 text-sm font-medium border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
-                  <span>Affiliate Updates</span>
-                  <span className="text-xs px-2 py-1 rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">3 New</span>
-                </div>
-                <div className="max-h-72 overflow-y-auto">
-                  <a href="#" className={`block px-4 py-3 border-b ${isDarkMode ? 'border-gray-700 hover:bg-gray-700' : 'border-gray-100 hover:bg-gray-50'}`}>
-                    <div className="flex">
-                      <div className="flex-shrink-0">
-                        <div className="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center text-green-500 dark:text-green-300">
-                          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
-                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clipRule="evenodd" />
-                          </svg>
-                        </div>
-                      </div>
-                      <div className="ml-3">
-                        <p className="text-sm font-medium">New commission earned</p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">You earned $45.20 from recent sales</p>
-                        <p className="text-xs text-blue-600 dark:text-blue-400">5 min ago</p>
-                      </div>
-                    </div>
-                  </a>
-                  <a href="#" className={`block px-4 py-3 border-b ${isDarkMode ? 'border-gray-700 hover:bg-gray-700' : 'border-gray-100 hover:bg-gray-50'}`}>
-                    <div className="flex">
-                      <div className="flex-shrink-0">
-                        <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-blue-500 dark:text-blue-300">
-                          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z" />
-                          </svg>
-                        </div>
-                      </div>
-                      <div className="ml-3">
-                        <p className="text-sm font-medium">New referral signed up</p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">John Doe joined through your link</p>
-                        <p className="text-xs text-blue-600 dark:text-blue-400">1 hour ago</p>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            )}
+            </div>
           </div>
 
-          {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
-            className={`p-2 rounded-full ${isDarkMode ? 'hover:bg-gray-800 text-gray-300' : 'hover:bg-gray-100 text-gray-600'} transition-colors`}
-            aria-label="Toggle dark mode"
+            className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none"
           >
-            {isDarkMode ? (
+            {theme === 'light' ? (
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
               </svg>
@@ -152,75 +53,27 @@ const Navbar: React.FC<NavbarProps> = ({ isCollapsed, toggleSidebar }) => {
             )}
           </button>
 
-          {/* User Profile */}
           <div className="relative">
-            <button
-              onClick={toggleUserMenu}
-              className="flex items-center focus:outline-none"
-              aria-label="User menu"
-            >
-              <div className="relative">
-                <img
-                  src="https://randomuser.me/api/portraits/men/2.jpg"
-                  alt="User"
-                  className="w-8 h-8 rounded-full border-2 border-transparent hover:border-blue-500 transition-all"
-                />
-                <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border border-white dark:border-gray-900"></div>
-              </div>
+            <button className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none">
+              <span className="sr-only">Notifications</span>
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-5-5-5 5h5zm0 0v-1.8c0-2.4-2-4.2-4.5-4.2S6 13.8 6 16.2V17" />
+              </svg>
             </button>
+            <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
+              3
+            </span>
+          </div>
 
-            {showUserMenu && (
-              <div className={`absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 z-20 ${isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'}`}>
-                <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
-                  <p className="text-sm font-medium">Alex Johnson</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">alex.johnson@example.com</p>
-                </div>
-                <a href="#" className={`block px-4 py-2 text-sm ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}>
-                  Profile
-                </a>
-                <a href="#" className={`block px-4 py-2 text-sm ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}>
-                  Settings
-                </a>
-                <a href="#" className={`block px-4 py-2 text-sm ${isDarkMode ? 'hover:bg-gray-700 text-red-400' : 'hover:bg-gray-100 text-red-600'}`}>
-                  Sign out
-                </a>
-              </div>
-            )}
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center">
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">JD</span>
+            </div>
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">John Doe</span>
           </div>
         </div>
       </div>
     </nav>
-  );
-};
-
-interface NavItemProps {
-  text: string;
-  isActive?: boolean;
-  hasDropdown?: boolean;
-}
-
-const NavItem: React.FC<NavItemProps> = ({ text, isActive = false, hasDropdown = false }) => {
-  const { isDarkMode } = useTheme();
-
-  return (
-    <div className="relative group">
-      <button
-        className={`px-3 py-2 rounded-md text-sm font-medium flex items-center transition-all duration-200 ${isActive
-          ? isDarkMode
-            ? 'bg-blue-600 text-white shadow-sm'
-            : 'bg-blue-100 text-blue-700 shadow-sm'
-          : isDarkMode
-            ? 'text-gray-300 hover:bg-gray-700 hover:text-white'
-            : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}`}
-      >
-        {text}
-        {hasDropdown && (
-          <svg className="ml-1 w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
-        )}
-      </button>
-    </div>
   );
 };
 

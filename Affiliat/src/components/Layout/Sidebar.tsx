@@ -1,241 +1,235 @@
-import React, { useState } from 'react';
+
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../../contexts/ThemeContext';
-import { sidebarConfig, MenuItem } from '../../config/sidebarConfig';
 
-interface SidebarProps {
-  isCollapsed: boolean;
-  toggleSidebar: () => void;
+interface SidebarItem {
+  id: string;
+  label: string;
+  icon: React.ReactNode;
+  href: string;
+  badge?: string;
+  children?: SidebarItem[];
 }
 
-interface SidebarItemProps extends MenuItem {
-  isCollapsed: boolean;
-}
-
-const SidebarHeading: React.FC<{ text: string; isCollapsed: boolean }> = ({ text, isCollapsed }) => {
-  const { isDarkMode } = useTheme();
-
-  if (isCollapsed) return null;
-
-  return (
-    <div className={`px-4 py-2 mt-6 mb-2 text-xs font-semibold uppercase tracking-wider ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-      {text}
-    </div>
-  );
-};
-
-const SidebarItem: React.FC<SidebarItemProps> = ({
-  icon,
-  text,
-  isActive = false,
-  isCollapsed,
-  onClick,
-  hasSubMenu = false,
-  subMenuItems = [],
-  badge
-}) => {
-  const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
-  const { isDarkMode, colorScheme } = useTheme();
-
-  const toggleSubMenu = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (hasSubMenu && !isCollapsed) {
-      setIsSubMenuOpen(!isSubMenuOpen);
-    }
-  };
-
-  const handleItemClick = () => {
-    if (onClick) {
-      onClick();
-    }
-    if (hasSubMenu && !isCollapsed) {
-      setIsSubMenuOpen(!isSubMenuOpen);
-    }
-  };
-
-  const getActiveColor = () => {
-    if (isDarkMode) {
-      switch (colorScheme) {
-        case 'blue': return 'bg-blue-600 text-white shadow-lg';
-        case 'green': return 'bg-green-600 text-white shadow-lg';
-        case 'purple': return 'bg-purple-600 text-white shadow-lg';
-        case 'red': return 'bg-red-600 text-white shadow-lg';
-        default: return 'bg-blue-600 text-white shadow-lg';
-      }
-    } else {
-      switch (colorScheme) {
-        case 'blue': return 'bg-blue-100 text-blue-800 shadow-sm';
-        case 'green': return 'bg-green-100 text-green-800 shadow-sm';
-        case 'purple': return 'bg-purple-100 text-purple-800 shadow-sm';
-        case 'red': return 'bg-red-100 text-red-800 shadow-sm';
-        default: return 'bg-blue-100 text-blue-800 shadow-sm';
-      }
-    }
-  };
-
-  return (
-    <div className="mb-1 group relative">
-      <div
-        onClick={handleItemClick}
-        className={`flex items-center ${isCollapsed ? 'justify-center px-2' : 'px-4'} py-3 rounded-lg cursor-pointer transition-all duration-200 ${isActive
-          ? getActiveColor()
-          : isDarkMode
-            ? 'text-gray-300 hover:bg-gray-800 hover:text-white'
-            : 'text-gray-700 hover:bg-gray-100'}`}
-      >
-        <div className={`flex-shrink-0 ${isActive ? '' : isDarkMode ? 'text-gray-400' : 'text-gray-500'} ${isCollapsed ? 'w-5 h-5' : ''}`}>
-          {icon}
-        </div>
-        {!isCollapsed && (
-          <div className="ml-3 flex-grow flex justify-between items-center">
-            <span className="font-medium text-sm">
-              {text}
-            </span>
-            <div className="flex items-center space-x-2">
-              {badge && (
-                <span className={`px-2 py-1 text-xs rounded-full ${isDarkMode ? 'bg-gray-700 text-gray-300' : 'bg-gray-200 text-gray-600'}`}>
-                  {badge}
-                </span>
-              )}
-              {hasSubMenu && (
-                <svg
-                  className={`w-4 h-4 transform transition-transform duration-200 ${isSubMenuOpen ? 'rotate-180' : ''} ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              )}
-            </div>
-          </div>
-        )}
-      </div>
-
-      {isCollapsed && (
-        <div className="absolute left-full ml-2 top-0 z-50 w-auto p-2 rounded-md shadow-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-          <div className={`px-3 py-2 rounded-md text-sm font-medium ${isDarkMode ? 'bg-gray-800 text-white border border-gray-700' : 'bg-white text-gray-900 border border-gray-200 shadow-lg'}`}>
-            {text}
-            {badge && <span className="ml-2 text-xs opacity-75">{badge}</span>}
-          </div>
-        </div>
-      )}
-
-      {hasSubMenu && !isCollapsed && isSubMenuOpen && (
-        <div className={`ml-8 mt-1 space-y-1 rounded-md overflow-hidden ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-          {subMenuItems.map((item, index) => (
-            <a
-              href={item.path}
-              key={index}
-              className={`py-2 px-3 block text-sm cursor-pointer transition-colors rounded-md ${isDarkMode ? 'hover:bg-gray-800 hover:text-white' : 'hover:bg-gray-100'}`}
-              onClick={item.onClick}
-            >
-              {item.text}
-            </a>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
-
-const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
-  const { isDarkMode, colorScheme } = useTheme();
+const Sidebar: React.FC = () => {
   const location = useLocation();
+  const { theme } = useTheme();
+  const [isCollapsed, setIsCollapsed] = React.useState(false);
 
-  const getAccentColor = () => {
-    switch (colorScheme) {
-      case 'blue': return 'text-blue-500';
-      case 'green': return 'text-green-500';
-      case 'purple': return 'text-purple-500';
-      case 'red': return 'text-red-500';
-      default: return 'text-blue-500';
+  const sidebarItems: SidebarItem[] = [
+    {
+      id: 'overview',
+      label: 'OVERVIEW',
+      icon: null,
+      href: '#',
+      children: [
+        {
+          id: 'dashboard',
+          label: 'Dashboard',
+          icon: (
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
+            </svg>
+          ),
+          href: '/dashboard'
+        },
+        {
+          id: 'earnings',
+          label: 'Earnings',
+          icon: (
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clipRule="evenodd" />
+            </svg>
+          ),
+          href: '/earnings'
+        },
+        {
+          id: 'analytics',
+          label: 'Analytics',
+          icon: (
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
+            </svg>
+          ),
+          href: '/analytics'
+        }
+      ]
+    },
+    {
+      id: 'marketing',
+      label: 'MARKETING',
+      icon: null,
+      href: '#',
+      children: [
+        {
+          id: 'affiliate-links',
+          label: 'Affiliate Links',
+          icon: (
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clipRule="evenodd" />
+            </svg>
+          ),
+          href: '/links'
+        },
+        {
+          id: 'referrals',
+          label: 'Referrals',
+          icon: (
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+            </svg>
+          ),
+          href: '/referrals',
+          badge: '12'
+        },
+        {
+          id: 'marketing-tools',
+          label: 'Marketing Tools',
+          icon: (
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M3 4a1 1 0 011-1h4a1 1 0 010 2H6.414l2.293 2.293a1 1 0 01-1.414 1.414L5 6.414V8a1 1 0 01-2 0V4zm9 1a1 1 0 010-2h4a1 1 0 011 1v4a1 1 0 01-2 0V6.414l-2.293 2.293a1 1 0 11-1.414-1.414L13.586 5H12zm-9 7a1 1 0 012 0v1.586l2.293-2.293a1 1 0 111.414 1.414L6.414 15H8a1 1 0 010 2H4a1 1 0 01-1-1v-4zm13-1a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 010-2h1.586l-2.293-2.293a1 1 0 111.414-1.414L15.586 13V12a1 1 0 011-1z" clipRule="evenodd" />
+            </svg>
+          ),
+          href: '/marketing'
+        }
+      ]
+    },
+    {
+      id: 'payments',
+      label: 'PAYMENTS',
+      icon: null,
+      href: '#',
+      children: [
+        {
+          id: 'payouts',
+          label: 'Payouts',
+          icon: (
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+            </svg>
+          ),
+          href: '/payouts'
+        }
+      ]
+    },
+    {
+      id: 'account',
+      label: 'ACCOUNT',
+      icon: null,
+      href: '#',
+      children: [
+        {
+          id: 'profile',
+          label: 'Profile',
+          icon: (
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+            </svg>
+          ),
+          href: '/profile'
+        },
+        {
+          id: 'settings',
+          label: 'Settings',
+          icon: (
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
+            </svg>
+          ),
+          href: '/settings'
+        },
+        {
+          id: 'support',
+          label: 'Support',
+          icon: (
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-2 0c0 .993-.241 1.929-.668 2.754l-1.524-1.525a3.997 3.997 0 00.078-2.183l1.562-1.562C15.802 8.249 16 9.1 16 10zm-5.165 3.913l1.58 1.58A5.98 5.98 0 0110 16a5.976 5.976 0 01-2.516-.552l1.562-1.562a4.006 4.006 0 001.789.027zm-4.677-2.796a4.002 4.002 0 01-.041-2.08l-1.56-1.56C4.198 8.249 4 9.1 4 10c0 .954.223 1.856.619 2.657l1.539-1.54zm1.088-6.45A5.974 5.974 0 0110 4c.954 0 1.856.223 2.657.619l-1.54 1.54a4.002 4.002 0 00-2.346.033L7.246 4.667z" clipRule="evenodd" />
+            </svg>
+          ),
+          href: '/support'
+        }
+      ]
     }
-  };
+  ];
 
-  const renderSidebarItems = () => {
-    return sidebarConfig.map((item) => {
-      if (item.type === 'heading') {
+  const renderSidebarItems = (items: SidebarItem[], level = 0) => {
+    return items.map((item) => {
+      if (item.children) {
         return (
-          <SidebarHeading 
-            key={item.id} 
-            text={item.text} 
-            isCollapsed={isCollapsed} 
-          />
+          <div key={item.id} className="mb-4">
+            {item.label && (
+              <div className="px-3 py-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                {item.label}
+              </div>
+            )}
+            {renderSidebarItems(item.children, level + 1)}
+          </div>
         );
       }
 
-      const getBasePath = () => {
-        switch (item.id) {
-          case 'dashboard': return '/dashboard';
-          case 'earnings': return '/earnings';
-          case 'analytics': return '/analytics';
-          case 'links': return '/links';
-          case 'referrals': return '/referrals';
-          case 'marketing-tools': return '/marketing';
-          case 'payouts': return '/payouts';
-          case 'profile': return '/profile';
-          case 'settings': return '/settings';
-          case 'support': return '/support';
-          default: return '/';
-        }
-      };
-
-      const isActive = location.pathname.startsWith(getBasePath()) || (item.id === 'dashboard' && location.pathname === '/');
-      const hasSubMenu = item.hasSubMenu && item.subMenuItems;
+      const isActive = location.pathname === item.href || location.pathname.startsWith(item.href + '/');
 
       return (
-        
-          
-            
+        <Link
+          key={item.id}
+          to={item.href}
+          className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+            isActive
+              ? 'bg-red-600 text-white'
+              : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'
+          }`}
+        >
+          {item.icon && (
+            <span className="mr-3 flex-shrink-0">
               {item.icon}
-            
-            {!isCollapsed && (
-              
-                {item.text}
-              
-            )}
-          
-        
+            </span>
+          )}
+          <span className={`${isCollapsed ? 'hidden' : 'block'}`}>
+            {item.label}
+          </span>
+          {item.badge && (
+            <span className={`ml-auto inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 ${isCollapsed ? 'hidden' : 'block'}`}>
+              {item.badge}
+            </span>
+          )}
+        </Link>
       );
     });
   };
 
   return (
-    <div
-      className={`sidebar h-screen fixed left-0 top-0 z-30 transition-all duration-300 ease-in-out ${isDarkMode ? 'bg-gray-900' : 'bg-white'} ${isCollapsed ? 'w-16' : 'w-64'} border-r ${isDarkMode ? 'border-gray-800' : 'border-gray-200'} shadow-lg`}
-    >
-      <div className={`flex items-center ${isCollapsed ? 'justify-center px-2' : 'justify-between px-4'} h-16 ${isDarkMode ? 'border-gray-800' : 'border-gray-200'} border-b`}>
-        <div className="flex items-center">
-          <div className="flex-shrink-0">
-            <svg className={`w-8 h-8 ${getAccentColor()}`} fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2L2 7v10c0 5.55 3.84 9.74 9 10.74 5.16-1 9-5.19 9-10.74V7l-10-5z"/>
-            </svg>
-          </div>
-          {!isCollapsed && (
-            <span className="ml-2 text-xl font-bold tracking-wide">
-              AFFILIATE
-            </span>
-          )}
-        </div>
-        <button
-          onClick={toggleSidebar}
-          className={`p-1.5 rounded-md ${isDarkMode ? 'hover:bg-gray-800 text-gray-400 hover:text-white' : 'hover:bg-gray-100 text-gray-500 hover:text-gray-700'} focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-700 transition-all ${isCollapsed ? 'hidden lg:block' : ''}`}
-        >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            {isCollapsed ? (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
-            ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+    <div className={`sidebar h-screen fixed left-0 top-0 z-30 transition-all duration-300 ease-in-out ${
+      isCollapsed ? 'w-16' : 'w-64'
+    }`}>
+      <div className="h-full bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col">
+        {/* Header */}
+        <div className="flex items-center px-4 py-4 border-b border-gray-200 dark:border-gray-700">
+          <div className="flex items-center">
+            <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-sm">A</span>
+            </div>
+            {!isCollapsed && (
+              <span className="ml-3 text-lg font-semibold text-gray-900 dark:text-white">
+                AFFILIATE
+              </span>
             )}
-          </svg>
-        </button>
-      </div>
-
-      <div className={`${isCollapsed ? 'p-2' : 'p-4'} overflow-y-auto h-[calc(100vh-4rem)]`}>
-        <div className="space-y-1">
-          {renderSidebarItems()}
+          </div>
+          <button
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            className="ml-auto p-1.5 rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none"
+          >
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
+            </svg>
+          </button>
         </div>
+
+        {/* Navigation */}
+        <nav className="flex-1 px-2 py-4 space-y-1 overflow-y-auto">
+          {renderSidebarItems(sidebarItems)}
+        </nav>
       </div>
     </div>
   );
