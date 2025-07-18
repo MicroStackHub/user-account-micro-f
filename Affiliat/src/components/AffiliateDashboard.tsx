@@ -3,6 +3,8 @@ import React from 'react';
 import Layout from './Layout/Layout';
 import Analytics from './Analytics/Analytics';
 import DataTable from './DataTable/DataTable';
+import ConversionChart from './Charts/ConversionChart';
+import TopReferrers from './Charts/TopReferrers';
 
 const AffiliateDashboard: React.FC = () => {
   return (
@@ -18,6 +20,11 @@ const AffiliateDashboard: React.FC = () => {
         </div>
 
         <Analytics />
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <ConversionChart />
+          <TopReferrers />
+        </div>
 
         <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
