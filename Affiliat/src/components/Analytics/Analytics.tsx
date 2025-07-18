@@ -1,114 +1,113 @@
 
-<old_str>import React from 'react';
+// import React from 'react';
 
-const Analytics: React.FC = () => {
-  const stats = [
-    {
-      title: 'Total Earnings',
-      value: '$12,345.67',
-      change: '+12.5%',
-      trend: 'up',
-      icon: '💰',
-      description: 'All time earnings'
-    },
-    {
-      title: 'This Month',
-      value: '$1,234.56',
-      change: '+8.3%',
-      trend: 'up',
-      icon: '📈',
-      description: 'Current month earnings'
-    },
-    {
-      title: 'Total Referrals',
-      value: '1,234',
-      change: '+15.2%',
-      trend: 'up',
-      icon: '👥',
-      description: 'All referrals made'
-    },
-    {
-      title: 'Active Referrals',
-      value: '567',
-      change: '+5.8%',
-      trend: 'up',
-      icon: '✅',
-      description: 'Currently active'
-    },
-    {
-      title: 'Conversion Rate',
-      value: '3.2%',
-      change: '+2.1%',
-      trend: 'up',
-      icon: '🎯',
-      description: 'Recent conversions'
-    },
-    {
-      title: 'Avg Order Value',
-      value: '$89.50',
-      change: '-3.2%',
-      trend: 'down',
-      icon: '🛒',
-      description: 'Average purchase amount'
-    }
-  ];
+// const Analytics: React.FC = () => {
+//   const stats = [
+//     {
+//       title: 'Total Earnings',
+//       value: '$12,345.67',
+//       change: '+12.5%',
+//       trend: 'up',
+//       icon: '💰',
+//       description: 'All time earnings'
+//     },
+//     {
+//       title: 'This Month',
+//       value: '$1,234.56',
+//       change: '+8.3%',
+//       trend: 'up',
+//       icon: '📈',
+//       description: 'Current month earnings'
+//     },
+//     {
+//       title: 'Total Referrals',
+//       value: '1,234',
+//       change: '+15.2%',
+//       trend: 'up',
+//       icon: '👥',
+//       description: 'All referrals made'
+//     },
+//     {
+//       title: 'Active Referrals',
+//       value: '567',
+//       change: '+5.8%',
+//       trend: 'up',
+//       icon: '✅',
+//       description: 'Currently active'
+//     },
+//     {
+//       title: 'Conversion Rate',
+//       value: '3.2%',
+//       change: '+2.1%',
+//       trend: 'up',
+//       icon: '🎯',
+//       description: 'Recent conversions'
+//     },
+//     {
+//       title: 'Avg Order Value',
+//       value: '$89.50',
+//       change: '-3.2%',
+//       trend: 'down',
+//       icon: '🛒',
+//       description: 'Average purchase amount'
+//     }
+//   ];
 
-  const timeframes = ['7 Days', '30 Days', '90 Days', '1 Year'];
+//   const timeframes = ['7 Days', '30 Days', '90 Days', '1 Year'];
 
-  return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Analytics Overview</h2>
-          <p className="text-gray-600 dark:text-gray-400 mt-1">Track your performance metrics</p>
-        </div>
-        <div className="flex space-x-2">
-          {timeframes.map((timeframe) => (
-            <button
-              key={timeframe}
-              className="px-3 py-1.5 text-sm font-medium rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 transition-colors"
-            >
-              {timeframe}
-            </button>
-          ))}
-        </div>
-      </div>
+//   return (
+//     <div className="space-y-6">
+//       <div className="flex items-center justify-between">
+//         <div>
+//           <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Analytics Overview</h2>
+//           <p className="text-gray-600 dark:text-gray-400 mt-1">Track your performance metrics</p>
+//         </div>
+//         <div className="flex space-x-2">
+//           {timeframes.map((timeframe) => (
+//             <button
+//               key={timeframe}
+//               className="px-3 py-1.5 text-sm font-medium rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 transition-colors"
+//             >
+//               {timeframe}
+//             </button>
+//           ))}
+//         </div>
+//       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {stats.map((stat, index) => (
-          <div
-            key={index}
-            className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 hover:shadow-lg transition-shadow"
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <span className="text-2xl">{stat.icon}</span>
-                <div>
-                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{stat.title}</p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">{stat.value}</p>
-                </div>
-              </div>
-              <div className={`flex items-center space-x-1 px-2 py-1 rounded-full text-sm font-medium ${
-                stat.trend === 'up' 
-                  ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                  : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-              }`}>
-                <span className={`text-xs ${stat.trend === 'up' ? '↗️' : '↘️'}`}>
-                  {stat.trend === 'up' ? '↗️' : '↘️'}
-                </span>
-                <span>{stat.change}</span>
-              </div>
-            </div>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">{stat.description}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
+//       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+//         {stats.map((stat, index) => (
+//           <div
+//             key={index}
+//             className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 hover:shadow-lg transition-shadow"
+//           >
+//             <div className="flex items-center justify-between">
+//               <div className="flex items-center space-x-3">
+//                 <span className="text-2xl">{stat.icon}</span>
+//                 <div>
+//                   <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{stat.title}</p>
+//                   <p className="text-2xl font-bold text-gray-900 dark:text-white">{stat.value}</p>
+//                 </div>
+//               </div>
+//               <div className={`flex items-center space-x-1 px-2 py-1 rounded-full text-sm font-medium ${stat.trend === 'up'
+//                   ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+//                   : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+//                 }`}>
+//                 <span className={`text-xs ${stat.trend === 'up' ? '↗️' : '↘️'}`}>
+//                   {stat.trend === 'up' ? '↗️' : '↘️'}
+//                 </span>
+//                 <span>{stat.change}</span>
+//               </div>
+//             </div>
+//             <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">{stat.description}</p>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
 
-export default Analytics;</old_str>
-<new_str>import React from 'react';
+// export default Analytics; 
+import React from 'react';
 
 const Analytics: React.FC = () => {
   const stats = [
@@ -212,11 +211,10 @@ const Analytics: React.FC = () => {
           {timeframes.map((timeframe, index) => (
             <button
               key={timeframe}
-              className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
-                index === 1 
-                  ? 'bg-white dark:bg-gray-700 text-red-600 dark:text-red-400 shadow-sm'
-                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-gray-700/50'
-              }`}
+              className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${index === 1
+                ? 'bg-white dark:bg-gray-700 text-red-600 dark:text-red-400 shadow-sm'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-gray-700/50'
+                }`}
             >
               {timeframe}
             </button>
@@ -232,18 +230,17 @@ const Analytics: React.FC = () => {
           >
             <div className="flex items-start justify-between mb-4">
               {stat.icon}
-              <div className={`flex items-center space-x-1 px-3 py-1.5 rounded-full text-sm font-semibold ${
-                stat.trend === 'up' 
-                  ? 'bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-                  : 'bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400'
-              }`}>
+              <div className={`flex items-center space-x-1 px-3 py-1.5 rounded-full text-sm font-semibold ${stat.trend === 'up'
+                ? 'bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+                : 'bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+                }`}>
                 <svg className={`w-4 h-4 ${stat.trend === 'up' ? 'rotate-0' : 'rotate-180'}`} fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L10 4.414 6.707 7.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
                 </svg>
                 <span>{stat.change}</span>
               </div>
             </div>
-            
+
             <div className="space-y-2">
               <h3 className="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wide">
                 {stat.title}
@@ -262,4 +259,4 @@ const Analytics: React.FC = () => {
   );
 };
 
-export default Analytics;</new_str>
+export default Analytics; 
