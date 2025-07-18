@@ -19,3 +19,12 @@ mode = "sequential"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "cd account && npm install && npm run dev"
+
+[[workflows.workflow]]
+name = "Run Affiliat"
+author = 45191220
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd Affiliat && npm install && npm run dev"
