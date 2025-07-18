@@ -9,7 +9,7 @@ externalPort = 80
 exposeLocalhost = true
 
 [workflows]
-runButton = "Run Account App"
+runButton = "Run Affiliat"
 
 [[workflows.workflow]]
 name = "Run Account App"

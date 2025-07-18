@@ -1,50 +1,168 @@
 
-import React from 'react';
+import React, { useState } from 'react';
+import { useTheme } from '../contexts/ThemeContext';
 
 const Settings: React.FC = () => {
+  const { theme, toggleTheme } = useTheme();
+  const [activeTab, setActiveTab] = useState('account');
+
+  const tabs = [
+    { id: 'account', name: 'Account' },
+    { id: 'security', name: 'Security' },
+    { id: 'notifications', name: 'Notifications' },
+  ];
+
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Settings</h1>
         <p className="text-gray-600 dark:text-gray-400 mt-1">
-          Configure your account preferences and settings
+          Manage your account settings and preferences
         </p>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Notification Preferences</h3>
-        <div className="space-y-4">
-          {[
-            { id: 'email-notifications', label: 'Email Notifications', checked: true },
-            { id: 'push-notifications', label: 'Push Notifications', checked: false },
-            { id: 'sms-notifications', label: 'SMS Notifications', checked: true },
-          ].map((item) => (
-            <div key={item.id} className="flex items-center">
-              <input
-                id={item.id}
-                type="checkbox"
-                defaultChecked={item.checked}
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-              />
-              <label htmlFor={item.id} className="ml-2 block text-sm text-gray-900 dark:text-white">
-                {item.label}
-              </label>
-            </div>
+      {/* Tab Navigation */}
+      <div className="border-b border-gray-200 dark:border-gray-700">
+        <nav className="-mb-px flex space-x-8">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                activeTab === tab.id
+                  ? 'border-red-500 text-red-600 dark:text-red-400'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
+              }`}
+            >
+              {tab.name}
+            </button>
           ))}
-        </div>
+        </nav>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Security Settings</h3>
-        <div className="space-y-4">
-          <button className="w-full text-left px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700">
-            Change Password
-          </button>
-          <button className="w-full text-left px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700">
-            Enable Two-Factor Authentication
-          </button>
+      {activeTab === 'account' && (
+        <div className="space-y-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Theme Preferences</h3>
+            <div className="flex items-center justify-between">
+              <div>
+                <h4 className="text-sm font-medium text-gray-900 dark:text-white">Dark Mode</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Toggle between light and dark themes</p>
+              </div>
+              <button
+                onClick={toggleTheme}
+                className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                  theme === 'dark' ? 'bg-red-600' : 'bg-gray-200'
+                }`}
+              >
+                <span className={`${
+                  theme === 'dark' ? 'translate-x-5' : 'translate-x-0'
+                } pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out`}></span>
+              </button>
+            </div>
+          </div>
+
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Danger Zone</h3>
+            <div className="space-y-4">
+              <button className="w-full text-left p-4 border border-red-200 dark:border-red-800 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-all">
+                <h4 className="text-sm font-medium text-red-600 dark:text-red-400">Delete Account</h4>
+                <p className="text-sm text-red-500 dark:text-red-400">Permanently delete your account and all data</p>
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
+
+      {activeTab === 'security' && (
+        <div className="space-y-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Password</h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Current Password
+                </label>
+                <input
+                  type="password"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  New Password
+                </label>
+                <input
+                  type="password"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Confirm New Password
+                </label>
+                <input
+                  type="password"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
+                />
+              </div>
+              <button className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all">
+                Update Password
+              </button>
+            </div>
+          </div>
+
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Two-Factor Authentication</h3>
+            <div className="flex items-center justify-between">
+              <div>
+                <h4 className="text-sm font-medium text-gray-900 dark:text-white">Enable 2FA</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Add an extra layer of security to your account</p>
+              </div>
+              <button className="bg-gray-200 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none">
+                <span className="translate-x-0 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'notifications' && (
+        <div className="space-y-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Email Notifications</h3>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="text-sm font-medium text-gray-900 dark:text-white">Commission Alerts</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Get notified when you earn commissions</p>
+                </div>
+                <button className="bg-red-600 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none">
+                  <span className="translate-x-5 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+                </button>
+              </div>
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="text-sm font-medium text-gray-900 dark:text-white">Weekly Reports</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Receive weekly performance summaries</p>
+                </div>
+                <button className="bg-red-600 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none">
+                  <span className="translate-x-5 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+                </button>
+              </div>
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="text-sm font-medium text-gray-900 dark:text-white">Marketing Updates</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Get tips and promotional content</p>
+                </div>
+                <button className="bg-gray-200 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none">
+                  <span className="translate-x-0 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

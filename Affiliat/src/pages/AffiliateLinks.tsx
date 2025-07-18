@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Link, useLocation, Routes, Route } from 'react-router-dom';
+import { Routes, Route, Link, useLocation } from 'react-router-dom';
 
 const GenerateLinks: React.FC = () => {
   const [productUrl, setProductUrl] = useState('');
@@ -49,11 +49,11 @@ const GenerateLinks: React.FC = () => {
                   type="text"
                   value={generatedLink}
                   readOnly
-                  className="flex-1 px-4 py-2 bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-500 rounded-lg text-gray-900 dark:text-white"
+                  className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-600 dark:text-white"
                 />
                 <button
                   onClick={copyToClipboard}
-                  className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-all"
+                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all"
                 >
                   Copy
                 </button>
@@ -96,16 +96,28 @@ const MyLinks: React.FC = () => {
             <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
               {links.map((link) => (
                 <tr key={link.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{link.product}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                    <span className="truncate max-w-xs block">{link.link}</span>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                    {link.product}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{link.clicks}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{link.conversions}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-green-600 dark:text-green-400">{link.earnings}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm space-x-2">
-                    <button className="text-red-600 hover:text-red-700 font-medium">Edit</button>
-                    <button className="text-gray-600 hover:text-gray-700 font-medium">Copy</button>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300 truncate max-w-xs">
+                    {link.link}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                    {link.clicks}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                    {link.conversions}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600 dark:text-green-400">
+                    {link.earnings}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <button className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 mr-3">
+                      Edit
+                    </button>
+                    <button className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">
+                      Copy
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -118,47 +130,39 @@ const MyLinks: React.FC = () => {
 };
 
 const LinkPerformance: React.FC = () => {
+  const performanceData = [
+    { period: 'Last 7 days', clicks: 89, conversions: 5, rate: '5.6%', earnings: '$245.67' },
+    { period: 'Last 30 days', clicks: 342, conversions: 18, rate: '5.3%', earnings: '$892.34' },
+    { period: 'Last 90 days', clicks: 1024, conversions: 51, rate: '5.0%', earnings: '$2,567.89' },
+    { period: 'All time', clicks: 2156, conversions: 108, rate: '5.0%', earnings: '$5,234.56' },
+  ];
+
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Clicks</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">688</p>
-            </div>
-            <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
-              <span className="text-2xl">👆</span>
-            </div>
-          </div>
-          <p className="text-sm text-green-600 dark:text-green-400 mt-2">+12.5% from last month</p>
-        </div>
-
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Conversion Rate</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">4.3%</p>
-            </div>
-            <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
-              <span className="text-2xl">📈</span>
-            </div>
-          </div>
-          <p className="text-sm text-green-600 dark:text-green-400 mt-2">+2.1% from last month</p>
-        </div>
-
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Earnings</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">$3,126.80</p>
-            </div>
-            <div className="w-12 h-12 bg-yellow-100 dark:bg-yellow-900 rounded-lg flex items-center justify-center">
-              <span className="text-2xl">💰</span>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {performanceData.map((data, index) => (
+          <div key={index} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
+            <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">{data.period}</h4>
+            <div className="space-y-2">
+              <div className="flex justify-between">
+                <span className="text-xs text-gray-600 dark:text-gray-400">Clicks:</span>
+                <span className="text-xs font-medium text-gray-900 dark:text-white">{data.clicks}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-xs text-gray-600 dark:text-gray-400">Conversions:</span>
+                <span className="text-xs font-medium text-gray-900 dark:text-white">{data.conversions}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-xs text-gray-600 dark:text-gray-400">Rate:</span>
+                <span className="text-xs font-medium text-green-600 dark:text-green-400">{data.rate}</span>
+              </div>
+              <div className="flex justify-between border-t border-gray-200 dark:border-gray-700 pt-2">
+                <span className="text-xs font-medium text-gray-600 dark:text-gray-400">Earnings:</span>
+                <span className="text-sm font-bold text-red-600 dark:text-red-400">{data.earnings}</span>
+              </div>
             </div>
           </div>
-          <p className="text-sm text-green-600 dark:text-green-400 mt-2">+8.7% from last month</p>
-        </div>
+        ))}
       </div>
     </div>
   );
@@ -168,9 +172,9 @@ const AffiliateLinks: React.FC = () => {
   const location = useLocation();
   
   const tabs = [
-    { name: 'Generate Links', path: '/affiliate-links' },
-    { name: 'My Links', path: '/affiliate-links/my-links' },
-    { name: 'Link Performance', path: '/affiliate-links/performance' },
+    { name: 'Generate Links', path: '/links' },
+    { name: 'My Links', path: '/links/my-links' },
+    { name: 'Link Performance', path: '/links/performance' },
   ];
 
   return (
