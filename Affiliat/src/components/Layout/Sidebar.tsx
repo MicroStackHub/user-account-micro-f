@@ -1,8 +1,7 @@
-
 import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../../contexts/ThemeContext';
-import { sidebarConfig } from '../../config/sidebarConfig';
-import type { MenuItem, SubMenuItem } from '../../config/sidebarConfig';
+import { sidebarConfig, MenuItem } from '../../config/sidebarConfig';
 
 interface SidebarProps {
   isCollapsed: boolean;
@@ -142,6 +141,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
 
 const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
   const { isDarkMode, colorScheme } = useTheme();
+  const location = useLocation();
 
   const getAccentColor = () => {
     switch (colorScheme) {
@@ -164,13 +164,39 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
           />
         );
       }
-      
+
+      const getBasePath = () => {
+        switch (item.id) {
+          case 'dashboard': return '/dashboard';
+          case 'earnings': return '/earnings';
+          case 'analytics': return '/analytics';
+          case 'links': return '/links';
+          case 'referrals': return '/referrals';
+          case 'marketing-tools': return '/marketing';
+          case 'payouts': return '/payouts';
+          case 'profile': return '/profile';
+          case 'settings': return '/settings';
+          case 'support': return '/support';
+          default: return '/';
+        }
+      };
+
+      const isActive = location.pathname.startsWith(getBasePath()) || (item.id === 'dashboard' && location.pathname === '/');
+      const hasSubMenu = item.hasSubMenu && item.subMenuItems;
+
       return (
-        <SidebarItem
-          key={item.id}
-          {...item}
-          isCollapsed={isCollapsed}
-        />
+        
+          
+            
+              {item.icon}
+            
+            {!isCollapsed && (
+              
+                {item.text}
+              
+            )}
+          
+        
       );
     });
   };
