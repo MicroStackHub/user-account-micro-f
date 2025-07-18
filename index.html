@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 3rem;
+            font-size: 1.2rem;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .app-card {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .app-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+        
+        .app-card:hover::before {
+            left: 100%;
+        }
+        
+        .app-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border-color: #667eea;
+        }
+        
+        .app-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .app-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .app-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+        
+        .app-description {
+            color: #6b7280;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-top: 1rem;
+            background: #10b981;
+            color: white;
+        }
+        
+        .footer {
+            text-align: center;
+            color: #6b7280;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Application Hub</h1>
+        <p class="subtitle">Access all your applications from one central location</p>
+        
+        <div class="grid">
+            <div class="app-card">
+                <a href="/account" class="app-link">
+                    <span class="app-icon">👤</span>
+                    <h3 class="app-title">Account</h3>
+                    <p class="app-description">Manage your account settings, profile information, and personal preferences</p>
+                    <span class="status">Online</span>
+                </a>
+            </div>
+            
+            <div class="app-card">
+                <a href="/affiliate" class="app-link">
+                    <span class="app-icon">🤝</span>
+                    <h3 class="app-title">Affiliate</h3>
+                    <p class="app-description">Track earnings, manage referrals, and access marketing tools</p>
+                    <span class="status">Online</span>
+                </a>
+            </div>
+            
+            <div class="app-card">
+                <a href="/dashboard" class="app-link">
+                    <span class="app-icon">📊</span>
+                    <h3 class="app-title">Dashboard</h3>
+                    <p class="app-description">View analytics, reports, and key business metrics</p>
+                    <span class="status">Online</span>
+                </a>
+            </div>
+            
+            <div class="app-card">
+                <a href="/address" class="app-link">
+                    <span class="app-icon">🏠</span>
+                    <h3 class="app-title">Address</h3>
+                    <p class="app-description">Manage shipping addresses and location preferences</p>
+                    <span class="status">Online</span>
+                </a>
+            </div>
+            
+            <div class="app-card">
+                <a href="/gst" class="app-link">
+                    <span class="app-icon">🧾</span>
+                    <h3 class="app-title">GST Management</h3>
+                    <p class="app-description">Set up and manage GST numbers for tax compliance</p>
+                    <span class="status">Online</span>
+                </a>
+            </div>
+            
+            <div class="app-card">
+                <a href="/refund" class="app-link">
+                    <span class="app-icon">💰</span>
+                    <h3 class="app-title">Refunds</h3>
+                    <p class="app-description">Process refunds and manage return policies</p>
+                    <span class="status">Online</span>
+                </a>
+            </div>
+            
+            <div class="app-card">
+                <a href="/wishlist" class="app-link">
+                    <span class="app-icon">❤️</span>
+                    <h3 class="app-title">Wishlist</h3>
+                    <p class="app-description">Save and organize your favorite items</p>
+                    <span class="status">Online</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>All applications are running and ready to use. Click on any card to access the application.</p>
+        </div>
+    </div>
+</body>
+</html>
