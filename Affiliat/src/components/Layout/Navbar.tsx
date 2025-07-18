@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { Link, useLocation } from 'react-router-dom';
@@ -7,46 +8,46 @@ const Navbar: React.FC = () => {
   const location = useLocation();
 
   return (
-    <nav className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-8 py-4 sticky top-0 z-20 backdrop-blur-sm bg-white/95 dark:bg-gray-800/95">
+    <nav className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-8 py-4 sticky top-0 z-20 backdrop-blur-sm bg-white/95 dark:bg-gray-900/95">
       <div className="flex items-center justify-between max-w-none w-full">
         {/* Quick Navigation Pills */}
-        <div className="flex items-center space-x-1 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
+        <div className="flex items-center space-x-1 bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
           <Link 
             to="/dashboard" 
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+            className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
               location.pathname === '/dashboard' || location.pathname === '/' 
                 ? 'bg-red-600 text-white shadow-sm' 
-                : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
+                : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700'
             }`}
           >
             Dashboard
           </Link>
           <Link 
             to="/earnings" 
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+            className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
               location.pathname === '/earnings' 
                 ? 'bg-red-600 text-white shadow-sm' 
-                : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
+                : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700'
             }`}
           >
             Earnings
           </Link>
           <Link 
             to="/analytics" 
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+            className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
               location.pathname === '/analytics' 
                 ? 'bg-red-600 text-white shadow-sm' 
-                : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
+                : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700'
             }`}
           >
             Analytics
           </Link>
           <Link 
-            to="/marketing-tools" 
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-              location.pathname === '/marketing-tools' 
+            to="/marketing" 
+            className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+              location.pathname === '/marketing' 
                 ? 'bg-red-600 text-white shadow-sm' 
-                : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
+                : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700'
             }`}
           >
             Marketing
@@ -64,7 +65,7 @@ const Navbar: React.FC = () => {
             <input
               type="text"
               placeholder="Search affiliate tools..."
-              className="w-80 pl-10 pr-4 py-2.5 text-sm border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
+              className="w-80 pl-10 pr-4 py-2.5 text-sm border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
             />
           </div>
 
@@ -73,7 +74,8 @@ const Navbar: React.FC = () => {
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className="p-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 hover:scale-105"
+              className="p-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 hover:scale-105"
+              aria-label="Toggle theme"
             >
               {theme === 'dark' ? (
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -88,12 +90,12 @@ const Navbar: React.FC = () => {
 
             {/* Notifications */}
             <div className="relative">
-              <button className="p-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 hover:scale-105">
+              <button className="p-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 hover:scale-105">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
                 </svg>
               </button>
-              <div className="absolute -top-1 -right-1 h-5 w-5 bg-red-500 rounded-full flex items-center justify-center ring-2 ring-white dark:ring-gray-800">
+              <div className="absolute -top-1 -right-1 h-5 w-5 bg-red-500 rounded-full flex items-center justify-center ring-2 ring-white dark:ring-gray-900">
                 <span className="text-xs text-white font-semibold">3</span>
               </div>
             </div>
@@ -108,7 +110,7 @@ const Navbar: React.FC = () => {
                 <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center shadow-lg">
                   <span className="text-white font-bold text-sm">JD</span>
                 </div>
-                <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white dark:border-gray-800"></div>
+                <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white dark:border-gray-900"></div>
               </div>
             </div>
           </div>

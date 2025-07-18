@@ -9,56 +9,54 @@ const Dashboard: React.FC = () => {
 
   const stats = [
     {
-      label: 'Total Earnings',
-      value: '$12,549',
+      title: 'Total Earnings',
+      value: '$12,534',
       change: '+12.5%',
-      trend: 'up',
+      changeType: 'positive' as const,
       icon: '💰',
       description: 'All time earnings'
     },
     {
-      label: 'This Month',
-      value: '$3,234',
-      change: '+8.1%',
-      trend: 'up',
-      icon: '📅',
+      title: 'This Month',
+      value: '$3,247',
+      change: '+8.2%',
+      changeType: 'positive' as const,
+      icon: '📈',
       description: 'Current month earnings'
     },
     {
-      label: 'Total Referrals',
+      title: 'Total Referrals',
       value: '1,234',
-      change: '+15.2%',
-      trend: 'up',
+      change: '+15.3%',
+      changeType: 'positive' as const,
       icon: '👥',
       description: 'All referrals made'
     },
     {
-      label: 'Active Referrals',
-      value: '856',
+      title: 'Active Referrals',
+      value: '89',
       change: '+5.8%',
-      trend: 'up',
+      changeType: 'positive' as const,
       icon: '✅',
-      description: 'Currently active'
+      description: 'Currently active referrals'
     },
     {
-      label: 'Conversion Rate',
+      title: 'Conversion Rate',
       value: '4.2%',
       change: '+2.1%',
-      trend: 'up',
-      icon: '📊',
-      description: 'Recent conversion'
+      changeType: 'positive' as const,
+      icon: '🎯',
+      description: 'Recent conversion performance'
     },
     {
-      label: 'Avg Order Value',
-      value: '$185',
+      title: 'Avg Order Value',
+      value: '$127',
       change: '-3.2%',
-      trend: 'down',
-      icon: '💳',
+      changeType: 'negative' as const,
+      icon: '🛒',
       description: 'Average purchase amount'
     }
   ];
-
-  const timeFilters = ['7 Days', '30 Days', '90 Days', '1 Year'];
 
   return (
     <div className="space-y-8">
@@ -68,102 +66,122 @@ const Dashboard: React.FC = () => {
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
             Affiliate Dashboard
           </h1>
-          <p className="mt-2 text-gray-600 dark:text-gray-300">
+          <p className="mt-2 text-gray-600 dark:text-gray-400">
             Track your affiliate performance and earnings
           </p>
         </div>
-        <div className="mt-4 lg:mt-0 flex items-center space-x-3">
-          {timeFilters.map((filter, index) => (
-            <button
-              key={filter}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                index === 1
-                  ? 'bg-red-600 text-white shadow-lg'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-              }`}
-            >
-              {filter}
+        <div className="mt-4 lg:mt-0">
+          <div className="flex items-center space-x-3 bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
+            <button className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md">
+              7 Days
             </button>
-          ))}
+            <button className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+              30 Days
+            </button>
+            <button className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+              90 Days
+            </button>
+            <button className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+              1 Year
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Analytics Overview */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Analytics Overview</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {stats.map((stat, index) => (
-            <div
-              key={stat.label}
-              className="bg-gray-50 dark:bg-gray-700 rounded-xl p-6 border border-gray-200 dark:border-gray-600 hover:shadow-lg transition-all duration-200"
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-xl flex items-center justify-center">
-                    <span className="text-xl">{stat.icon}</span>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{stat.label}</p>
-                    <p className="text-2xl font-bold text-gray-900 dark:text-white">{stat.value}</p>
-                  </div>
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {stats.map((stat, index) => (
+          <div
+            key={index}
+            className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow duration-200"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className="p-2 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                  <span className="text-xl">{stat.icon}</span>
                 </div>
-                <div className={`flex items-center space-x-1 px-2 py-1 rounded-lg text-sm font-medium ${
-                  stat.trend === 'up' 
-                    ? 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400'
-                    : 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400'
-                }`}>
-                  <svg 
-                    className={`w-4 h-4 ${stat.trend === 'up' ? 'rotate-0' : 'rotate-180'}`} 
-                    fill="currentColor" 
-                    viewBox="0 0 20 20"
-                  >
-                    <path fillRule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                  </svg>
-                  <span>{stat.change}</span>
+                <div>
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                    {stat.title}
+                  </p>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                    {stat.value}
+                  </p>
                 </div>
               </div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">{stat.description}</p>
+              <div className={`flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium ${
+                stat.changeType === 'positive'
+                  ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200'
+                  : 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200'
+              }`}>
+                <span>{stat.changeType === 'positive' ? '↗' : '↘'}</span>
+                <span>{stat.change}</span>
+              </div>
             </div>
-          ))}
-        </div>
+            <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+              {stat.description}
+            </p>
+          </div>
+        ))}
       </div>
 
-      {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      {/* Charts Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <EarningsChart />
         <ConversionChart />
       </div>
 
-      {/* Earnings Overview */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Earnings Overview</h2>
-          <div className="flex space-x-2">
-            {['Earnings', 'Commissions', 'Bonuses', 'Referrals'].map((tab, index) => (
-              <button
-                key={tab}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                  index === 0
-                    ? 'bg-red-600 text-white'
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                }`}
-              >
-                {tab}
-              </button>
-            ))}
+      {/* Bottom Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Earnings Overview */}
+        <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Earnings Overview</h3>
+            <div className="flex space-x-2">
+              <button className="px-3 py-1 text-sm bg-red-600 text-white rounded-md">Earnings</button>
+              <button className="px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">Commissions</button>
+              <button className="px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">Bonuses</button>
+            </div>
+          </div>
+          
+          <div className="space-y-4">
+            <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <div>
+                <p className="text-sm font-medium text-gray-900 dark:text-white">Commission Earnings</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400">Last 30 days</p>
+              </div>
+              <div className="text-right">
+                <p className="text-lg font-bold text-gray-900 dark:text-white">$2,847</p>
+                <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2 mt-2">
+                  <div className="bg-red-600 h-2 rounded-full" style={{ width: '75%' }}></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        
-        <div className="space-y-4">
-          <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-6">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Commission Earnings</h3>
-            <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3 mb-2">
-              <div className="bg-gradient-to-r from-red-500 to-red-600 h-3 rounded-full" style={{ width: '75%' }}></div>
-            </div>
-            <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300">
-              <span>$9,412 earned</span>
-              <span>Goal: $12,000</span>
-            </div>
+
+        {/* Quick Actions */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h3>
+          <div className="space-y-3">
+            <button className="w-full text-left p-3 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+              <div className="flex items-center space-x-3">
+                <span className="text-lg">🔗</span>
+                <span className="text-sm font-medium text-gray-900 dark:text-white">Generate New Link</span>
+              </div>
+            </button>
+            <button className="w-full text-left p-3 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+              <div className="flex items-center space-x-3">
+                <span className="text-lg">📊</span>
+                <span className="text-sm font-medium text-gray-900 dark:text-white">View Analytics</span>
+              </div>
+            </button>
+            <button className="w-full text-left p-3 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+              <div className="flex items-center space-x-3">
+                <span className="text-lg">💳</span>
+                <span className="text-sm font-medium text-gray-900 dark:text-white">Request Payout</span>
+              </div>
+            </button>
           </div>
         </div>
       </div>

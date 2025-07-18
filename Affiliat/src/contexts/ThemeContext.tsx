@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 type Theme = 'light' | 'dark';
@@ -40,8 +41,30 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     localStorage.setItem('affiliate-colorScheme', colorScheme);
     localStorage.setItem('affiliate-sidebarCollapsed', isSidebarCollapsed.toString());
     
-    document.documentElement.classList.toggle('dark', theme === 'dark');
-    document.documentElement.setAttribute('data-color-scheme', colorScheme);
+    // Apply theme to document
+    const root = document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    
+    // Apply color scheme
+    root.setAttribute('data-color-scheme', colorScheme);
+    
+    // Set CSS custom properties for consistent theming
+    const colors = {
+      red: { primary: '#ef4444', primaryHover: '#dc2626', primaryLight: '#fef2f2' },
+      blue: { primary: '#3b82f6', primaryHover: '#2563eb', primaryLight: '#eff6ff' },
+      green: { primary: '#10b981', primaryHover: '#059669', primaryLight: '#ecfdf5' },
+      purple: { primary: '#8b5cf6', primaryHover: '#7c3aed', primaryLight: '#f5f3ff' }
+    };
+    
+    const currentColors = colors[colorScheme];
+    root.style.setProperty('--color-primary', currentColors.primary);
+    root.style.setProperty('--color-primary-hover', currentColors.primaryHover);
+    root.style.setProperty('--color-primary-light', currentColors.primaryLight);
+    
   }, [theme, colorScheme, isSidebarCollapsed]);
 
   const toggleTheme = () => {
