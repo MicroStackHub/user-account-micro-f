@@ -1,26 +1,56 @@
 import React from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
+import { Link, useLocation } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme, colorScheme } = useTheme();
+  const location = useLocation();
 
   return (
     <nav className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-8 py-4 sticky top-0 z-20 backdrop-blur-sm bg-white/95 dark:bg-gray-800/95">
       <div className="flex items-center justify-between max-w-none w-full">
         {/* Quick Navigation Pills */}
         <div className="flex items-center space-x-1 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
-          <div className="px-4 py-2 bg-red-600 text-white rounded-md text-sm font-medium shadow-sm">
+          <Link 
+            to="/dashboard" 
+            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+              location.pathname === '/dashboard' || location.pathname === '/' 
+                ? 'bg-red-600 text-white shadow-sm' 
+                : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
+            }`}
+          >
             Dashboard
-          </div>
-          <div className="px-4 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white rounded-md text-sm font-medium transition-colors">
+          </Link>
+          <Link 
+            to="/earnings" 
+            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+              location.pathname === '/earnings' 
+                ? 'bg-red-600 text-white shadow-sm' 
+                : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
+            }`}
+          >
             Earnings
-          </div>
-          <div className="px-4 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white rounded-md text-sm font-medium transition-colors">
+          </Link>
+          <Link 
+            to="/analytics" 
+            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+              location.pathname === '/analytics' 
+                ? 'bg-red-600 text-white shadow-sm' 
+                : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
+            }`}
+          >
             Analytics
-          </div>
-          <div className="px-4 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white rounded-md text-sm font-medium transition-colors">
+          </Link>
+          <Link 
+            to="/marketing-tools" 
+            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+              location.pathname === '/marketing-tools' 
+                ? 'bg-red-600 text-white shadow-sm' 
+                : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
+            }`}
+          >
             Marketing
-          </div>
+          </Link>
         </div>
 
         <div className="flex items-center space-x-6">
