@@ -29,13 +29,15 @@ interface User {
 
 interface AnalyticsProps {
   userRole: 'customer' | 'affiliate' | 'admin';
+  onBack?: () => void;
 }
 
-const Analytics: React.FC<AnalyticsProps> = ({ userRole }) => {
+const Analytics: React.FC<AnalyticsProps> = ({ userRole, onBack }) => {
   const { isDarkMode, colorScheme } = useTheme();
   const [activeTab, setActiveTab] = useState<'overview' | 'transactions' | 'users' | 'reports'>('overview');
 
   // Sample data for different user roles
+  // Using underscore prefix to indicate intentionally unused variables in map functions
   const sampleTransactions: Transaction[] = [
     {
       id: 'TXN001',
@@ -137,12 +139,11 @@ const Analytics: React.FC<AnalyticsProps> = ({ userRole }) => {
       sortable: true,
       filterable: true,
       render: (value: string) => (
-        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-          value === 'Purchase' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300' :
+        <span className={`px-2 py-1 rounded-full text-xs font-medium ${value === 'Purchase' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300' :
           value === 'Commission' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' :
-          value === 'Bonus' ? 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300' :
-          'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
-        }`}>
+            value === 'Bonus' ? 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300' :
+              'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
+          }`}>
           {value}
         </span>
       )
@@ -163,11 +164,10 @@ const Analytics: React.FC<AnalyticsProps> = ({ userRole }) => {
       sortable: true,
       filterable: true,
       render: (value: string) => (
-        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-          value === 'Completed' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' :
+        <span className={`px-2 py-1 rounded-full text-xs font-medium ${value === 'Completed' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' :
           value === 'Pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300' :
-          'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300'
-        }`}>
+            'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300'
+          }`}>
           {value}
         </span>
       )
@@ -198,11 +198,10 @@ const Analytics: React.FC<AnalyticsProps> = ({ userRole }) => {
       sortable: true,
       filterable: true,
       render: (value: string) => (
-        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-          value === 'Admin' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' :
+        <span className={`px-2 py-1 rounded-full text-xs font-medium ${value === 'Admin' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' :
           value === 'Affiliate' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300' :
-          'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300'
-        }`}>
+            'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300'
+          }`}>
           {value}
         </span>
       )
@@ -213,10 +212,9 @@ const Analytics: React.FC<AnalyticsProps> = ({ userRole }) => {
       sortable: true,
       filterable: true,
       render: (value: string) => (
-        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-          value === 'Active' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' :
+        <span className={`px-2 py-1 rounded-full text-xs font-medium ${value === 'Active' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' :
           'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
-        }`}>
+          }`}>
           {value}
         </span>
       )
@@ -276,12 +274,11 @@ const Analytics: React.FC<AnalyticsProps> = ({ userRole }) => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-lg shadow-lg p-6 border`}>
                 <div className="flex items-center">
-                  <div className={`p-2 rounded-lg ${
-                    colorScheme === 'blue' ? 'bg-blue-100 dark:bg-blue-900' :
+                  <div className={`p-2 rounded-lg ${colorScheme === 'blue' ? 'bg-blue-100 dark:bg-blue-900' :
                     colorScheme === 'green' ? 'bg-green-100 dark:bg-green-900' :
-                    colorScheme === 'purple' ? 'bg-purple-100 dark:bg-purple-900' :
-                    'bg-red-100 dark:bg-red-900'
-                  }`}>
+                      colorScheme === 'purple' ? 'bg-purple-100 dark:bg-purple-900' :
+                        'bg-red-100 dark:bg-red-900'
+                    }`}>
                     <span className="text-2xl">💰</span>
                   </div>
                   <div className="ml-4">
@@ -294,15 +291,14 @@ const Analytics: React.FC<AnalyticsProps> = ({ userRole }) => {
                   </div>
                 </div>
               </div>
-              
+
               <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-lg shadow-lg p-6 border`}>
                 <div className="flex items-center">
-                  <div className={`p-2 rounded-lg ${
-                    colorScheme === 'blue' ? 'bg-green-100 dark:bg-green-900' :
+                  <div className={`p-2 rounded-lg ${colorScheme === 'blue' ? 'bg-green-100 dark:bg-green-900' :
                     colorScheme === 'green' ? 'bg-blue-100 dark:bg-blue-900' :
-                    colorScheme === 'purple' ? 'bg-green-100 dark:bg-green-900' :
-                    'bg-green-100 dark:bg-green-900'
-                  }`}>
+                      colorScheme === 'purple' ? 'bg-green-100 dark:bg-green-900' :
+                        'bg-green-100 dark:bg-green-900'
+                    }`}>
                     <span className="text-2xl">📈</span>
                   </div>
                   <div className="ml-4">
@@ -315,15 +311,14 @@ const Analytics: React.FC<AnalyticsProps> = ({ userRole }) => {
                   </div>
                 </div>
               </div>
-              
+
               <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-lg shadow-lg p-6 border`}>
                 <div className="flex items-center">
-                  <div className={`p-2 rounded-lg ${
-                    colorScheme === 'blue' ? 'bg-purple-100 dark:bg-purple-900' :
+                  <div className={`p-2 rounded-lg ${colorScheme === 'blue' ? 'bg-purple-100 dark:bg-purple-900' :
                     colorScheme === 'green' ? 'bg-purple-100 dark:bg-purple-900' :
-                    colorScheme === 'purple' ? 'bg-blue-100 dark:bg-blue-900' :
-                    'bg-purple-100 dark:bg-purple-900'
-                  }`}>
+                      colorScheme === 'purple' ? 'bg-blue-100 dark:bg-blue-900' :
+                        'bg-purple-100 dark:bg-purple-900'
+                    }`}>
                     <span className="text-2xl">⭐</span>
                   </div>
                   <div className="ml-4">
@@ -349,14 +344,14 @@ const Analytics: React.FC<AnalyticsProps> = ({ userRole }) => {
             </div>
           </div>
         );
-      
+
       case 'transactions':
         return (
           <DataTable
             data={sampleTransactions}
             columns={transactionColumns}
             title="Transaction History"
-            actions={(row) => (
+            actions={(_row) => (
               <div className="flex space-x-2">
                 <button className="text-blue-600 hover:text-blue-800 text-sm">View</button>
                 <button className="text-green-600 hover:text-green-800 text-sm">Download</button>
@@ -364,14 +359,14 @@ const Analytics: React.FC<AnalyticsProps> = ({ userRole }) => {
             )}
           />
         );
-      
+
       case 'users':
         return userRole === 'admin' ? (
           <DataTable
             data={sampleUsers}
             columns={userColumns}
             title="User Management"
-            actions={(row) => (
+            actions={(_row) => (
               <div className="flex space-x-2">
                 <button className="text-blue-600 hover:text-blue-800 text-sm">Edit</button>
                 <button className="text-red-600 hover:text-red-800 text-sm">Suspend</button>
@@ -379,7 +374,7 @@ const Analytics: React.FC<AnalyticsProps> = ({ userRole }) => {
             )}
           />
         ) : null;
-      
+
       case 'reports':
         return (
           <div className="space-y-6">
@@ -388,11 +383,10 @@ const Analytics: React.FC<AnalyticsProps> = ({ userRole }) => {
                 Generate Reports
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <button className={`p-4 border-2 border-dashed rounded-lg transition-colors ${
-                  isDarkMode 
-                    ? 'border-gray-600 hover:border-blue-400 text-gray-300 hover:text-white' 
-                    : 'border-gray-300 hover:border-blue-500 text-gray-700 hover:text-gray-900'
-                }`}>
+                <button className={`p-4 border-2 border-dashed rounded-lg transition-colors ${isDarkMode
+                  ? 'border-gray-600 hover:border-blue-400 text-gray-300 hover:text-white'
+                  : 'border-gray-300 hover:border-blue-500 text-gray-700 hover:text-gray-900'
+                  }`}>
                   <div className="text-center">
                     <span className="text-2xl">📊</span>
                     <p className={`mt-2 font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
@@ -403,12 +397,11 @@ const Analytics: React.FC<AnalyticsProps> = ({ userRole }) => {
                     </p>
                   </div>
                 </button>
-                
-                <button className={`p-4 border-2 border-dashed rounded-lg transition-colors ${
-                  isDarkMode 
-                    ? 'border-gray-600 hover:border-blue-400 text-gray-300 hover:text-white' 
-                    : 'border-gray-300 hover:border-blue-500 text-gray-700 hover:text-gray-900'
-                }`}>
+
+                <button className={`p-4 border-2 border-dashed rounded-lg transition-colors ${isDarkMode
+                  ? 'border-gray-600 hover:border-blue-400 text-gray-300 hover:text-white'
+                  : 'border-gray-300 hover:border-blue-500 text-gray-700 hover:text-gray-900'
+                  }`}>
                   <div className="text-center">
                     <span className="text-2xl">💳</span>
                     <p className={`mt-2 font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
@@ -419,13 +412,12 @@ const Analytics: React.FC<AnalyticsProps> = ({ userRole }) => {
                     </p>
                   </div>
                 </button>
-                
+
                 {userRole === 'admin' && (
-                  <button className={`p-4 border-2 border-dashed rounded-lg transition-colors ${
-                    isDarkMode 
-                      ? 'border-gray-600 hover:border-blue-400 text-gray-300 hover:text-white' 
-                      : 'border-gray-300 hover:border-blue-500 text-gray-700 hover:text-gray-900'
-                  }`}>
+                  <button className={`p-4 border-2 border-dashed rounded-lg transition-colors ${isDarkMode
+                    ? 'border-gray-600 hover:border-blue-400 text-gray-300 hover:text-white'
+                    : 'border-gray-300 hover:border-blue-500 text-gray-700 hover:text-gray-900'
+                    }`}>
                     <div className="text-center">
                       <span className="text-2xl">👥</span>
                       <p className={`mt-2 font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
@@ -441,7 +433,7 @@ const Analytics: React.FC<AnalyticsProps> = ({ userRole }) => {
             </div>
           </div>
         );
-      
+
       default:
         return null;
     }
@@ -449,6 +441,17 @@ const Analytics: React.FC<AnalyticsProps> = ({ userRole }) => {
 
   return (
     <div className="space-y-6">
+      {onBack && (
+        <button
+          onClick={onBack}
+          className={`mb-4 flex items-center px-3 py-2 rounded-lg ${isDarkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-gray-100 hover:bg-gray-200'}`}
+        >
+          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back
+        </button>
+      )}
       {/* Tab Navigation */}
       <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-lg shadow-sm border`}>
         <div className="flex overflow-x-auto">
@@ -456,11 +459,10 @@ const Analytics: React.FC<AnalyticsProps> = ({ userRole }) => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
-              className={`flex-1 min-w-0 px-6 py-4 text-sm font-medium border-b-2 transition-colors ${
-                activeTab === tab.id
-                  ? `border-${colorScheme}-500 text-${colorScheme}-600 ${isDarkMode ? `dark:text-${colorScheme}-400` : ''}`
-                  : `border-transparent ${isDarkMode ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'}`
-              }`}
+              className={`flex-1 min-w-0 px-6 py-4 text-sm font-medium border-b-2 transition-colors ${activeTab === tab.id
+                ? `border-${colorScheme}-500 text-${colorScheme}-600 ${isDarkMode ? `dark:text-${colorScheme}-400` : ''}`
+                : `border-transparent ${isDarkMode ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'}`
+                }`}
             >
               <div className="flex items-center justify-center space-x-2">
                 <span>{tab.icon}</span>

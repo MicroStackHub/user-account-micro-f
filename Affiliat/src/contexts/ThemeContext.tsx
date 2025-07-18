@@ -6,6 +6,7 @@ type ColorScheme = 'red' | 'blue' | 'green' | 'purple';
 
 interface ThemeContextType {
   theme: Theme;
+  isDarkMode: boolean;
   toggleTheme: () => void;
   colorScheme: ColorScheme;
   setColorScheme: (scheme: ColorScheme) => void;
@@ -78,6 +79,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   return (
     <ThemeContext.Provider value={{ 
       theme, 
+      isDarkMode: theme === 'dark',
       toggleTheme, 
       colorScheme, 
       setColorScheme, 

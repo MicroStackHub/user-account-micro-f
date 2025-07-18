@@ -15,7 +15,7 @@ interface EarningsChartProps {
 }
 
 const EarningsChart: React.FC<EarningsChartProps> = ({ data, userRole }) => {
-  const { theme, isDarkMode } = useTheme();
+  const { isDarkMode } = useTheme(); // theme removed as it's not used
   const [chartType, setChartType] = useState<'line' | 'bar'>('line');
   const [timeRange, setTimeRange] = useState<'6m' | '1y' | 'all'>('6m');
 

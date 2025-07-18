@@ -6,7 +6,8 @@ const ProfilePicture: React.FC = () => {
   const { isDarkMode, colorScheme } = useTheme();
   const [profileImage, setProfileImage] = useState('https://randomuser.me/api/portraits/men/1.jpg');
   const [isUploading, setIsUploading] = useState(false);
-  const [showCropModal, setShowCropModal] = useState(false);
+  // Crop modal functionality to be implemented later
+  // const [showCropModal, setShowCropModal] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {

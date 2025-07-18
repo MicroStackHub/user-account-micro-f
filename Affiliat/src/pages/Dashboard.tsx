@@ -1,11 +1,10 @@
 
 import React from 'react';
-import { useTheme } from '../contexts/ThemeContext';
 import EarningsChart from '../components/Charts/EarningsChart';
 import ConversionChart from '../components/Charts/ConversionChart';
 
 const Dashboard: React.FC = () => {
-  const { theme } = useTheme();
+  // We'll use useTheme in the component later when needed
 
   const stats = [
     {

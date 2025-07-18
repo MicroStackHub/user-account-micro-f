@@ -83,7 +83,7 @@ const ToggleSetting: React.FC<ToggleSettingProps> = ({
 };
 
 const AccountSettings: React.FC = () => {
-  const [notificationCount, setNotificationCount] = useState(3);
+  const [notificationCount] = useState(3); // setNotificationCount removed as it's not used
 
   const handleToggleNotifications = (checked: boolean) => {
     // In a real app, this would update user preferences in the backend

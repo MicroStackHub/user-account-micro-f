@@ -8,6 +8,7 @@ interface ThemeContextType {
   colorScheme: ColorScheme;
   toggleTheme: () => void;
   setColorScheme: (scheme: ColorScheme) => void;
+  theme: string; // Adding theme property
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -44,7 +45,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       isDarkMode,
       colorScheme,
       toggleTheme,
-      setColorScheme: handleSetColorScheme
+      setColorScheme: handleSetColorScheme,
+      theme: isDarkMode ? 'dark' : 'light' // Adding theme property
     }}>
       {children}
     </ThemeContext.Provider>

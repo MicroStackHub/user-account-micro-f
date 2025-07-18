@@ -1,5 +1,5 @@
 
-import React from 'react';
+// React is used implicitly by JSX
 import { ThemeProvider } from './contexts/ThemeContext';
 import Layout from './components/Layout/Layout';
 import AccountPage from './components/AccountPage';

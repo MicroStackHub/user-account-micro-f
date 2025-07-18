@@ -45,8 +45,10 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
     }
   };
 
-  const handleItemClick = () => {
-    if (onClick) {
+  const handleItemClick = (e: React.MouseEvent) => {
+    if (hasSubMenu && !isCollapsed) {
+      toggleSubMenu(e);
+    } else if (onClick) {
       onClick();
     }
     if (hasSubMenu && !isCollapsed) {
@@ -245,7 +247,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
         </div>
       )}
 
-      <style jsx>{`
+      <style>{`
         .scrollbar-hide {
           -ms-overflow-style: none;
           scrollbar-width: none;

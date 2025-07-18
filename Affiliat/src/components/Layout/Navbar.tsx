@@ -4,7 +4,7 @@ import { useTheme } from '../../contexts/ThemeContext';
 import { Link, useLocation } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
-  const { theme, toggleTheme, colorScheme } = useTheme();
+  const { theme, toggleTheme } = useTheme(); // colorScheme removed as it's not used
   const location = useLocation();
 
   return (

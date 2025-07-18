@@ -5,7 +5,7 @@ import { useTheme } from '../../contexts/ThemeContext';
 
 const Sidebar: React.FC = () => {
   const location = useLocation();
-  const { isSidebarCollapsed, toggleSidebar, theme } = useTheme();
+  const { isSidebarCollapsed, toggleSidebar } = useTheme(); // theme removed as it's not used
 
   const menuItems = [
     { path: '/dashboard', label: 'Dashboard', icon: '📊' },

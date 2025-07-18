@@ -17,7 +17,7 @@ interface StatsChartProps {
 }
 
 const StatsChart: React.FC<StatsChartProps> = ({ data, type, title }) => {
-  const { isDarkMode, colorScheme } = useTheme();
+  const { isDarkMode } = useTheme(); // colorScheme removed as it's not used
   
   const total = data.reduce((sum, item) => sum + item.value, 0);
   
