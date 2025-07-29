@@ -1,43 +1,59 @@
-
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useState } from 'react';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Layout from './components/Layout/Layout';
 import Dashboard from './pages/Dashboard';
-import Earnings from './pages/Earnings';
 import Analytics from './pages/Analytics';
-import AffiliateLinks from './pages/AffiliateLinks';
 import Referrals from './pages/Referrals';
-import MarketingTools from './pages/MarketingTools';
+import AffiliateLinks from './pages/AffiliateLinks';
+import Earnings from './pages/Earnings';
 import Payouts from './pages/Payouts';
+import MarketingTools from './pages/MarketingTools';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import Support from './pages/Support';
 import './App.css';
-import './index.css';
 
-const App: React.FC = () => {
+type Page = 'dashboard' | 'analytics' | 'referrals' | 'affiliate-links' | 'earnings' | 'payouts' | 'marketing-tools' | 'profile' | 'settings' | 'support';
+
+function App() {
+  const [currentPage, setCurrentPage] = useState<Page>('dashboard');
+
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'dashboard':
+        return <Dashboard />;
+      case 'analytics':
+        return <Analytics />;
+      case 'referrals':
+        return <Referrals />;
+      case 'affiliate-links':
+        return <AffiliateLinks />;
+      case 'earnings':
+        return <Earnings />;
+      case 'payouts':
+        return <Payouts />;
+      case 'marketing-tools':
+        return <MarketingTools />;
+      case 'profile':
+        return <Profile />;
+      case 'settings':
+        return <Settings />;
+      case 'support':
+        return <Support />;
+      default:
+        return <Dashboard />;
+    }
+  };
+
   return (
     <ThemeProvider>
-      <Router>
+      <div className="App">
         <Layout>
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/earnings" element={<Earnings />} />
-            <Route path="/analytics" element={<Analytics />} />
-            <Route path="/links" element={<AffiliateLinks />} />
-            <Route path="/referrals" element={<Referrals />} />
-            <Route path="/marketing" element={<MarketingTools />} />
-            <Route path="/payouts" element={<Payouts />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/support" element={<Support />} />
-          </Routes>
+          {renderPage()}
         </Layout>
-      </Router>
+      </div>
     </ThemeProvider>
   );
-};
+}
 
 export default App;

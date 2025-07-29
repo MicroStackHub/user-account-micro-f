@@ -224,3 +224,150 @@ const Sidebar: React.FC = () => {
 };
 
 export default Sidebar;
+import React from 'react';
+import { useTheme, useColorScheme } from '../../contexts/ThemeContext';
+import { 
+  HomeIcon,
+  ChartBarIcon,
+  UserGroupIcon,
+  LinkIcon,
+  CurrencyDollarIcon,
+  BanknotesIcon,
+  MegaphoneIcon,
+  UserIcon,
+  CogIcon,
+  QuestionMarkCircleIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon
+} from '@heroicons/react/24/outline';
+
+interface SidebarItem {
+  id: string;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+  href: string;
+  badge?: string;
+}
+
+const sidebarItems: SidebarItem[] = [
+  { id: 'dashboard', label: 'Dashboard', icon: HomeIcon, href: '/dashboard' },
+  { id: 'analytics', label: 'Analytics', icon: ChartBarIcon, href: '/analytics' },
+  { id: 'referrals', label: 'Referrals', icon: UserGroupIcon, href: '/referrals', badge: '12' },
+  { id: 'links', label: 'Affiliate Links', icon: LinkIcon, href: '/affiliate-links' },
+  { id: 'earnings', label: 'Earnings', icon: CurrencyDollarIcon, href: '/earnings' },
+  { id: 'payouts', label: 'Payouts', icon: BanknotesIcon, href: '/payouts' },
+  { id: 'marketing', label: 'Marketing Tools', icon: MegaphoneIcon, href: '/marketing-tools' },
+  { id: 'profile', label: 'Profile', icon: UserIcon, href: '/profile' },
+  { id: 'settings', label: 'Settings', icon: CogIcon, href: '/settings' },
+  { id: 'support', label: 'Support', icon: QuestionMarkCircleIcon, href: '/support' },
+];
+
+const Sidebar: React.FC = () => {
+  const { isSidebarCollapsed, toggleSidebar, isDarkMode } = useTheme();
+  const { getColorClasses } = useColorScheme();
+  const [activeItem, setActiveItem] = React.useState('dashboard');
+
+  return (
+    <>
+      {/* Sidebar */}
+      <div className={`fixed left-0 top-0 h-full bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl border-r border-gray-200 dark:border-gray-700 transition-all duration-300 z-50 ${
+        isSidebarCollapsed ? 'w-16' : 'w-64'
+      }`}>
+        {/* Logo Section */}
+        <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+          {!isSidebarCollapsed && (
+            <div className="flex items-center space-x-3">
+              <div className={`w-8 h-8 ${getColorClasses('primary')} rounded-lg flex items-center justify-center`}>
+                <span className="text-white font-bold text-sm">A</span>
+              </div>
+              <div>
+                <h1 className="text-lg font-bold text-gray-900 dark:text-white">Affiliate</h1>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Dashboard</p>
+              </div>
+            </div>
+          )}
+          
+          <button
+            onClick={toggleSidebar}
+            className="p-2 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+          >
+            {isSidebarCollapsed ? (
+              <ChevronRightIcon className="w-5 h-5" />
+            ) : (
+              <ChevronLeftIcon className="w-5 h-5" />
+            )}
+          </button>
+        </div>
+
+        {/* Navigation */}
+        <nav className="p-4 space-y-2">
+          {sidebarItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = activeItem === item.id;
+            
+            return (
+              <button
+                key={item.id}
+                onClick={() => setActiveItem(item.id)}
+                className={`w-full flex items-center space-x-3 px-3 py-3 rounded-xl transition-all duration-200 relative group ${
+                  isActive 
+                    ? `${getColorClasses('primary')} text-white shadow-lg`
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50'
+                }`}
+              >
+                <Icon className={`w-5 h-5 ${isSidebarCollapsed ? 'mx-auto' : ''}`} />
+                
+                {!isSidebarCollapsed && (
+                  <>
+                    <span className="font-medium text-sm">{item.label}</span>
+                    {item.badge && (
+                      <span className={`ml-auto px-2 py-1 text-xs rounded-full ${
+                        isActive 
+                          ? 'bg-white/20 text-white'
+                          : 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400'
+                      }`}>
+                        {item.badge}
+                      </span>
+                    )}
+                  </>
+                )}
+
+                {/* Tooltip for collapsed state */}
+                {isSidebarCollapsed && (
+                  <div className="absolute left-full ml-2 px-3 py-2 bg-gray-900 dark:bg-gray-700 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50">
+                    {item.label}
+                    {item.badge && (
+                      <span className="ml-2 px-2 py-1 text-xs bg-red-500 rounded-full">
+                        {item.badge}
+                      </span>
+                    )}
+                  </div>
+                )}
+              </button>
+            );
+          })}
+        </nav>
+
+        {/* User Profile Section */}
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 dark:border-gray-700">
+          <div className={`flex items-center space-x-3 p-3 rounded-xl transition-colors hover:bg-gray-100 dark:hover:bg-gray-700/50 ${
+            isSidebarCollapsed ? 'justify-center' : ''
+          }`}>
+            <div className="w-8 h-8 bg-gradient-to-r from-red-primary to-red-hover rounded-full flex items-center justify-center">
+              <span className="text-white text-sm font-semibold">JD</span>
+            </div>
+            
+            {!isSidebarCollapsed && (
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-gray-900 dark:text-white truncate">John Doe</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 truncate">Premium Member</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Sidebar;

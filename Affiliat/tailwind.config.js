@@ -173,6 +173,10 @@ export default {
           '2xl': '6rem',
         },
       },
+      borderColor: {
+        'DEFAULT': 'rgb(229 231 235)', // gray-200
+        'border': 'rgb(229 231 235)', // gray-200
+      },
     },
   },
   plugins: [
