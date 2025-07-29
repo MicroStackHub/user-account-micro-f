@@ -1,6 +1,5 @@
+
 @import "tailwindcss";
-
-
 
 /* Base styles */
 * {
@@ -15,10 +14,20 @@ html {
 }
 
 body {
-  @apply bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300;
+  background-color: theme(colors.gray.50);
+  color: theme(colors.gray.900);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: theme(colors.gray.900);
+    color: theme(colors.white);
+  }
 }
 
 /* Root variables for consistent theming */
@@ -37,15 +46,30 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-gray-100 dark:bg-gray-800;
+  background-color: theme(colors.gray.100);
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+  background-color: theme(colors.gray.300);
+  border-radius: theme(borderRadius.full);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-400 dark:bg-gray-500;
+  background-color: theme(colors.gray.400);
+}
+
+@media (prefers-color-scheme: dark) {
+  ::-webkit-scrollbar-track {
+    background-color: theme(colors.gray.800);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: theme(colors.gray.600);
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: theme(colors.gray.500);
+  }
 }
 
 /* Animation keyframes */
@@ -75,52 +99,214 @@ body {
   }
 }
 
-/* Component specific styles */
+/* Component specific styles using theme() functions */
 .chart-container {
-  @apply bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700;
+  background-color: theme(colors.white);
+  border-radius: theme(borderRadius.xl);
+  box-shadow: theme(boxShadow.sm);
+  border: 1px solid theme(colors.gray.200);
+}
+
+@media (prefers-color-scheme: dark) {
+  .chart-container {
+    background-color: theme(colors.gray.800);
+    border-color: theme(colors.gray.700);
+  }
 }
 
 .stat-card {
-  @apply bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow duration-200;
+  background-color: theme(colors.white);
+  border-radius: theme(borderRadius.xl);
+  padding: theme(spacing.6);
+  box-shadow: theme(boxShadow.sm);
+  border: 1px solid theme(colors.gray.200);
+  transition: box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  box-shadow: theme(boxShadow.md);
+}
+
+@media (prefers-color-scheme: dark) {
+  .stat-card {
+    background-color: theme(colors.gray.800);
+    border-color: theme(colors.gray.700);
+  }
 }
 
 .btn-primary {
-  @apply bg-red-600 hover:bg-red-700 text-white font-medium px-4 py-2 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900;
+  background-color: theme(colors.red.600);
+  color: theme(colors.white);
+  font-weight: theme(fontWeight.medium);
+  padding: theme(spacing.2) theme(spacing.4);
+  border-radius: theme(borderRadius.lg);
+  transition: background-color 0.2s ease;
+  outline: none;
+}
+
+.btn-primary:hover {
+  background-color: theme(colors.red.700);
+}
+
+.btn-primary:focus {
+  box-shadow: 0 0 0 2px theme(colors.red.500);
 }
 
 .btn-secondary {
-  @apply bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-900 dark:text-white font-medium px-4 py-2 rounded-lg transition-colors duration-200;
+  background-color: theme(colors.gray.200);
+  color: theme(colors.gray.900);
+  font-weight: theme(fontWeight.medium);
+  padding: theme(spacing.2) theme(spacing.4);
+  border-radius: theme(borderRadius.lg);
+  transition: background-color 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: theme(colors.gray.300);
+}
+
+@media (prefers-color-scheme: dark) {
+  .btn-secondary {
+    background-color: theme(colors.gray.700);
+    color: theme(colors.white);
+  }
+  
+  .btn-secondary:hover {
+    background-color: theme(colors.gray.600);
+  }
 }
 
 /* Input styles */
 .form-input {
-  @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-colors duration-200;
+  width: 100%;
+  padding: theme(spacing.2) theme(spacing.3);
+  border: 1px solid theme(colors.gray.300);
+  border-radius: theme(borderRadius.lg);
+  background-color: theme(colors.white);
+  color: theme(colors.gray.900);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-input::placeholder {
+  color: theme(colors.gray.500);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: transparent;
+  box-shadow: 0 0 0 2px theme(colors.red.500);
+}
+
+@media (prefers-color-scheme: dark) {
+  .form-input {
+    border-color: theme(colors.gray.600);
+    background-color: theme(colors.gray.800);
+    color: theme(colors.white);
+  }
+  
+  .form-input::placeholder {
+    color: theme(colors.gray.400);
+  }
 }
 
 /* Table styles */
 .data-table {
-  @apply w-full bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden;
+  width: 100%;
+  background-color: theme(colors.white);
+  border-radius: theme(borderRadius.xl);
+  box-shadow: theme(boxShadow.sm);
+  border: 1px solid theme(colors.gray.200);
+  overflow: hidden;
+}
+
+@media (prefers-color-scheme: dark) {
+  .data-table {
+    background-color: theme(colors.gray.800);
+    border-color: theme(colors.gray.700);
+  }
 }
 
 .data-table th {
-  @apply bg-gray-50 dark:bg-gray-700 px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider border-b border-gray-200 dark:border-gray-600;
+  background-color: theme(colors.gray.50);
+  padding: theme(spacing.3) theme(spacing.6);
+  text-align: left;
+  font-size: theme(fontSize.xs);
+  font-weight: theme(fontWeight.medium);
+  color: theme(colors.gray.500);
+  text-transform: uppercase;
+  letter-spacing: theme(letterSpacing.wider);
+  border-bottom: 1px solid theme(colors.gray.200);
+}
+
+@media (prefers-color-scheme: dark) {
+  .data-table th {
+    background-color: theme(colors.gray.700);
+    color: theme(colors.gray.300);
+    border-bottom-color: theme(colors.gray.600);
+  }
 }
 
 .data-table td {
-  @apply px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700;
+  padding: theme(spacing.4) theme(spacing.6);
+  white-space: nowrap;
+  font-size: theme(fontSize.sm);
+  color: theme(colors.gray.900);
+  border-bottom: 1px solid theme(colors.gray.200);
+}
+
+@media (prefers-color-scheme: dark) {
+  .data-table td {
+    color: theme(colors.white);
+    border-bottom-color: theme(colors.gray.700);
+  }
 }
 
 .data-table tbody tr:hover {
-  @apply bg-gray-50 dark:bg-gray-700;
+  background-color: theme(colors.gray.50);
+}
+
+@media (prefers-color-scheme: dark) {
+  .data-table tbody tr:hover {
+    background-color: theme(colors.gray.700);
+  }
 }
 
 /* Loading states */
 .loading-spinner {
-  @apply inline-block w-4 h-4 border-2 border-gray-300 border-t-red-600 rounded-full animate-spin;
+  display: inline-block;
+  width: theme(spacing.4);
+  height: theme(spacing.4);
+  border: 2px solid theme(colors.gray.300);
+  border-top-color: theme(colors.red.600);
+  border-radius: theme(borderRadius.full);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .loading-skeleton {
-  @apply bg-gray-200 dark:bg-gray-700 rounded animate-pulse;
+  background-color: theme(colors.gray.200);
+  border-radius: theme(borderRadius.DEFAULT);
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@media (prefers-color-scheme: dark) {
+  .loading-skeleton {
+    background-color: theme(colors.gray.700);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 /* Responsive utilities */
@@ -136,7 +322,8 @@ body {
 
 /* Focus visible for accessibility */
 .focus-visible:focus {
-  @apply outline-none ring-2 ring-red-500 ring-offset-2 dark:ring-offset-gray-900;
+  outline: none;
+  box-shadow: 0 0 0 2px theme(colors.red.500);
 }
 
 /* Dark mode transitions */
