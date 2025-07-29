@@ -1,31 +1,66 @@
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
-import Sidebar from './Sidebar';
 import Navbar from './Navbar';
+import Sidebar from './Sidebar';
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-  const { theme, colorScheme, isSidebarCollapsed } = useTheme();
-
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark');
-    document.documentElement.setAttribute('data-color-scheme', colorScheme);
-  }, [theme, colorScheme]);
+  const { isSidebarCollapsed, isDarkMode } = useTheme();
 
   return (
-    <div className="min-h-screen flex bg-gray-50 dark:bg-gray-900">
+    <div className={`min-h-screen transition-all duration-300 ${
+      isDarkMode 
+        ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900' 
+        : 'bg-gradient-to-br from-gray-50 via-white to-gray-100'
+    }`}>
+      {/* Background Pattern */}
+      <div className="fixed inset-0 opacity-30">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.5)_1px,transparent_0)] dark:bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.1)_1px,transparent_0)] bg-[length:20px_20px]"></div>
+      </div>
+
+      {/* Sidebar */}
       <Sidebar />
-      <div className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarCollapsed ? 'ml-16' : 'ml-64'}`}>
+      
+      {/* Main Content Area */}
+      <div className={`transition-all duration-300 ${
+        isSidebarCollapsed ? 'ml-16' : 'ml-64'
+      } relative z-10`}>
+        {/* Navbar */}
         <Navbar />
-        <main className="flex-1 p-6 overflow-hidden">
-          <div className="h-full w-full animate-fade-in">
+        
+        {/* Page Content */}
+        <main className="container-custom py-6 lg:py-8">
+          <div className="animate-fade-in-up">
             {children}
           </div>
         </main>
+      </div>
+
+      {/* Mobile Backdrop */}
+      {!isSidebarCollapsed && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden animate-fade-in"></div>
+      )}
+
+      {/* Floating Elements */}
+      <div className="fixed bottom-6 left-6 z-50 hidden lg:block">
+        <div className="glass p-3 rounded-2xl animate-float">
+          <div className={`w-3 h-3 rounded-full ${
+            isDarkMode ? 'bg-green-400' : 'bg-green-500'
+          } animate-pulse`}></div>
+        </div>
+      </div>
+
+      {/* Theme Indicator */}
+      <div className="fixed top-20 right-6 z-40 hidden xl:block">
+        <div className="glass p-2 rounded-xl animate-scale-in">
+          <div className="text-xs font-medium text-gray-600 dark:text-gray-400">
+            {isDarkMode ? '🌙 Dark' : '☀️ Light'}
+          </div>
+        </div>
       </div>
     </div>
   );

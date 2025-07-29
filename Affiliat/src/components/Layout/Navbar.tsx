@@ -1,109 +1,267 @@
 
-import React from 'react';
-import { useTheme } from '../../contexts/ThemeContext';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useTheme, useColorScheme } from '../../contexts/ThemeContext';
+import { 
+  SunIcon, 
+  MoonIcon, 
+  BellIcon, 
+  UserCircleIcon,
+  Bars3Icon,
+  ChevronDownIcon,
+  Cog6ToothIcon,
+  ArrowRightOnRectangleIcon
+} from '@heroicons/react/24/outline';
 
 const Navbar: React.FC = () => {
-  const { theme, toggleTheme, colorScheme } = useTheme();
-  const location = useLocation();
+  const { 
+    isDarkMode, 
+    toggleTheme, 
+    toggleSidebar, 
+    colorScheme, 
+    setColorScheme,
+    followSystemTheme,
+    setFollowSystemTheme
+  } = useTheme();
+  const { getColorClasses } = useColorScheme();
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showThemeMenu, setShowThemeMenu] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+
+  const colorOptions = [
+    { name: 'Red', value: 'red' as const, color: 'bg-red-500' },
+    { name: 'Blue', value: 'blue' as const, color: 'bg-blue-500' },
+    { name: 'Green', value: 'green' as const, color: 'bg-green-500' },
+    { name: 'Purple', value: 'purple' as const, color: 'bg-purple-500' },
+  ];
+
+  const notifications = [
+    { id: 1, title: 'New referral bonus!', message: 'You earned $25 from John Doe', time: '2 min ago', unread: true },
+    { id: 2, title: 'Payment processed', message: 'Your earnings have been transferred', time: '1 hour ago', unread: true },
+    { id: 3, title: 'Welcome bonus', message: 'Complete your profile for $10 bonus', time: '2 hours ago', unread: false },
+  ];
 
   return (
-    <nav className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 sticky top-0 z-20 backdrop-blur-sm bg-white/95 dark:bg-gray-800/95 shadow-sm">
-      <div className="flex items-center justify-between w-full">
-        {/* Quick Navigation Pills */}
-        <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
-          <Link 
-            to="/dashboard" 
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${location.pathname === '/dashboard' || location.pathname === '/' 
-              ? `bg-${colorScheme}-primary text-white shadow-sm` 
-              : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'}`}
-          >
-            Dashboard
-          </Link>
-          <Link 
-            to="/earnings" 
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${location.pathname === '/earnings' 
-              ? `bg-${colorScheme}-primary text-white shadow-sm` 
-              : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'}`}
-          >
-            Earnings
-          </Link>
-          <Link 
-            to="/analytics" 
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${location.pathname === '/analytics' 
-              ? `bg-${colorScheme}-primary text-white shadow-sm` 
-              : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'}`}
-          >
-            Analytics
-          </Link>
-          <Link 
-            to="/marketing" 
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${location.pathname === '/marketing' 
-              ? `bg-${colorScheme}-primary text-white shadow-sm` 
-              : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'}`}
-          >
-            Marketing
-          </Link>
-        </div>
+    <nav className="sticky top-0 z-50 border-b border-gray-200/50 dark:border-gray-700/50 backdrop-blur-xl bg-white/80 dark:bg-gray-800/80">
+      <div className="container-custom">
+        <div className="flex items-center justify-between h-16">
+          {/* Left Section */}
+          <div className="flex items-center space-x-4">
+            {/* Mobile Menu Button */}
+            <button
+              onClick={toggleSidebar}
+              className="lg:hidden p-2 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            >
+              <Bars3Icon className="w-6 h-6" />
+            </button>
 
-        <div className="flex items-center gap-6">
-          {/* Enhanced Search */}
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <svg className="w-4 h-4 text-gray-400 dark:text-gray-500" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-              </svg>
+            {/* Page Title */}
+            <div className="hidden sm:block">
+              <h1 className="text-xl font-bold text-gray-900 dark:text-white">
+                Affiliate Dashboard
+              </h1>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                Welcome back! Here's your performance overview.
+              </p>
             </div>
-            <input
-              type="text"
-              placeholder="Search affiliate tools..."
-              className="w-80 pl-10 pr-4 py-2.5 text-sm border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-800 focus:ring-gray-300 dark:focus:ring-gray-600"
-            />
           </div>
 
-          {/* Right Side Actions */}
-          <div className="flex items-center gap-4">
-            {/* Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              className={`p-2.5 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-800 focus:ring-${colorScheme}-primary`}
-              aria-label="Toggle theme"
-            >
-              {theme === 'dark' ? (
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
-                </svg>
-              ) : (
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-                </svg>
+          {/* Right Section */}
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            {/* Theme Controls */}
+            <div className="relative">
+              <button
+                onClick={() => setShowThemeMenu(!showThemeMenu)}
+                className="p-2 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 hover:scale-105"
+              >
+                {isDarkMode ? (
+                  <MoonIcon className="w-5 h-5" />
+                ) : (
+                  <SunIcon className="w-5 h-5" />
+                )}
+              </button>
+
+              {/* Theme Menu */}
+              {showThemeMenu && (
+                <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-2xl shadow-elevation-3 border border-gray-200 dark:border-gray-700 py-3 animate-scale-in">
+                  <div className="px-4 pb-3 border-b border-gray-200 dark:border-gray-700">
+                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
+                      Appearance Settings
+                    </h3>
+                  </div>
+                  
+                  {/* Theme Toggle */}
+                  <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-700 dark:text-gray-300">Dark Mode</span>
+                      <div className="flex items-center space-x-2">
+                        <button
+                          onClick={() => setFollowSystemTheme(!followSystemTheme)}
+                          className={`text-xs px-2 py-1 rounded-lg transition-colors ${
+                            followSystemTheme 
+                              ? 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200' 
+                              : 'text-gray-500 dark:text-gray-400'
+                          }`}
+                        >
+                          Auto
+                        </button>
+                        <button
+                          onClick={toggleTheme}
+                          className={`relative w-11 h-6 rounded-full transition-colors ${
+                            isDarkMode 
+                              ? getColorClasses('primary')
+                              : 'bg-gray-300'
+                          }`}
+                        >
+                          <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${
+                            isDarkMode ? 'translate-x-5' : 'translate-x-0'
+                          }`} />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Color Scheme */}
+                  <div className="px-4 py-3">
+                    <h4 className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-3">
+                      Color Scheme
+                    </h4>
+                    <div className="grid grid-cols-4 gap-2">
+                      {colorOptions.map((option) => (
+                        <button
+                          key={option.value}
+                          onClick={() => setColorScheme(option.value)}
+                          className={`p-3 rounded-xl border-2 transition-all hover:scale-105 ${
+                            colorScheme === option.value
+                              ? 'border-gray-400 dark:border-gray-500 bg-gray-50 dark:bg-gray-700'
+                              : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
+                          }`}
+                        >
+                          <div className={`w-6 h-6 rounded-full ${option.color} mx-auto mb-1`} />
+                          <span className="text-xs text-gray-600 dark:text-gray-400">
+                            {option.name}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               )}
-            </button>
+            </div>
 
             {/* Notifications */}
             <div className="relative">
-              <button className={`p-2.5 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-800 focus:ring-${colorScheme}-primary`}>
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
-                </svg>
+              <button
+                onClick={() => setShowNotifications(!showNotifications)}
+                className="relative p-2 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 hover:scale-105"
+              >
+                <BellIcon className="w-5 h-5" />
+                {/* Notification Badge */}
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center animate-pulse">
+                  2
+                </span>
               </button>
-              <div className="absolute -top-1 -right-1 h-5 w-5 bg-red-500 rounded-full flex items-center justify-center shadow-sm shadow-red-600/50 border-2 border-white dark:border-gray-800">
-                <span className="text-xs text-white font-semibold">3</span>
-              </div>
+
+              {/* Notifications Dropdown */}
+              {showNotifications && (
+                <div className="absolute right-0 mt-2 w-96 bg-white dark:bg-gray-800 rounded-2xl shadow-elevation-3 border border-gray-200 dark:border-gray-700 animate-scale-in max-h-96 overflow-y-auto">
+                  <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
+                        Notifications
+                      </h3>
+                      <button className="text-xs text-blue-600 dark:text-blue-400 hover:underline">
+                        Mark all read
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                    {notifications.map((notification) => (
+                      <div
+                        key={notification.id}
+                        className={`px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors cursor-pointer ${
+                          notification.unread ? 'bg-blue-50/50 dark:bg-blue-900/20' : ''
+                        }`}
+                      >
+                        <div className="flex items-start space-x-3">
+                          <div className={`w-2 h-2 rounded-full mt-2 ${
+                            notification.unread ? 'bg-blue-500' : 'bg-transparent'
+                          }`} />
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium text-gray-900 dark:text-white">
+                              {notification.title}
+                            </p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
+                              {notification.message}
+                            </p>
+                            <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                              {notification.time}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div className="px-4 py-3 border-t border-gray-200 dark:border-gray-700">
+                    <button className="w-full text-sm text-blue-600 dark:text-blue-400 hover:underline">
+                      View all notifications
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
 
-            {/* User Profile */}
-            <div className="flex items-center gap-3 pl-4 border-l border-gray-200 dark:border-gray-700">
-              <div className="flex flex-col text-right">
-                <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">John Doe</span>
-                <span className="text-xs text-gray-500 dark:text-gray-400">Affiliate Partner</span>
-              </div>
-              <div className="relative">
-                <div className={`w-10 h-10 bg-gradient-to-br from-${colorScheme}-primary to-${colorScheme}-secondary rounded-lg flex items-center justify-center shadow-lg`}>
-                  <span className="text-white font-bold text-sm">JD</span>
+            {/* User Menu */}
+            <div className="relative">
+              <button
+                onClick={() => setShowUserMenu(!showUserMenu)}
+                className="flex items-center space-x-2 p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200"
+              >
+                <div className="w-8 h-8 bg-gradient-to-r from-red-primary to-red-hover rounded-full flex items-center justify-center">
+                  <span className="text-white text-sm font-semibold">JD</span>
                 </div>
-                <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white dark:border-gray-800"></div>
-              </div>
+                <ChevronDownIcon className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+              </button>
+
+              {/* User Dropdown */}
+              {showUserMenu && (
+                <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-2xl shadow-elevation-3 border border-gray-200 dark:border-gray-700 py-2 animate-scale-in">
+                  <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-12 h-12 bg-gradient-to-r from-red-primary to-red-hover rounded-full flex items-center justify-center">
+                        <span className="text-white font-semibold">JD</span>
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                          John Doe
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                          john@example.com
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="py-2">
+                    <button className="w-full flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                      <UserCircleIcon className="w-5 h-5" />
+                      <span>Profile</span>
+                    </button>
+                    <button className="w-full flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                      <Cog6ToothIcon className="w-5 h-5" />
+                      <span>Settings</span>
+                    </button>
+                  </div>
+                  
+                  <div className="border-t border-gray-200 dark:border-gray-700 py-2">
+                    <button className="w-full flex items-center space-x-3 px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20">
+                      <ArrowRightOnRectangleIcon className="w-5 h-5" />
+                      <span>Sign out</span>
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
