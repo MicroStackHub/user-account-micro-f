@@ -14,6 +14,7 @@ import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import Support from './pages/Support';
 import './App.css';
+import './index.css';
 
 const App: React.FC = () => {
   return (

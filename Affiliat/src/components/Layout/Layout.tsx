@@ -9,21 +9,20 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-  const { theme, isSidebarCollapsed } = useTheme();
+  const { theme, colorScheme, isSidebarCollapsed } = useTheme();
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark');
-  }, [theme]);
+    document.documentElement.setAttribute('data-color-scheme', colorScheme);
+  }, [theme, colorScheme]);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex">
+    <div className="min-h-screen flex bg-gray-50 dark:bg-gray-900">
       <Sidebar />
-      <div className={`flex-1 flex flex-col transition-all duration-300 ${
-        isSidebarCollapsed ? 'ml-16' : 'ml-64'
-      }`}>
+      <div className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarCollapsed ? 'ml-16' : 'ml-64'}`}>
         <Navbar />
-        <main className="flex-1 p-6 lg:p-8 overflow-hidden">
-          <div className="h-full w-full max-w-none">
+        <main className="flex-1 p-6 overflow-hidden">
+          <div className="h-full w-full animate-fade-in">
             {children}
           </div>
         </main>

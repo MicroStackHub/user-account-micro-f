@@ -1,14 +1,16 @@
 
 import React, { useState } from 'react';
+import { useTheme } from '../contexts/ThemeContext';
 
 const Payouts: React.FC = () => {
   const [activeTab, setActiveTab] = useState('overview');
+  const { isDarkMode, colorScheme } = useTheme();
 
   const payoutStats = [
-    { label: 'Available Balance', value: '$2,456.78', icon: '💰', color: 'text-green-600 dark:text-green-400' },
-    { label: 'Pending Payouts', value: '$892.34', icon: '⏳', color: 'text-yellow-600 dark:text-yellow-400' },
-    { label: 'Total Paid', value: '$15,234.56', icon: '✅', color: 'text-blue-600 dark:text-blue-400' },
-    { label: 'This Month', value: '$1,567.89', icon: '📅', color: 'text-purple-600 dark:text-purple-400' },
+    { label: 'Available Balance', value: '$2,456.78', icon: '💰', color: 'text-green-500 dark:text-green-400' },
+    { label: 'Pending Payouts', value: '$892.34', icon: '⏳', color: 'text-yellow-500 dark:text-yellow-400' },
+    { label: 'Total Paid', value: '$15,234.56', icon: '✅', color: 'text-blue-500 dark:text-blue-400' },
+    { label: 'This Month', value: '$1,567.89', icon: '📅', color: 'text-purple-500 dark:text-purple-400' },
   ];
 
   const payoutHistory = [
@@ -27,13 +29,13 @@ const Payouts: React.FC = () => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Completed':
-        return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
+        return 'badge-success';
       case 'Pending':
-        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
+        return 'badge-warning';
       case 'Failed':
-        return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
+        return 'badge-danger';
       default:
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200';
+        return 'badge-info';
     }
   };
 
@@ -44,7 +46,7 @@ const Payouts: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       <div>
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Payouts</h1>
         <p className="text-gray-600 dark:text-gray-400 mt-1">
@@ -61,7 +63,7 @@ const Payouts: React.FC = () => {
               onClick={() => setActiveTab(tab.id)}
               className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
                 activeTab === tab.id
-                  ? 'border-red-500 text-red-600 dark:text-red-400'
+                  ? `border-${colorScheme}-primary text-${colorScheme}-primary dark:text-${colorScheme}-primary`
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
               }`}
             >
@@ -76,7 +78,7 @@ const Payouts: React.FC = () => {
           {/* Stats Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {payoutStats.map((stat, index) => (
-              <div key={index} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
+              <div key={index} className="card animate-slide-in" style={{animationDelay: `${index * 0.1}s`}}>
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{stat.label}</p>
@@ -89,23 +91,17 @@ const Payouts: React.FC = () => {
           </div>
 
           {/* Quick Actions */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <button className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
-                <div className="text-2xl mb-2">💳</div>
-                <div className="text-sm font-medium text-gray-900 dark:text-white">Request Payout</div>
-                <div className="text-xs text-gray-600 dark:text-gray-400">Withdraw available balance</div>
+          <div className="card">
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white">Quick Actions</h2>
+            <div className="flex flex-wrap gap-3 mt-4">
+              <button className={`btn-primary btn-${colorScheme}`}>
+                Withdraw Funds
               </button>
-              <button className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
-                <div className="text-2xl mb-2">⚙️</div>
-                <div className="text-sm font-medium text-gray-900 dark:text-white">Payment Settings</div>
-                <div className="text-xs text-gray-600 dark:text-gray-400">Manage payment methods</div>
+              <button className="btn-secondary">
+                Update Payment Method
               </button>
-              <button className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
-                <div className="text-2xl mb-2">📊</div>
-                <div className="text-sm font-medium text-gray-900 dark:text-white">Earnings Report</div>
-                <div className="text-xs text-gray-600 dark:text-gray-400">Download detailed report</div>
+              <button className="btn-secondary">
+                View Payment History
               </button>
             </div>
           </div>
@@ -114,40 +110,40 @@ const Payouts: React.FC = () => {
 
       {activeTab === 'history' && (
         <div className="space-y-6">
-          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
-            <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Payout History</h3>
+          <div className="card overflow-hidden">
+            <div className="border-b border-gray-200 dark:border-gray-700 pb-4 mb-4">
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white">Payout History</h3>
               <p className="text-gray-600 dark:text-gray-400 mt-1">Your complete payout transaction history</p>
             </div>
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead className="bg-gray-50 dark:bg-gray-700">
+              <table className="table-auto w-full">
+                <thead>
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Date</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Amount</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Method</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Reference</th>
+                    <th className="table-header">Date</th>
+                    <th className="table-header">Amount</th>
+                    <th className="table-header">Method</th>
+                    <th className="table-header">Status</th>
+                    <th className="table-header">Reference</th>
                   </tr>
                 </thead>
-                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                  {payoutHistory.map((payout) => (
-                    <tr key={payout.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                <tbody>
+                  {payoutHistory.map((payout, index) => (
+                    <tr key={payout.id} className="table-row animate-fade-in" style={{animationDelay: `${index * 0.05}s`}}>
+                      <td className="table-cell">
                         {payout.date}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600 dark:text-green-400">
+                      <td className="table-cell font-medium text-green-600 dark:text-green-400">
                         {payout.amount}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                      <td className="table-cell">
                         {payout.method}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(payout.status)}`}>
+                      <td className="table-cell">
+                        <span className={getStatusColor(payout.status)}>
                           {payout.status}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                      <td className="table-cell">
                         {payout.reference}
                       </td>
                     </tr>
@@ -161,19 +157,19 @@ const Payouts: React.FC = () => {
 
       {activeTab === 'methods' && (
         <div className="space-y-6">
-          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
+          <div className="card">
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Payment Methods</h3>
-              <button className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all">
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white">Payment Methods</h3>
+              <button className={`btn-primary btn-${colorScheme}`}>
                 Add Method
               </button>
             </div>
             <div className="space-y-4">
-              {paymentMethods.map((method) => (
-                <div key={method.id} className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+              {paymentMethods.map((method, index) => (
+                <div key={method.id} className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 hover:shadow-md transition-shadow animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
                   <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-red-100 dark:bg-red-900 rounded-lg flex items-center justify-center">
-                      <span className="text-red-600 dark:text-red-400 font-semibold">
+                    <div className={`w-10 h-10 bg-${colorScheme}-100 dark:bg-${colorScheme}-900 rounded-lg flex items-center justify-center`}>
+                      <span className={`text-${colorScheme}-600 dark:text-${colorScheme}-400 font-semibold`}>
                         {method.type === 'PayPal' ? '💳' : '🏦'}
                       </span>
                     </div>
@@ -184,16 +180,16 @@ const Payouts: React.FC = () => {
                       </p>
                     </div>
                     {method.isDefault && (
-                      <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                      <span className="badge-success">
                         Default
                       </span>
                     )}
                   </div>
                   <div className="flex space-x-2">
-                    <button className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 text-sm">
+                    <button className={`text-${colorScheme}-600 hover:text-${colorScheme}-700 dark:text-${colorScheme}-400 dark:hover:text-${colorScheme}-300 text-sm font-medium`}>
                       Edit
                     </button>
-                    <button className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 text-sm">
+                    <button className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 text-sm font-medium">
                       Remove
                     </button>
                   </div>

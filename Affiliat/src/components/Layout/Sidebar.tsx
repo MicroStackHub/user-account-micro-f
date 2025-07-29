@@ -20,93 +20,200 @@ const Sidebar: React.FC = () => {
     { path: '/support', label: 'Support', icon: '🎧' },
   ];
 
+  const { colorScheme } = useTheme();
+  
   return (
-    <div className={`fixed left-0 top-0 h-full bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white transition-all duration-300 z-30 shadow-lg ${
-      isSidebarCollapsed ? 'w-16' : 'w-64'
-    }`}>
+    <div className={`fixed left-0 top-0 h-full bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 text-gray-900 dark:text-gray-100 transition-all duration-300 ease-in-out z-30 shadow-md ${isSidebarCollapsed ? 'w-16' : 'w-64'}`}>
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-        <div className={`flex items-center space-x-3 ${isSidebarCollapsed ? 'justify-center' : ''}`}>
-          <div className="w-8 h-8 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center shadow-md">
-            <span className="text-white font-bold text-sm">A</span>
+      <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800">
+        <div className={`flex items-center gap-3 ${isSidebarCollapsed ? 'justify-center' : 'justify-start'}`}>
+          <div style={{
+            width: '2rem',
+            height: '2rem',
+            background: 'linear-gradient(to bottom right, #ef4444, #dc2626)',
+            borderRadius: '0.5rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+          }}>
+            <span style={{ color: 'white', fontWeight: 'bold', fontSize: '0.875rem' }}>A</span>
           </div>
           {!isSidebarCollapsed && (
-            <span className="text-xl font-bold bg-gradient-to-r from-red-500 to-red-600 bg-clip-text text-transparent">AFFILIATE</span>
+            <span style={{
+              fontSize: '1.25rem',
+              fontWeight: 'bold',
+              background: 'linear-gradient(to right, #ef4444, #dc2626)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent'
+            }}>AFFILIATE</span>
           )}
         </div>
         <button
           onClick={toggleSidebar}
-          className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+          style={{
+            padding: '0.5rem',
+            borderRadius: '0.5rem',
+            transition: 'background-color 0.2s ease'
+          }}
         >
-          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+          <svg style={{ width: '1rem', height: '1rem' }} fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
           </svg>
         </button>
       </div>
 
       {/* Menu Items */}
-      <nav className="mt-6">
-        <div className="space-y-1 px-3">
-          <div className={`text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider ${isSidebarCollapsed ? 'hidden' : 'px-3 mb-3'}`}>
+      <nav style={{ marginTop: '1.5rem' }}>
+        <div style={{ paddingLeft: '0.75rem', paddingRight: '0.75rem' }}>
+          <div style={{
+            fontSize: '0.75rem',
+            fontWeight: 600,
+            color: '#6b7280',
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
+            padding: isSidebarCollapsed ? '0' : '0 0.75rem',
+            marginBottom: isSidebarCollapsed ? '0' : '0.75rem',
+            display: isSidebarCollapsed ? 'none' : 'block'
+          }}>
             Overview
           </div>
           {menuItems.slice(0, 3).map((item) => (
             <Link
               key={item.path}
               to={item.path}
-              className={`flex items-center px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 group ${
-                location.pathname === item.path || (item.path === '/dashboard' && location.pathname === '/')
-                  ? 'bg-red-600 text-white shadow-md'
-                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-red-600 dark:hover:text-red-400'
-              } ${isSidebarCollapsed ? 'justify-center' : 'space-x-3'}`}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '0.625rem 0.75rem',
+                borderRadius: '0.5rem',
+                fontSize: '0.875rem',
+                fontWeight: 500,
+                transition: 'all 0.2s ease',
+                backgroundColor: location.pathname === item.path || (item.path === '/dashboard' && location.pathname === '/') 
+                  ? '#dc2626' 
+                  : 'transparent',
+                color: location.pathname === item.path || (item.path === '/dashboard' && location.pathname === '/') 
+                  ? 'white' 
+                  : '#374151',
+                boxShadow: location.pathname === item.path || (item.path === '/dashboard' && location.pathname === '/') 
+                  ? '0 4px 6px -1px rgba(0, 0, 0, 0.1)' 
+                  : 'none',
+                marginBottom: '0.25rem'
+              }}
               title={isSidebarCollapsed ? item.label : ''}
-            >
-              <span className="text-lg">{item.icon}</span>
-              {!isSidebarCollapsed && <span>{item.label}</span>}
-            </Link>
+             
+             >
+               <span style={{ fontSize: '1.25rem' }}>{item.icon}</span>
+               {!isSidebarCollapsed && <span>{item.label}</span>}
+             </Link>
           ))}
-        </div>
 
-        <div className="space-y-1 px-3 mt-6">
-          <div className={`text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider ${isSidebarCollapsed ? 'hidden' : 'px-3 mb-3'}`}>
-            Marketing
+          <div style={{
+            fontSize: '0.75rem',
+            fontWeight: 600,
+            color: '#6b7280',
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
+            marginTop: '1.5rem',
+            padding: isSidebarCollapsed ? '0' : '0 0.75rem',
+            marginBottom: isSidebarCollapsed ? '0' : '0.75rem',
+            display: isSidebarCollapsed ? 'none' : 'block'
+          }}>
+            Management
           </div>
-          {menuItems.slice(3, 6).map((item) => (
+          {menuItems.slice(3, 7).map((item) => (
             <Link
               key={item.path}
               to={item.path}
-              className={`flex items-center px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 group ${
-                location.pathname === item.path
-                  ? 'bg-red-600 text-white shadow-md'
-                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-red-600 dark:hover:text-red-400'
-              } ${isSidebarCollapsed ? 'justify-center' : 'space-x-3'}`}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '0.625rem 0.75rem',
+                borderRadius: '0.5rem',
+                fontSize: '0.875rem',
+                fontWeight: 500,
+                transition: 'all 0.2s ease',
+                backgroundColor: location.pathname === item.path 
+                  ? '#dc2626' 
+                  : 'transparent',
+                color: location.pathname === item.path 
+                  ? 'white' 
+                  : '#374151',
+                boxShadow: location.pathname === item.path 
+                  ? '0 4px 6px -1px rgba(0, 0, 0, 0.1)' 
+                  : 'none',
+                marginBottom: '0.25rem',
+                justifyContent: isSidebarCollapsed ? 'center' : 'flex-start',
+                gap: isSidebarCollapsed ? '0' : '0.75rem'
+              }}
               title={isSidebarCollapsed ? item.label : ''}
             >
-              <span className="text-lg">{item.icon}</span>
+              <span style={{ fontSize: '1.25rem' }}>{item.icon}</span>
               {!isSidebarCollapsed && <span>{item.label}</span>}
               {item.path === '/referrals' && !isSidebarCollapsed && (
-                <span className="ml-auto bg-red-500 text-white text-xs rounded-full px-2 py-1 font-medium">12</span>
+                <span style={{ 
+                  marginLeft: 'auto', 
+                  backgroundColor: '#ef4444', 
+                  color: 'white', 
+                  fontSize: '0.75rem', 
+                  borderRadius: '9999px', 
+                  paddingLeft: '0.5rem', 
+                  paddingRight: '0.5rem', 
+                  paddingTop: '0.25rem', 
+                  paddingBottom: '0.25rem', 
+                  fontWeight: 500 
+                }}>12</span>
               )}
             </Link>
           ))}
         </div>
 
-        <div className="space-y-1 px-3 mt-6">
-          <div className={`text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider ${isSidebarCollapsed ? 'hidden' : 'px-3 mb-3'}`}>
+        <div style={{ 
+          marginTop: '1.5rem', 
+          paddingLeft: '0.75rem', 
+          paddingRight: '0.75rem' 
+        }}>
+          <div style={{
+            fontSize: '0.75rem',
+            fontWeight: 600,
+            color: '#6b7280',
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
+            padding: isSidebarCollapsed ? '0' : '0 0.75rem',
+            marginBottom: isSidebarCollapsed ? '0' : '0.75rem',
+            display: isSidebarCollapsed ? 'none' : 'block'
+          }}>
             Account
           </div>
           {menuItems.slice(6).map((item) => (
             <Link
               key={item.path}
               to={item.path}
-              className={`flex items-center px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 group ${
-                location.pathname === item.path
-                  ? 'bg-red-600 text-white shadow-md'
-                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-red-600 dark:hover:text-red-400'
-              } ${isSidebarCollapsed ? 'justify-center' : 'space-x-3'}`}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '0.625rem 0.75rem',
+                borderRadius: '0.5rem',
+                fontSize: '0.875rem',
+                fontWeight: 500,
+                transition: 'all 0.2s ease',
+                backgroundColor: location.pathname === item.path 
+                  ? '#dc2626' 
+                  : 'transparent',
+                color: location.pathname === item.path 
+                  ? 'white' 
+                  : '#374151',
+                boxShadow: location.pathname === item.path 
+                  ? '0 4px 6px -1px rgba(0, 0, 0, 0.1)' 
+                  : 'none',
+                marginBottom: '0.25rem',
+                justifyContent: isSidebarCollapsed ? 'center' : 'flex-start',
+                gap: isSidebarCollapsed ? '0' : '0.75rem'
+              }}
               title={isSidebarCollapsed ? item.label : ''}
             >
-              <span className="text-lg">{item.icon}</span>
+              <span style={{ fontSize: '1.25rem' }}>{item.icon}</span>
               {!isSidebarCollapsed && <span>{item.label}</span>}
             </Link>
           ))}
