@@ -1,7 +1,8 @@
 modules = ["nodejs-20", "web"]
+run = "node index.js"
 
 [nix]
-channel = "stable-24_05"
+channel = "stable-25_05"
 
 [[ports]]
 localPort = 5173
@@ -66,3 +67,6 @@ args = "sleep 10"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "node proxy-server.js"
+
+[deployment]
+run = ["sh", "-c", "node index.js"]
