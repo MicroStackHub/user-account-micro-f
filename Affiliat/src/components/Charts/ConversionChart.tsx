@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useTheme } from '../../contexts/ThemeContext';
+import ChartContainer from './ChartContainer';
 
 const ConversionChart: React.FC = () => {
   const { theme } = useTheme();
@@ -15,29 +16,45 @@ const ConversionChart: React.FC = () => {
     { day: 'Sun', conversions: 67, clicks: 1250 },
   ];
 
-  return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Conversion Rate</h3>
-        <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-2">
-            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            <span className="text-sm text-gray-600 dark:text-gray-400">Conversions</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-            <span className="text-sm text-gray-600 dark:text-gray-400">Clicks</span>
-          </div>
-        </div>
+  const [timeRange, setTimeRange] = useState('7d');
+  
+  // Filter data based on selected time range
+  const filteredData = data;
+  
+  const actions = (
+    <select 
+      value={timeRange} 
+      onChange={(e) => setTimeRange(e.target.value)}
+      className="form-input text-sm py-1 px-2 w-auto"
+    >
+      <option value="7d">Last 7 days</option>
+      <option value="30d">Last 30 days</option>
+      <option value="all">All Time</option>
+    </select>
+  );
+  
+  const legend = (
+    <div className="flex items-center justify-center mt-4 space-x-4">
+      <div className="flex items-center space-x-2">
+        <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
+        <span className="text-sm text-gray-600 dark:text-gray-400">Conversions</span>
       </div>
+      <div className="flex items-center space-x-2">
+        <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+        <span className="text-sm text-gray-600 dark:text-gray-400">Clicks</span>
+      </div>
+    </div>
+  );
 
-      <div className="h-80">
+  return (
+    <ChartContainer title="Conversion Rate" actions={actions}>
+      <div className="h-64">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
             <defs>
               <linearGradient id="conversionsGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#10b981" stopOpacity={0.3}/>
-                <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                <stop offset="5%" stopColor="#f97316" stopOpacity={0.3}/>
+                <stop offset="95%" stopColor="#f97316" stopOpacity={0}/>
               </linearGradient>
               <linearGradient id="clicksGradient" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
@@ -77,14 +94,15 @@ const ConversionChart: React.FC = () => {
               type="monotone"
               dataKey="conversions"
               stackId="2"
-              stroke="#10b981"
+              stroke="#f97316"
               fill="url(#conversionsGradient)"
               strokeWidth={2}
             />
           </AreaChart>
         </ResponsiveContainer>
       </div>
-    </div>
+      {legend}
+    </ChartContainer>
   );
 };
 

@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 
 type Theme = 'light' | 'dark';
-type ColorScheme = 'red' | 'blue' | 'green' | 'purple';
+type ColorScheme = 'red' | 'blue' | 'green' | 'purple' | 'orange';
 
 interface ThemeContextType {
   theme: Theme;
@@ -67,8 +67,11 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         setThemeState(systemTheme);
       }
       
-      if (savedColorScheme && ['red', 'blue', 'green', 'purple'].includes(savedColorScheme)) {
+      if (savedColorScheme && ['red', 'blue', 'green', 'purple', 'orange'].includes(savedColorScheme)) {
         setColorSchemeState(savedColorScheme);
+      } else {
+        // Default to orange as per requirement
+        setColorSchemeState('orange');
       }
       
       if (savedSidebarState) {
@@ -150,6 +153,12 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           primaryHover: '#7c3aed', 
           primaryLight: '#f5f3ff',
           primaryDark: '#6d28d9'
+        },
+        orange: { 
+          primary: '#f97316', 
+          primaryHover: '#ea580c', 
+          primaryLight: '#fff7ed',
+          primaryDark: '#c2410c'
         }
       };
       
@@ -218,7 +227,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-primary"></div>
+        <div className="rounded-full h-12 w-12 border-b-2 border-orange-primary"></div>
       </div>
     );
   }
@@ -267,6 +276,12 @@ export const useColorScheme = () => {
         hover: 'hover:bg-purple-hover',
         light: 'bg-purple-light',
         text: 'text-purple-primary',
+      },
+      orange: {
+        primary: 'bg-orange-primary',
+        hover: 'hover:bg-orange-hover',
+        light: 'bg-orange-light',
+        text: 'text-orange-primary',
       },
     };
     

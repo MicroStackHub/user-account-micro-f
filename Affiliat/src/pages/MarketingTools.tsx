@@ -45,7 +45,7 @@ const MarketingTools: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {banners.map((banner) => (
               <div key={banner.id} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
-                <div className="w-full h-32 bg-gradient-to-r from-red-500 to-red-600 rounded-lg mb-4 flex items-center justify-center">
+                <div className="w-full h-32 bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg mb-4 flex items-center justify-center">
                   <span className="text-white font-semibold">Banner Preview</span>
                 </div>
                 <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{banner.name}</h4>
@@ -63,7 +63,7 @@ const MarketingTools: React.FC = () => {
                     <span>{banner.downloads}</span>
                   </div>
                 </div>
-                <button className="w-full mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all">
+                <button className="w-full mt-4 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700">
                   Download
                 </button>
               </div>
@@ -77,8 +77,8 @@ const MarketingTools: React.FC = () => {
             {socialPosts.map((post) => (
               <div key={post.id} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
                 <div className="flex items-center space-x-3 mb-4">
-                  <div className="w-10 h-10 bg-red-100 dark:bg-red-900 rounded-lg flex items-center justify-center">
-                    <span className="text-red-600 dark:text-red-400 font-semibold">
+                  <div className="w-10 h-10 bg-orange-100 dark:bg-orange-900 rounded-lg flex items-center justify-center">
+                    <span className="text-orange-600 dark:text-orange-400 font-semibold">
                       {post.platform[0]}
                     </span>
                   </div>
@@ -95,7 +95,7 @@ const MarketingTools: React.FC = () => {
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-green-600 dark:text-green-400">{post.engagement}</span>
-                  <button className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all">
+                  <button className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700">
                     Use Template
                   </button>
                 </div>
@@ -124,7 +124,7 @@ const MarketingTools: React.FC = () => {
                   <span className="text-sm text-green-600 dark:text-green-400">
                     Open Rate: {template.openRate}
                   </span>
-                  <button className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all">
+                  <button className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700">
                     Use Template
                   </button>
                 </div>
@@ -153,10 +153,10 @@ const MarketingTools: React.FC = () => {
                   </div>
                 </div>
                 <div className="flex space-x-2">
-                  <button className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all">
+                  <button className="flex-1 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700">
                     Use Template
                   </button>
-                  <button className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
+                  <button className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
                     Preview
                   </button>
                 </div>
@@ -185,9 +185,9 @@ const MarketingTools: React.FC = () => {
           <button
             key={category.id}
             onClick={() => setActiveCategory(category.id)}
-            className={`p-4 rounded-xl border transition-all ${
+            className={`p-4 rounded-xl border ${
               activeCategory === category.id
-                ? 'bg-red-600 text-white border-red-600 shadow-md'
+                ? 'bg-orange-600 text-white border-orange-600 shadow-md'
                 : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700'
             }`}
           >

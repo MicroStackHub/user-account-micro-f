@@ -188,8 +188,8 @@ const Analytics: React.FC = () => {
       change: '-3.2%',
       trend: 'down',
       icon: (
-        <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-xl flex items-center justify-center">
-          <svg className="w-6 h-6 text-red-600 dark:text-red-400" fill="currentColor" viewBox="0 0 20 20">
+        <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900/30 rounded-xl flex items-center justify-center">
+          <svg className="w-6 h-6 text-orange-600 dark:text-orange-400" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clipRule="evenodd" />
           </svg>
         </div>
@@ -211,8 +211,8 @@ const Analytics: React.FC = () => {
           {timeframes.map((timeframe, index) => (
             <button
               key={timeframe}
-              className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${index === 1
-                ? 'bg-white dark:bg-gray-700 text-red-600 dark:text-red-400 shadow-sm'
+              className={`px-4 py-2 text-sm font-medium rounded-md ${index === 1
+                ? 'bg-white dark:bg-gray-700 text-orange-600 dark:text-orange-400 shadow-sm'
                 : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-gray-700/50'
                 }`}
             >
@@ -226,13 +226,13 @@ const Analytics: React.FC = () => {
         {stats.map((stat, index) => (
           <div
             key={index}
-            className="group bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 hover:shadow-xl hover:shadow-gray-200/50 dark:hover:shadow-gray-900/50 transition-all duration-300 hover:border-red-200 dark:hover:border-red-700/50"
+            className="group bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 hover:shadow-xl hover:shadow-gray-200/50 dark:hover:shadow-gray-900/50 hover:border-orange-200 dark:hover:border-orange-700/50"
           >
             <div className="flex items-start justify-between mb-4">
               {stat.icon}
               <div className={`flex items-center space-x-1 px-3 py-1.5 rounded-full text-sm font-semibold ${stat.trend === 'up'
                 ? 'bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-                : 'bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+                : 'bg-orange-50 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400'
                 }`}>
                 <svg className={`w-4 h-4 ${stat.trend === 'up' ? 'rotate-0' : 'rotate-180'}`} fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L10 4.414 6.707 7.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
@@ -245,7 +245,7 @@ const Analytics: React.FC = () => {
               <h3 className="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wide">
                 {stat.title}
               </h3>
-              <p className="text-3xl font-bold text-gray-900 dark:text-white group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+              <p className="text-3xl font-bold text-gray-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400">
                 {stat.value}
               </p>
               <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -259,4 +259,4 @@ const Analytics: React.FC = () => {
   );
 };
 
-export default Analytics; 
+export default Analytics;

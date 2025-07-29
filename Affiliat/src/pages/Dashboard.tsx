@@ -8,8 +8,12 @@ import {
   ArrowUpIcon,
   ArrowDownIcon,
   EyeIcon,
-  MousePointerClickIcon
+  CursorArrowRaysIcon
 } from '@heroicons/react/24/outline';
+import EarningsChart from '../components/Charts/EarningsChart';
+import ConversionChart from '../components/Charts/ConversionChart';
+import ReferralCard from '../components/ReferralCard';
+import ActionButton from '../components/ActionButton';
 
 interface StatCardProps {
   title: string;
@@ -19,6 +23,7 @@ interface StatCardProps {
   icon: React.ComponentType<{ className?: string }>;
 }
 
+// Reusable StatCard component
 const StatCard: React.FC<StatCardProps> = ({ title, value, change, trend, icon: Icon }) => {
   const { getColorClasses } = useColorScheme();
 
@@ -32,10 +37,10 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, change, trend, icon: 
             {trend === 'up' ? (
               <ArrowUpIcon className="w-4 h-4 text-green-500 mr-1" />
             ) : (
-              <ArrowDownIcon className="w-4 h-4 text-red-500 mr-1" />
+              <ArrowDownIcon className="w-4 h-4 text-orange-500 mr-1" />
             )}
             <span className={`text-sm font-medium ${
-              trend === 'up' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+              trend === 'up' ? 'text-green-600 dark:text-green-400' : 'text-orange-600 dark:text-orange-400'
             }`}>
               {change}
             </span>
@@ -71,7 +76,7 @@ const Dashboard: React.FC = () => {
       value: '1,247',
       change: '-3.1%',
       trend: 'down' as const,
-      icon: MousePointerClickIcon,
+      icon: CursorArrowRaysIcon,
     },
     {
       title: 'Conversion Rate',
@@ -92,7 +97,7 @@ const Dashboard: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div className="animate-fade-in-up">
+      <div>
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
         <p className="text-gray-600 dark:text-gray-400 mt-2">
           Welcome back! Here's what's happening with your affiliate program.
@@ -100,81 +105,54 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 animate-fade-in-up">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6">
         {stats.map((stat, index) => (
-          <div key={stat.title} style={{ animationDelay: `${index * 100}ms` }}>
+          <div key={stat.title}>
             <StatCard {...stat} />
           </div>
         ))}
       </div>
 
       {/* Charts and Recent Activity */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
         {/* Earnings Chart */}
-        <div className="card animate-fade-in-up">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Earnings Overview</h3>
-            <select className="form-input text-sm py-2 px-3 w-auto">
-              <option>Last 7 days</option>
-              <option>Last 30 days</option>
-              <option>Last 90 days</option>
-            </select>
-          </div>
-          <div className="h-64 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 rounded-xl flex items-center justify-center">
-            <p className="text-gray-500 dark:text-gray-400">Chart placeholder - earnings data</p>
-          </div>
+        <div>
+          <EarningsChart />
         </div>
 
-        {/* Recent Referrals */}
-        <div className="card animate-fade-in-up">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Recent Referrals</h3>
-            <button className="btn-ghost text-sm py-2 px-3">View All</button>
-          </div>
-          <div className="space-y-4">
-            {recentReferrals.map((referral) => (
-              <div key={referral.id} className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-gradient-to-r from-red-primary to-red-hover rounded-full flex items-center justify-center">
-                    <span className="text-white text-sm font-semibold">
-                      {referral.name.split(' ').map(n => n[0]).join('')}
-                    </span>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-900 dark:text-white">{referral.name}</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">{referral.email}</p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm font-semibold text-green-600 dark:text-green-400">{referral.earnings}</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">{referral.date}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+        {/* Conversion Chart */}
+        <div>
+          <ConversionChart />
+        </div>
+      </div>
+
+      {/* Recent Referrals */}
+      <div className="card">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Recent Referrals</h3>
+          <button className="btn-ghost text-sm py-2 px-3">View All</button>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+          {recentReferrals.map((referral) => (
+            <ReferralCard
+              key={referral.id}
+              name={referral.name}
+              email={referral.email}
+              earnings={referral.earnings}
+              date={referral.date}
+            />
+          ))}
         </div>
       </div>
 
       {/* Quick Actions */}
-      <div className="card animate-fade-in-up">
+      <div className="card">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Quick Actions</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <button className="btn-secondary flex items-center justify-center space-x-2 py-4">
-            <LinkIcon className="w-5 h-5" />
-            <span>Generate Link</span>
-          </button>
-          <button className="btn-secondary flex items-center justify-center space-x-2 py-4">
-            <UserGroupIcon className="w-5 h-5" />
-            <span>Invite Friends</span>
-          </button>
-          <button className="btn-secondary flex items-center justify-center space-x-2 py-4">
-            <ChartBarIcon className="w-5 h-5" />
-            <span>View Analytics</span>
-          </button>
-          <button className="btn-secondary flex items-center justify-center space-x-2 py-4">
-            <EyeIcon className="w-5 h-5" />
-            <span>Track Performance</span>
-          </button>
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+          <ActionButton icon={LinkIcon} label="Generate Link" />
+          <ActionButton icon={UserGroupIcon} label="Invite Friends" />
+          <ActionButton icon={ChartBarIcon} label="View Analytics" />
+          <ActionButton icon={EyeIcon} label="Track Performance" />
         </div>
       </div>
     </div>
@@ -182,8 +160,4 @@ const Dashboard: React.FC = () => {
 };
 
 export default Dashboard;
-```
-
-```text
-The Dashboard component has been updated with the new code provided in the changes snippet.
-```
+ 

@@ -12,7 +12,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { isSidebarCollapsed, isDarkMode } = useTheme();
 
   return (
-    <div className={`min-h-screen transition-all duration-300 ${
+    <div className={`min-h-screen ${
       isDarkMode 
         ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900' 
         : 'bg-gradient-to-br from-gray-50 via-white to-gray-100'
@@ -26,7 +26,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <Sidebar />
       
       {/* Main Content Area */}
-      <div className={`transition-all duration-300 ${
+      <div className={`${
         isSidebarCollapsed ? 'ml-16' : 'ml-64'
       } relative z-10`}>
         {/* Navbar */}
@@ -34,7 +34,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         
         {/* Page Content */}
         <main className="container-custom py-6 lg:py-8">
-          <div className="animate-fade-in-up">
+          <div>
             {children}
           </div>
         </main>
@@ -42,21 +42,21 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
       {/* Mobile Backdrop */}
       {!isSidebarCollapsed && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden animate-fade-in"></div>
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"></div>
       )}
 
       {/* Floating Elements */}
       <div className="fixed bottom-6 left-6 z-50 hidden lg:block">
-        <div className="glass p-3 rounded-2xl animate-float">
+        <div className="glass p-3 rounded-2xl">
           <div className={`w-3 h-3 rounded-full ${
             isDarkMode ? 'bg-green-400' : 'bg-green-500'
-          } animate-pulse`}></div>
+          }`}></div>
         </div>
       </div>
 
       {/* Theme Indicator */}
       <div className="fixed top-20 right-6 z-40 hidden xl:block">
-        <div className="glass p-2 rounded-xl animate-scale-in">
+        <div className="glass p-2 rounded-xl">
           <div className="text-xs font-medium text-gray-600 dark:text-gray-400">
             {isDarkMode ? '🌙 Dark' : '☀️ Light'}
           </div>

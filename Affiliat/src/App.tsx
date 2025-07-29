@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/Layout/Layout';
 import Dashboard from './pages/Dashboard';
 import Analytics from './pages/Analytics';
@@ -13,43 +14,25 @@ import Settings from './pages/Settings';
 import Support from './pages/Support';
 import './App.css';
 
-type Page = 'dashboard' | 'analytics' | 'referrals' | 'affiliate-links' | 'earnings' | 'payouts' | 'marketing-tools' | 'profile' | 'settings' | 'support';
-
 function App() {
-  const [currentPage, setCurrentPage] = useState<Page>('dashboard');
-
-  const renderPage = () => {
-    switch (currentPage) {
-      case 'dashboard':
-        return <Dashboard />;
-      case 'analytics':
-        return <Analytics />;
-      case 'referrals':
-        return <Referrals />;
-      case 'affiliate-links':
-        return <AffiliateLinks />;
-      case 'earnings':
-        return <Earnings />;
-      case 'payouts':
-        return <Payouts />;
-      case 'marketing-tools':
-        return <MarketingTools />;
-      case 'profile':
-        return <Profile />;
-      case 'settings':
-        return <Settings />;
-      case 'support':
-        return <Support />;
-      default:
-        return <Dashboard />;
-    }
-  };
-
   return (
     <ThemeProvider>
       <div className="App">
         <Layout>
-          {renderPage()}
+          <Routes>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/analytics" element={<Analytics />} />
+            <Route path="/referrals" element={<Referrals />} />
+            <Route path="/affiliate-links/*" element={<AffiliateLinks />} />
+            <Route path="/earnings" element={<Earnings />} />
+            <Route path="/payouts" element={<Payouts />} />
+            <Route path="/marketing-tools" element={<MarketingTools />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/support" element={<Support />} />
+            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          </Routes>
         </Layout>
       </div>
     </ThemeProvider>

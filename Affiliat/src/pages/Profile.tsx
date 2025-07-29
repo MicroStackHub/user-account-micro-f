@@ -26,9 +26,9 @@ const Profile: React.FC = () => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+              className={`py-2 px-1 border-b-2 font-medium text-sm ${
                 activeTab === tab.id
-                  ? 'border-red-500 text-red-600 dark:text-red-400'
+                  ? 'border-orange-500 text-orange-600 dark:text-orange-400'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
               }`}
             >
@@ -83,7 +83,7 @@ const Profile: React.FC = () => {
               />
             </div>
           </div>
-          <button className="mt-6 px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all">
+          <button className="mt-6 px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700">
             Save Changes
           </button>
         </div>
@@ -124,7 +124,7 @@ const Profile: React.FC = () => {
               />
             </div>
           </div>
-          <button className="mt-6 px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all">
+          <button className="mt-6 px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700">
             Save Changes
           </button>
         </div>
@@ -139,8 +139,8 @@ const Profile: React.FC = () => {
                 <h4 className="text-sm font-medium text-gray-900 dark:text-white">Email Notifications</h4>
                 <p className="text-sm text-gray-600 dark:text-gray-400">Receive email updates about your account</p>
               </div>
-              <button className="bg-red-600 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none">
-                <span className="translate-x-5 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+              <button className="bg-orange-600 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent focus:outline-none">
+                <span className="translate-x-5 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0"></span>
               </button>
             </div>
             <div className="flex items-center justify-between">
@@ -148,12 +148,12 @@ const Profile: React.FC = () => {
                 <h4 className="text-sm font-medium text-gray-900 dark:text-white">Marketing Emails</h4>
                 <p className="text-sm text-gray-600 dark:text-gray-400">Receive promotional emails and tips</p>
               </div>
-              <button className="bg-gray-200 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none">
-                <span className="translate-x-0 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+              <button className="bg-gray-200 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent focus:outline-none">
+                <span className="translate-x-0 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0"></span>
               </button>
             </div>
           </div>
-          <button className="mt-6 px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all">
+          <button className="mt-6 px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700">
             Save Preferences
           </button>
         </div>

@@ -46,7 +46,7 @@ const Payouts: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Payouts</h1>
         <p className="text-gray-600 dark:text-gray-400 mt-1">
@@ -61,7 +61,7 @@ const Payouts: React.FC = () => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+              className={`py-2 px-1 border-b-2 font-medium text-sm ${
                 activeTab === tab.id
                   ? `border-${colorScheme}-primary text-${colorScheme}-primary dark:text-${colorScheme}-primary`
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
@@ -78,7 +78,7 @@ const Payouts: React.FC = () => {
           {/* Stats Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {payoutStats.map((stat, index) => (
-              <div key={index} className="card animate-slide-in" style={{animationDelay: `${index * 0.1}s`}}>
+              <div key={index} className="card">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{stat.label}</p>
@@ -128,7 +128,7 @@ const Payouts: React.FC = () => {
                 </thead>
                 <tbody>
                   {payoutHistory.map((payout, index) => (
-                    <tr key={payout.id} className="table-row animate-fade-in" style={{animationDelay: `${index * 0.05}s`}}>
+                    <tr key={payout.id} className="table-row">
                       <td className="table-cell">
                         {payout.date}
                       </td>
@@ -166,7 +166,7 @@ const Payouts: React.FC = () => {
             </div>
             <div className="space-y-4">
               {paymentMethods.map((method, index) => (
-                <div key={method.id} className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 hover:shadow-md transition-shadow animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
+                <div key={method.id} className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 hover:shadow-md">
                   <div className="flex items-center space-x-3">
                     <div className={`w-10 h-10 bg-${colorScheme}-100 dark:bg-${colorScheme}-900 rounded-lg flex items-center justify-center`}>
                       <span className={`text-${colorScheme}-600 dark:text-${colorScheme}-400 font-semibold`}>

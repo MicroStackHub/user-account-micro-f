@@ -30,12 +30,12 @@ const GenerateLinks: React.FC = () => {
               value={productUrl}
               onChange={(e) => setProductUrl(e.target.value)}
               placeholder="https://example.com/product"
-              className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-white transition-all"
+              className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:text-white"
             />
           </div>
           <button
             onClick={handleGenerate}
-            className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all font-medium"
+            className="px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 font-medium"
           >
             Generate Link
           </button>
@@ -53,7 +53,7 @@ const GenerateLinks: React.FC = () => {
                 />
                 <button
                   onClick={copyToClipboard}
-                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all"
+                  className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700"
                 >
                   Copy
                 </button>
@@ -112,7 +112,7 @@ const MyLinks: React.FC = () => {
                     {link.earnings}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <button className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 mr-3">
+                    <button className="text-orange-600 hover:text-orange-900 dark:text-orange-400 dark:hover:text-orange-300 mr-3">
                       Edit
                     </button>
                     <button className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">
@@ -158,7 +158,7 @@ const LinkPerformance: React.FC = () => {
               </div>
               <div className="flex justify-between border-t border-gray-200 dark:border-gray-700 pt-2">
                 <span className="text-xs font-medium text-gray-600 dark:text-gray-400">Earnings:</span>
-                <span className="text-sm font-bold text-red-600 dark:text-red-400">{data.earnings}</span>
+                <span className="text-sm font-bold text-orange-600 dark:text-orange-400">{data.earnings}</span>
               </div>
             </div>
           </div>
@@ -192,9 +192,9 @@ const AffiliateLinks: React.FC = () => {
             <Link
               key={tab.name}
               to={tab.path}
-              className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+              className={`py-2 px-1 border-b-2 font-medium text-sm ${
                 location.pathname === tab.path
-                  ? 'border-red-500 text-red-600 dark:text-red-400'
+                  ? 'border-orange-500 text-orange-600 dark:text-orange-400'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
               }`}
             >

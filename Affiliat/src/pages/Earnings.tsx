@@ -42,9 +42,9 @@ const Earnings: React.FC = () => {
               <button
                 key={tf.value}
                 onClick={() => setTimeframe(tf.value)}
-                className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
+                className={`px-4 py-2 text-sm font-medium rounded-md ${
                   timeframe === tf.value
-                    ? 'text-white bg-red-600 shadow-sm'
+                    ? 'text-white bg-orange-600 shadow-sm'
                     : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
                 }`}
               >
@@ -69,7 +69,7 @@ const Earnings: React.FC = () => {
             <div className={`mt-2 flex items-center text-sm ${
               stat.change.startsWith('+') 
                 ? 'text-green-600 dark:text-green-400' 
-                : 'text-red-600 dark:text-red-400'
+                 : 'text-orange-600 dark:text-orange-400'
             }`}>
               <span>{stat.change.startsWith('+') ? '↗' : '↘'}</span>
               <span className="ml-1">{stat.change}</span>
@@ -93,7 +93,7 @@ const Earnings: React.FC = () => {
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Recent Earnings</h3>
               <p className="text-gray-600 dark:text-gray-400 mt-1">Your latest commission transactions</p>
             </div>
-            <button className="px-4 py-2 text-sm bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all">
+            <button className="px-4 py-2 text-sm bg-orange-600 text-white rounded-lg hover:bg-orange-700">
               View All
             </button>
           </div>
@@ -125,7 +125,7 @@ const Earnings: React.FC = () => {
                     {earning.rate}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <button className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                    <button className="text-orange-600 hover:text-orange-900 dark:text-orange-400 dark:hover:text-orange-300">
                       View Details
                     </button>
                   </td>
@@ -142,7 +142,7 @@ const Earnings: React.FC = () => {
           <div className="text-3xl mb-3">📊</div>
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Detailed Reports</h3>
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Get comprehensive earnings analytics</p>
-          <button className="w-full px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all">
+          <button className="w-full px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700">
             Generate Report
           </button>
         </div>
@@ -151,7 +151,7 @@ const Earnings: React.FC = () => {
           <div className="text-3xl mb-3">💳</div>
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Request Payout</h3>
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Withdraw your available earnings</p>
-          <button className="w-full px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all">
+          <button className="w-full px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700">
             Request Payout
           </button>
         </div>
@@ -160,7 +160,7 @@ const Earnings: React.FC = () => {
           <div className="text-3xl mb-3">🎯</div>
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Optimize Performance</h3>
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Get tips to increase your earnings</p>
-          <button className="w-full px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all">
+          <button className="w-full px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700">
             View Tips
           </button>
         </div>

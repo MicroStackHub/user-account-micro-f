@@ -47,7 +47,7 @@ const TopReferrers: React.FC = () => {
                 
                 <div className="mt-2 w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
                   <div
-                    className="bg-blue-500 h-2 rounded-full transition-all duration-300"
+                    className="bg-blue-500 h-2 rounded-full"
                     style={{ width: `${(referrer.referrals / maxReferrals) * 100}%` }}
                   />
                 </div>

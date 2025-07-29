@@ -25,7 +25,7 @@ const Referrals: React.FC = () => {
       case 'Pending':
         return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
       case 'Inactive':
-        return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
+        return 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200';
       default:
         return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200';
     }
@@ -53,9 +53,9 @@ const Referrals: React.FC = () => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+              className={`py-2 px-1 border-b-2 font-medium text-sm ${
                 activeTab === tab.id
-                  ? 'border-red-500 text-red-600 dark:text-red-400'
+                  ? 'border-orange-500 text-orange-600 dark:text-orange-400'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
               }`}
             >
@@ -149,7 +149,7 @@ const Referrals: React.FC = () => {
                     readOnly
                     className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-700 dark:text-white"
                   />
-                  <button className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all">
+                  <button className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700">
                     Copy
                   </button>
                 </div>
@@ -165,7 +165,7 @@ const Referrals: React.FC = () => {
                     placeholder="friend@example.com"
                     className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
                   />
-                  <button className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all">
+                  <button className="px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700">
                     Send Invite
                   </button>
                 </div>
