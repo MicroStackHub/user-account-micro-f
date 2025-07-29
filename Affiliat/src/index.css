@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
- 
+
 
 /* Base styles */
 * {
@@ -128,7 +128,7 @@ body {
   .mobile-hidden {
     display: none;
   }
-  
+
   .mobile-full {
     width: 100%;
   }
